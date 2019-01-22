@@ -110,7 +110,7 @@ void	QSavannahMainWindow::_CreateRenderViewport(QWidget *parentWidget)
 	QWidget				*container = QWidget::createWindowContainer(renderWindow, viewport); // The container takes over ownership of window.
 	assert(container != nullptr);
 
-	container->setMinimumSize(600, 800); // (1, 1)
+	container->setMinimumSize(200, 200); // (1, 1)
 	container->setAutoFillBackground(false);
 	container->setAcceptDrops(false);
 
@@ -122,7 +122,7 @@ void	QSavannahMainWindow::_CreateRenderViewport(QWidget *parentWidget)
 
 	m_RenderViewport = viewport;
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	renderWindow->SwapBuffers();
 
 }
 

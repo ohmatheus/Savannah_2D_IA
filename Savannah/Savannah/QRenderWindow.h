@@ -19,7 +19,7 @@ public:
 	virtual ~QRenderWindow();
 
 	void				SetRenderViewport(QRenderViewport *viewport);
-
+	void				SwapBuffers();
 
 private:
 	QRenderViewport		*m_Viewport;
