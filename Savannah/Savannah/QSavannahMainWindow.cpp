@@ -50,6 +50,8 @@ void	QSavannahMainWindow::Setup()
 
 	QMetaObject::connectSlotsByName(this);
 
+	QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
+
 	_CreateControlPanel();
 	_CreateViewportPanel();
 }
@@ -113,12 +115,15 @@ void	QSavannahMainWindow::_CreateRenderViewport(QWidget *parentWidget)
 	container->setAcceptDrops(false);
 
 	renderWindow->setSurfaceType(QWindow::OpenGLSurface);
+	renderWindow->create();
 	viewport->Setup(container, renderWindow);
 
 
-	renderWindow->create();
 
 	m_RenderViewport = viewport;
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 }
 
 //----------------------------------------------------------

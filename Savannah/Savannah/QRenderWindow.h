@@ -24,6 +24,7 @@ public:
 private:
 	QRenderViewport		*m_Viewport;
 	QOpenGLContext		*m_Context;
+	QSurfaceFormat		*m_SurfaceFormat;
 	// opengl context
 };
 
