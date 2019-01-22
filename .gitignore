@@ -40,3 +40,7 @@
 **/.vs/
 
 *.log
+
+!/Savannah/External/**/*.dll
+!/Savannah/External/**/*.lib
+
