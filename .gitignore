@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+*.tlog
+*.pdb
+*.ilk
+
+*moc_*
+
+**/.vs/
+
+*.log
