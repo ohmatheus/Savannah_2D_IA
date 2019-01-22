@@ -28,7 +28,12 @@ void	QRenderWindow::SetRenderViewport(QRenderViewport *viewport)
 	m_Viewport = viewport;
 
 	assert(QCoreApplication::testAttribute(Qt::AA_ShareOpenGLContexts) == true);
+}
 
+//----------------------------------------------------------
+
+void	QRenderWindow::Initialize()
+{
 	m_SurfaceFormat = new QSurfaceFormat();
 
 	m_SurfaceFormat->setOptions(QSurfaceFormat::DebugContext);
@@ -58,7 +63,7 @@ void	QRenderWindow::SetRenderViewport(QRenderViewport *viewport)
 		return;
 	}
 
-	glClearColor(1.0f, 0.0f, 0.4f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -69,6 +74,10 @@ void	QRenderWindow::SetRenderViewport(QRenderViewport *viewport)
 
 void	QRenderWindow::SwapBuffers()
 {
+	//m_Context->makeCurrent(this);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//m_Context->functions()->glClear(GL_COLOR_BUFFER_BIT);
+	QThread::sleep(0.01);
 	m_Context->swapBuffers(this);
 }
 

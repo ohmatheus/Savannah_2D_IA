@@ -4,6 +4,8 @@
 #include "QRenderWindow.h"
 #include "QRenderViewport.h"
 
+#include "QWorkerObject.h"
+
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
@@ -24,6 +26,16 @@ QSavannahMainWindow::QSavannahMainWindow(QWidget *parent)
 ,	m_RenderViewport(nullptr)
 {
 	Setup();
+
+	StartGameThread();
+}
+
+//----------------------------------------------------------
+
+QSavannahMainWindow::~QSavannahMainWindow()
+{
+	m_GameThread.quit();
+	m_GameThread.wait();
 }
 
 //----------------------------------------------------------
@@ -54,6 +66,28 @@ void	QSavannahMainWindow::Setup()
 
 	_CreateControlPanel();
 	_CreateViewportPanel();
+}
+
+//----------------------------------------------------------
+
+void	QSavannahMainWindow::StartGameThread()
+{
+	QWorkerObject	*gameWorkerObject = new QWorkerObject();
+
+	gameWorkerObject->SetFunc(std::bind(&QSavannahMainWindow::_GameLoop, this));
+
+	gameWorkerObject->moveToThread(&m_GameThread);
+
+	connect(gameWorkerObject, &QWorkerObject::End, this, []()
+	{
+		// some usefull stuff here
+	});
+
+	connect(&m_GameThread, &QThread::finished, gameWorkerObject, &QObject::deleteLater);
+
+	connect(this, &QSavannahMainWindow::LaunchThreadGame, gameWorkerObject, &QWorkerObject::Play);
+
+	m_GameThread.start();
 }
 
 //----------------------------------------------------------
@@ -102,28 +136,51 @@ void	QSavannahMainWindow::_CreateControlPanel()
 void	QSavannahMainWindow::_CreateRenderViewport(QWidget *parentWidget)
 {
 	QRenderViewport		*viewport = new QRenderViewport(parentWidget);
-	QRenderWindow		*renderWindow = new QRenderWindow();
+	m_RenderWindow = new QRenderWindow();
 
 	assert(viewport != nullptr);
-	assert(renderWindow != nullptr);
+	assert(m_RenderWindow != nullptr);
 
-	QWidget				*container = QWidget::createWindowContainer(renderWindow, viewport); // The container takes over ownership of window.
+	QWidget				*container = QWidget::createWindowContainer(m_RenderWindow, viewport); // The container takes over ownership of window.
 	assert(container != nullptr);
 
 	container->setMinimumSize(200, 200); // (1, 1)
 	container->setAutoFillBackground(false);
 	container->setAcceptDrops(false);
 
-	renderWindow->setSurfaceType(QWindow::OpenGLSurface);
-	renderWindow->create();
-	viewport->Setup(container, renderWindow);
-
-
+	m_RenderWindow->setSurfaceType(QWindow::OpenGLSurface);
+	m_RenderWindow->create();
+	viewport->Setup(container, m_RenderWindow);
 
 	m_RenderViewport = viewport;
 
-	renderWindow->SwapBuffers();
+	//m_RenderWindow->SwapBuffers();
+}
 
+//----------------------------------------------------------
+
+void	QSavannahMainWindow::_GameLoop()
+{
+	m_RenderWindow->Initialize();
+	while (true)
+	{
+		bool		continueRunning = false;
+		const auto	topWidgets = QApplication::topLevelWidgets();
+		for (int i = 0; i < topWidgets.size(); ++i)
+		{
+			if (topWidgets[i]->isVisible())
+			{
+				continueRunning = true;
+				break;
+			}
+		}
+		if (!continueRunning)
+			break;
+
+
+		m_RenderWindow->SwapBuffers();
+
+	}
 }
 
 //----------------------------------------------------------

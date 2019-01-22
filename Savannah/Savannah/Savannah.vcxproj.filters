@@ -33,6 +33,12 @@
     <Filter Include="Source Files\Editor\Viewport">
       <UniqueIdentifier>{ea98d13f-ea8f-470f-9a86-06cf51cafcdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Utils">
+      <UniqueIdentifier>{655add2d-ee03-4f2c-8c80-8d798b52f4a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Utils\Threads">
+      <UniqueIdentifier>{5174d312-658d-41be-b0b3-82846f16f251}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -49,6 +55,12 @@
     </ClCompile>
     <ClCompile Include="QRenderViewport.cpp">
       <Filter>Source Files\Editor\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="QWorkerObject.cpp">
+      <Filter>Source Files\Engine\Utils\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="QWorkerThread.cpp">
+      <Filter>Source Files\Engine\Utils\Threads</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +82,12 @@
     </QtMoc>
     <QtMoc Include="QRenderViewport.h">
       <Filter>Source Files\Editor\Viewport</Filter>
+    </QtMoc>
+    <QtMoc Include="QWorkerThread.h">
+      <Filter>Source Files\Engine\Utils\Threads</Filter>
+    </QtMoc>
+    <QtMoc Include="QWorkerObject.h">
+      <Filter>Source Files\Engine\Utils\Threads</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
