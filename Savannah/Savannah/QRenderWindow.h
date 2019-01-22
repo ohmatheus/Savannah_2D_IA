@@ -5,6 +5,7 @@
 //----------------------------------------------------------
 
 class QRenderViewport;
+class QOpenGLContext;
 
 //----------------------------------------------------------
 
@@ -22,7 +23,7 @@ public:
 
 private:
 	QRenderViewport		*m_Viewport;
-
+	QOpenGLContext		*m_Context;
 	// opengl context
 };
 

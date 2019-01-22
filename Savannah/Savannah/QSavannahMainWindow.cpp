@@ -108,13 +108,13 @@ void	QSavannahMainWindow::_CreateRenderViewport(QWidget *parentWidget)
 	QWidget				*container = QWidget::createWindowContainer(renderWindow, viewport); // The container takes over ownership of window.
 	assert(container != nullptr);
 
-	container->setMinimumSize(1, 1);
-	container->setAutoFillBackground(true);
+	container->setMinimumSize(600, 800); // (1, 1)
+	container->setAutoFillBackground(false);
 	container->setAcceptDrops(false);
 
+	renderWindow->setSurfaceType(QWindow::OpenGLSurface);
 	viewport->Setup(container, renderWindow);
 
-	renderWindow->setSurfaceType(QWindow::OpenGLSurface);
 
 	renderWindow->create();
 
