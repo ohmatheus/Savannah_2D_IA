@@ -153,8 +153,6 @@ void	QSavannahMainWindow::_CreateRenderViewport(QWidget *parentWidget)
 	viewport->Setup(container, m_RenderWindow);
 
 	m_RenderViewport = viewport;
-
-	//m_RenderWindow->SwapBuffers();
 }
 
 //----------------------------------------------------------
@@ -178,8 +176,9 @@ void	QSavannahMainWindow::_GameLoop()
 			break;
 
 
-		m_RenderWindow->SwapBuffers();
 
+		m_RenderWindow->SwapBuffers();
+		QThread::sleep(0.01);
 	}
 }
 

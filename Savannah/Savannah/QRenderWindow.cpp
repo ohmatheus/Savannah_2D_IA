@@ -64,9 +64,7 @@ void	QRenderWindow::Initialize()
 	}
 
 	glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	m_Context->swapBuffers(this);
 }
 
@@ -74,10 +72,7 @@ void	QRenderWindow::Initialize()
 
 void	QRenderWindow::SwapBuffers()
 {
-	//m_Context->makeCurrent(this);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//m_Context->functions()->glClear(GL_COLOR_BUFFER_BIT);
-	QThread::sleep(0.01);
 	m_Context->swapBuffers(this);
 }
 
