@@ -39,6 +39,9 @@
     <Filter Include="Source Files\Engine\Utils\Threads">
       <UniqueIdentifier>{5174d312-658d-41be-b0b3-82846f16f251}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Utils\Shaders">
+      <UniqueIdentifier>{be12c14a-4f25-43f8-b07f-13e6e1dc9a69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="QWorkerThread.cpp">
       <Filter>Source Files\Engine\Utils\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="GLShader.cpp">
+      <Filter>Source Files\Engine\Utils\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +99,9 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLShader.h">
+      <Filter>Source Files\Engine\Utils\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

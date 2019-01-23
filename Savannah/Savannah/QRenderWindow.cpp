@@ -3,6 +3,8 @@
 #include "QRenderWindow.h"
 #include "QRenderViewport.h"
 
+#include "GLShader.h"
+
 #include <iostream>
 
 #include <QCoreApplication>
@@ -47,6 +49,27 @@ namespace
 	};
 
 	unsigned int VBO;
+	unsigned int VAO;
+
+	char *vertexShader =
+		"#version 410 core											\n"
+		"	layout(location = 0) in vec3 aPos;						\n"
+		"void main()												\n"
+		"{															\n"
+		"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);		\n"
+		"}															\n"
+		;
+
+	char *fragShader =
+		"#version 410 core											\n"
+		"out vec4 FragColor;										\n"
+		"void main()												\n"
+		"{															\n"
+		"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);				\n"
+		"}															\n"
+		;
+
+	GLShader shader;
 }
 
 void	QRenderWindow::Initialize_GameThread()
@@ -91,13 +114,35 @@ void	QRenderWindow::Initialize_GameThread()
 
 	// init object
 	{
-		//m_Context->getProcAddress("glGenBuffers");
+		shader.LoadShader(GLShader::VERTEX_SHADER, vertexShader);
+		shader.LoadShader(GLShader::FRAGMENT_SHADER, fragShader);
+		shader.CreateAndLink();
+		shader.Bind();
+		{
+			// attribute and uniforms
+		}
+		shader.Unbind();
+		shader.m_name = "Test";
 
-		//m_Context->functions()
-		//glGenBuffers(GL_ARRAY_BUFFER, &VBO);
+		glGenVertexArrays(1, &VAO);
+
+		// create buffer
 		glGenBuffers(1, &VBO);
+
+
+		glBindVertexArray(VAO);
+		// bind, 1 possible in the same time / buffer type
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+		// copies data in the buffers memory
+		// GL_STATIC_DRAW: the data will most likely not change at all or very rarely.
+		// GL_DYNAMIC_DRAW : the data is likely to change a lot.
+		// GL_STREAM_DRAW : the data will change every time it is drawn.
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+
+		glBindVertexArray(0);
 
 	}
 }
@@ -107,6 +152,10 @@ void	QRenderWindow::Initialize_GameThread()
 void	QRenderWindow::SwapBuffers()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	shader.Bind();
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 	m_Context->swapBuffers(this);
 }
 
