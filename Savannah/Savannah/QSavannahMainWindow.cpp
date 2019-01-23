@@ -14,6 +14,7 @@
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 #include <QDockWidget>
+#include <QVBoxLayout>
 
 //----------------------------------------------------------
 
@@ -62,7 +63,7 @@ void	QSavannahMainWindow::Setup()
 
 	QMetaObject::connectSlotsByName(this);
 
-	QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
+	//QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
 	_CreateControlPanel();
 	_CreateViewportPanel();
@@ -153,13 +154,15 @@ void	QSavannahMainWindow::_CreateRenderViewport(QWidget *parentWidget)
 	viewport->Setup(container, m_RenderWindow);
 
 	m_RenderViewport = viewport;
+
 }
 
 //----------------------------------------------------------
 
 void	QSavannahMainWindow::_GameLoop()
 {
-	m_RenderWindow->Initialize();
+	m_RenderWindow->Initialize_GameThread();
+
 	while (true)
 	{
 		bool		continueRunning = false;

@@ -2,6 +2,9 @@
 #include "QRenderViewport.h"
 #include "QRenderWindow.h"
 
+#include <QVBoxLayout>
+#include <QToolBar>
+
 //----------------------------------------------------------
 
 QRenderViewport::QRenderViewport(QWidget *parent)

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <QThread>
+#include <QObject>
+#include <functional>
 
 // QThread's queued slots and invoked methods will execute in the caller thread.
 //----------------------------------------------------------

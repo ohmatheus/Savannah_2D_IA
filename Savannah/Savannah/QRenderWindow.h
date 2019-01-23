@@ -20,7 +20,7 @@ public:
 
 	void				SetRenderViewport(QRenderViewport *viewport);
 	void				SwapBuffers();
-	void				Initialize();
+	void				Initialize_GameThread();
 
 private:
 	QRenderViewport		*m_Viewport;

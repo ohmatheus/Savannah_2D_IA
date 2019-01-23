@@ -3,7 +3,12 @@
 #include "QRenderWindow.h"
 #include "QRenderViewport.h"
 
+#include <iostream>
+
+#include <QCoreApplication>
 #include <QOpenGLContext>
+
+//#define glGenBuffers GLEW_GET_FUN(__glewGenBuffers)
 
 //----------------------------------------------------------
 
@@ -32,7 +37,19 @@ void	QRenderWindow::SetRenderViewport(QRenderViewport *viewport)
 
 //----------------------------------------------------------
 
-void	QRenderWindow::Initialize()
+// temp
+namespace
+{
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.0f,  0.5f, 0.0f
+	};
+
+	unsigned int VBO;
+}
+
+void	QRenderWindow::Initialize_GameThread()
 {
 	m_SurfaceFormat = new QSurfaceFormat();
 
@@ -41,31 +58,48 @@ void	QRenderWindow::Initialize()
 	m_SurfaceFormat->setVersion(4, 1);
 	m_SurfaceFormat->setProfile(QSurfaceFormat::CoreProfile);
 
+	//QOpenGLContext* sharectx = QOpenGLContext::currentContext();
+
 	m_Context = new QOpenGLContext();
+
+	//sharectx->setShareContext(m_Context);
 
 	m_Context->setFormat(*m_SurfaceFormat);
 
 	if (!m_Context->create())
 	{
-		//CLog::Log(PK_ERROR, "Could not create OpenGL context !");
+		std::cout << "Could not create OpenGL context !";
 		return;
 	}
 
 	if (!m_Context->makeCurrent(this))
 	{
-		//CLog::Log(PK_ERROR, "Could not activate OpenGL context !");
+		std::cout << "Could not activate OpenGL context !";
 		return;
 	}
 
 	if (glewInit() != GLEW_OK)
 	{
-		//CLog::Log(PK_ERROR, "glewInit failed");
+		std::cout << "glewInit failed";
 		return;
 	}
 
 	glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
+	glViewport(0, 0, 800, 600); // resize
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	m_Context->swapBuffers(this);
+
+	// init object
+	{
+		//m_Context->getProcAddress("glGenBuffers");
+
+		//m_Context->functions()
+		//glGenBuffers(GL_ARRAY_BUFFER, &VBO);
+		glGenBuffers(1, &VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+
+	}
 }
 
 //----------------------------------------------------------
