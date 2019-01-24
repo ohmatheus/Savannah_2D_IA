@@ -19,6 +19,8 @@ public:
 
 	void				Setup(QWidget *internalContainer, QRenderWindow *internalWindow);
 
+
+
 private:
 	QRenderWindow		*m_InternalWindow;
 	QWidget				*m_InternalContainer;

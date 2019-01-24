@@ -26,6 +26,7 @@ private:
 	QRenderViewport		*m_Viewport;
 	QOpenGLContext		*m_Context;
 	QSurfaceFormat		*m_SurfaceFormat;
+	QMutex				m_WindowLock;
 	// opengl context
 };
 

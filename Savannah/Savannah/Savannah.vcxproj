@@ -162,6 +162,7 @@
       <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>
     </QtMoc>
     <ClInclude Include="GLShader.h" />
+    <ClInclude Include="QScopedLock.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

@@ -103,5 +103,8 @@
     <ClInclude Include="GLShader.h">
       <Filter>Source Files\Engine\Utils\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="QScopedLock.h">
+      <Filter>Source Files\Engine\Utils\Threads</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -74,6 +74,7 @@ namespace
 
 void	QRenderWindow::Initialize_GameThread()
 {
+	SCOPEDLOCK(m_WindowLock);
 	m_SurfaceFormat = new QSurfaceFormat();
 
 	m_SurfaceFormat->setOptions(QSurfaceFormat::DebugContext);

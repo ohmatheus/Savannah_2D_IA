@@ -9,3 +9,14 @@ typedef	unsigned int uint;
 
 #define	ARRAY_COUNT(__arr)				(sizeof(__arr) / sizeof((__arr)[0]))
 
+#ifndef GLUE
+#	define	GLUE(a, b)			__GLUE(a, b)
+#	define	__GLUE(a, b)		a ## b			// don't directly use this one
+#endif // !GLUE
+
+#if	!defined(__COUNTER__)
+#	define	__COUNTER__		__LINE__
+#endif
+
+#include "QScopedLock.h"
+
