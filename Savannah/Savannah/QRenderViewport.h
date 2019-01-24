@@ -19,7 +19,8 @@ public:
 
 	void				Setup(QWidget *internalContainer, QRenderWindow *internalWindow);
 
-
+protected:
+	virtual void 		resizeEvent(QResizeEvent *event) override;
 
 private:
 	QRenderWindow		*m_InternalWindow;

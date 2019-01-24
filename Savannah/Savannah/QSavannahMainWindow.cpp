@@ -178,7 +178,9 @@ void	QSavannahMainWindow::_GameLoop()
 		if (!continueRunning)
 			break;
 
+		m_RenderWindow->SwapRenderData();
 
+		m_RenderWindow->ProcessRenderData();
 
 		m_RenderWindow->SwapBuffers();
 		QThread::sleep(0.01);

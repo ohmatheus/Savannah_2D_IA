@@ -17,8 +17,10 @@
 QRenderWindow::QRenderWindow()
 :	Super()
 ,	m_Viewport(nullptr)
+,	m_RenderWindowData_UIThread(nullptr)
+,	m_RenderWindowData_GameThread(nullptr)
 {
-
+	m_RenderWindowData_UIThread = new SRenderWindowData;
 }
 
 //----------------------------------------------------------
@@ -72,10 +74,14 @@ namespace
 	GLShader shader;
 }
 
+//----------------------------------------------------------
+
 void	QRenderWindow::Initialize_GameThread()
 {
 	SCOPEDLOCK(m_WindowLock);
 	m_SurfaceFormat = new QSurfaceFormat();
+
+	m_RenderWindowData_GameThread = new SRenderWindowData;
 
 	m_SurfaceFormat->setOptions(QSurfaceFormat::DebugContext);
 	m_SurfaceFormat->setDepthBufferSize(16);
@@ -125,9 +131,8 @@ void	QRenderWindow::Initialize_GameThread()
 		shader.Unbind();
 		shader.m_name = "Test";
 
+		// vertex buffer object and create buffers
 		glGenVertexArrays(1, &VAO);
-
-		// create buffer
 		glGenBuffers(1, &VBO);
 
 
@@ -144,8 +149,41 @@ void	QRenderWindow::Initialize_GameThread()
 		glEnableVertexAttribArray(0);
 
 		glBindVertexArray(0);
-
 	}
+}
+
+//----------------------------------------------------------
+
+void	QRenderWindow::SwapRenderData()
+{
+	SCOPEDLOCK(m_WindowLock);
+	if (m_RenderWindowData_UIThread->m_Dirty)
+	{
+		SRenderWindowData *temp = m_RenderWindowData_GameThread;
+		m_RenderWindowData_GameThread = m_RenderWindowData_UIThread;
+		m_RenderWindowData_UIThread = temp;
+		m_RenderWindowData_UIThread->Clear();
+	}
+}
+
+//----------------------------------------------------------
+
+void	QRenderWindow::ProcessRenderData()
+{
+	if (m_RenderWindowData_GameThread->m_Dirty)
+	{
+		glViewport(0, 0, m_RenderWindowData_GameThread->m_X, m_RenderWindowData_GameThread->m_Y);
+		m_RenderWindowData_GameThread->m_Dirty = false;
+	}
+}
+
+//----------------------------------------------------------
+
+void	QRenderWindow::SetViewportSize(float x, float y)
+{
+	m_RenderWindowData_UIThread->m_Dirty = true;
+	m_RenderWindowData_UIThread->m_X = x;
+	m_RenderWindowData_UIThread->m_Y = y;
 }
 
 //----------------------------------------------------------

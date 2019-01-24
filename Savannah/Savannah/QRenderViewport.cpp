@@ -4,6 +4,7 @@
 
 #include <QVBoxLayout>
 #include <QToolBar>
+#include <QResizeEvent>
 
 //----------------------------------------------------------
 
@@ -45,6 +46,15 @@ void	QRenderViewport::Setup(QWidget *internalContainer, QRenderWindow *internalW
 	layout->addWidget(m_InternalContainer, 1);
 
 	// Viewport/camera controls
+}
+
+//----------------------------------------------------------
+
+void 	QRenderViewport::resizeEvent(QResizeEvent *event)
+{
+	Super::resizeEvent(event);
+	if (m_InternalWindow != nullptr)
+		m_InternalWindow->SetViewportSize(event->size().width(), event->size().height());
 }
 
 //----------------------------------------------------------
