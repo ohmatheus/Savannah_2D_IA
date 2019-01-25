@@ -18,5 +18,7 @@ typedef	unsigned int uint;
 #	define	__COUNTER__		__LINE__
 #endif
 
+#define PI 3.14159265359f
+
 #include "QScopedLock.h"
 
