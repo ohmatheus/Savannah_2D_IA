@@ -68,10 +68,11 @@ namespace
 
 	char *fragShader =
 		"#version 410 core											\n"
-		"out vec4 FragColor;										\n"
+		"out vec4		FragColor;									\n"
+		"uniform vec4	uColor;										\n"
 		"void main()												\n"
 		"{															\n"
-		"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);				\n"
+		"	FragColor = uColor;										\n"
 		"}															\n"
 		;
 
@@ -130,9 +131,11 @@ void	QRenderWindow::Initialize_GameThread()
 		shader.CreateAndLink();
 		shader.Bind();
 		{
-			// attribute and uniforms
+			shader.AddUniform("uColor");
+			glUniform4f(shader("uColor"), 0.0f, 1.f, 0.0f, 1.0f);
 		}
 		shader.Unbind();
+
 		shader.m_name = "Test";
 
 		// vertex buffer object and create buffers
@@ -194,6 +197,7 @@ void	QRenderWindow::SetViewportSize(float x, float y)
 
 void	QRenderWindow::SwapBuffers()
 {
+	m_Context->makeCurrent(this);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	shader.Bind();

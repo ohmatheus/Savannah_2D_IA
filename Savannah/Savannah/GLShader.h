@@ -22,8 +22,8 @@ public:
 	void			AddAttribute(const std::string& attribute);
 	void			AddUniform(const std::string& unform);
 
-	uint			operator[](const std::string& attribute);
-	uint			operator()(const std::string& uniform);
+	uint			operator[](const std::string& attribute); // attribute
+	uint			operator()(const std::string& uniform);	// uniform
 
 	enum	ShaderType
 	{
