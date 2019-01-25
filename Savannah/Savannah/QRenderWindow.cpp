@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include "QRenderWindow.h"
 #include "QRenderViewport.h"
@@ -49,21 +49,30 @@ void	QRenderWindow::SetRenderViewport(QRenderViewport *viewport)
 namespace
 {
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f,  0.5f, 0.0f
+		-0.5f,	-0.5f,	-2.5f,
+		0.5f,	-0.5f,	-2.5f,
+		0.0f,	0.5f,	-2.5f
 	};
 
 	unsigned int VBO;
 	unsigned int VAO;
 
+	glm::mat4	transformModel = glm::mat4(1.0f);
+	glm::mat4	view = glm::mat4(1.0f);
+	glm::mat4	viewProj;
+
+	glm::mat4	orthoMat;
+	glm::mat4	projMat;
+
 	char *vertexShader =
-		"#version 410 core											\n"
-		"	layout(location = 0) in vec3 aPos;						\n"
-		"void main()												\n"
-		"{															\n"
-		"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);		\n"
-		"}															\n"
+		"#version 410 core												\n"
+		"layout(location = 0) in vec3 aPos;								\n"
+		"uniform mat4 viewProj;											\n"
+		"uniform mat4 modelTransform;									\n"
+		"void main()													\n"
+		"{																\n"
+		"	gl_Position = viewProj * modelTransform * vec4(aPos, 1.0f);	\n"
+		"}																\n"
 		;
 
 	char *fragShader =
@@ -126,6 +135,14 @@ void	QRenderWindow::Initialize_GameThread()
 
 	// init object
 	{
+		//transformModel = glm::rotate(transformModel, glm::radians(90.f), glm::vec3(0.0, 0.0, 1.0));
+
+		orthoMat = glm::ortho(-400.f, 400.0f, -300.f, 300.0f, 0.1f, 100.0f);
+		projMat = glm::perspective(glm::radians(45.0f), 800.f / 600.f, 0.1f, 100.0f);
+		
+		//Vclip = Mprojection⋅Mview⋅Mmodel⋅Vlocal
+		viewProj = projMat * view;
+
 		shader.LoadShader(GLShader::VERTEX_SHADER, vertexShader);
 		shader.LoadShader(GLShader::FRAGMENT_SHADER, fragShader);
 		shader.CreateAndLink();
@@ -133,6 +150,8 @@ void	QRenderWindow::Initialize_GameThread()
 		{
 			shader.AddUniform("uColor");
 			glUniform4f(shader("uColor"), 0.0f, 1.f, 0.0f, 1.0f);
+			shader.AddUniform("modelTransform");
+			shader.AddUniform("viewProj");
 		}
 		shader.Unbind();
 
@@ -180,6 +199,14 @@ void	QRenderWindow::ProcessRenderData()
 	if (m_RenderWindowData_GameThread->m_Dirty)
 	{
 		glViewport(0, 0, m_RenderWindowData_GameThread->m_X, m_RenderWindowData_GameThread->m_Y);
+
+
+		orthoMat = glm::ortho(-1.f, 1.0f, -1.f, 1.0f, 0.1f, 100.0f); // fucked
+		projMat = glm::perspective(glm::radians(45.0f), m_RenderWindowData_GameThread->m_X / m_RenderWindowData_GameThread->m_Y, 0.1f, 100.0f);
+
+		//Vclip = Mprojection⋅Mview⋅Mmodel⋅Vlocal
+		viewProj = projMat * view;
+
 		m_RenderWindowData_GameThread->m_Dirty = false;
 	}
 }
@@ -201,6 +228,9 @@ void	QRenderWindow::SwapBuffers()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	shader.Bind();
+	glUniformMatrix4fv(shader("modelTransform"), 1, GL_FALSE, glm::value_ptr(transformModel));
+	glUniformMatrix4fv(shader("viewProj"), 1, GL_FALSE, glm::value_ptr(viewProj));
+
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	m_Context->swapBuffers(this);
