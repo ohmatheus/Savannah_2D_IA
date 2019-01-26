@@ -123,13 +123,22 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GridEntity.cpp" />
+    <ClCompile Include="IEntity.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GLShader.cpp" />
+    <ClCompile Include="IGameWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="QRenderViewport.cpp" />
     <ClCompile Include="QRenderWindow.cpp" />
     <ClCompile Include="QSavannahMainWindow.cpp" />
     <ClCompile Include="QWorkerObject.cpp" />
     <ClCompile Include="QWorkerThread.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SimpleEntity.cpp" />
+    <ClCompile Include="SOAEntity.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -161,8 +170,22 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
       <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>
     </QtMoc>
+    <ClInclude Include="GridEntity.h" />
+    <ClInclude Include="IEntity.h" />
+    <QtMoc Include="Game.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;$(SolutionDir)Savannah\Src\Editor;$(SolutionDir)Savannah\Src\Engine;$(SolutionDir)Savannah\Src;$(SolutionDir)Savannah\Src\Editor\Viewport;$(SolutionDir)External\glew-2.1.0\include\GL;$(SolutionDir)External\glm</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB</Define>
+    </QtMoc>
     <ClInclude Include="GLShader.h" />
+    <ClInclude Include="IGameWindow.h" />
     <ClInclude Include="QScopedLock.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SimpleEntity.h" />
+    <ClInclude Include="SOAEntity.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

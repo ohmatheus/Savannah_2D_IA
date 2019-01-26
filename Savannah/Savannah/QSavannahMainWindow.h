@@ -7,6 +7,7 @@
 
 class	QRenderWindow;
 class	QRenderViewport;
+class	Game;
 
 //----------------------------------------------------------
 
@@ -34,12 +35,12 @@ private:
 	QRenderViewport		*m_RenderViewport;
 	QThread				m_GameThread;
 	QRenderWindow		*m_RenderWindow;
+	Game				*m_Game;
 
 	void				_CreateViewportPanel();
 	void				_CreateControlPanel();
 
 	void				_CreateRenderViewport(QWidget *parentWidget);
-	void				_GameLoop();
 };
 
 //----------------------------------------------------------

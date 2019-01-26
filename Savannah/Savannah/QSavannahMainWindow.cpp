@@ -6,6 +6,8 @@
 
 #include "QWorkerObject.h"
 
+#include "Game.h"
+
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
@@ -27,7 +29,6 @@ QSavannahMainWindow::QSavannahMainWindow(QWidget *parent)
 ,	m_RenderViewport(nullptr)
 {
 	Setup();
-
 	StartGameThread();
 }
 
@@ -37,6 +38,8 @@ QSavannahMainWindow::~QSavannahMainWindow()
 {
 	m_GameThread.quit();
 	m_GameThread.wait();
+
+	delete m_Game;
 }
 
 //----------------------------------------------------------
@@ -63,10 +66,10 @@ void	QSavannahMainWindow::Setup()
 
 	QMetaObject::connectSlotsByName(this);
 
-	//QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
-
 	_CreateControlPanel();
 	_CreateViewportPanel();
+
+	m_Game = new Game(m_RenderWindow);
 }
 
 //----------------------------------------------------------
@@ -75,19 +78,21 @@ void	QSavannahMainWindow::StartGameThread()
 {
 	QWorkerObject	*gameWorkerObject = new QWorkerObject();
 
-	gameWorkerObject->SetFunc(std::bind(&QSavannahMainWindow::_GameLoop, this));
+	// could also pass through m_Game and not a worker object tho
+	gameWorkerObject->SetFunc(std::bind(&Game::StartAndLoop, m_Game));
 
 	gameWorkerObject->moveToThread(&m_GameThread);
 
 	connect(gameWorkerObject, &QWorkerObject::End, this, []()
 	{
 		// some usefull stuff here
+		// TODO close app properly
 	});
 
 	connect(&m_GameThread, &QThread::finished, gameWorkerObject, &QObject::deleteLater);
 
 	connect(this, &QSavannahMainWindow::LaunchThreadGame, gameWorkerObject, &QWorkerObject::Play);
-
+	
 	m_GameThread.start();
 }
 
@@ -154,37 +159,6 @@ void	QSavannahMainWindow::_CreateRenderViewport(QWidget *parentWidget)
 	viewport->Setup(container, m_RenderWindow);
 
 	m_RenderViewport = viewport;
-
-}
-
-//----------------------------------------------------------
-
-void	QSavannahMainWindow::_GameLoop()
-{
-	m_RenderWindow->Initialize_GameThread();
-
-	while (true)
-	{
-		bool		continueRunning = false;
-		const auto	topWidgets = QApplication::topLevelWidgets();
-		for (int i = 0; i < topWidgets.size(); ++i)
-		{
-			if (topWidgets[i]->isVisible())
-			{
-				continueRunning = true;
-				break;
-			}
-		}
-		if (!continueRunning)
-			break;
-
-		m_RenderWindow->SwapRenderData();
-
-		m_RenderWindow->ProcessRenderData();
-
-		m_RenderWindow->SwapBuffers();
-		QThread::sleep(0.01);
-	}
 }
 
 //----------------------------------------------------------

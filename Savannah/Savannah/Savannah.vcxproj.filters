@@ -42,6 +42,21 @@
     <Filter Include="Source Files\Engine\Utils\Shaders">
       <UniqueIdentifier>{be12c14a-4f25-43f8-b07f-13e6e1dc9a69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Game">
+      <UniqueIdentifier>{92d80881-6805-48be-b116-6ea35b855002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Game\Entity">
+      <UniqueIdentifier>{6f7cfcf2-f145-46b2-a23b-5c7490644a7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Game\Render">
+      <UniqueIdentifier>{4684b551-ec0a-4a35-b1aa-2f47920020b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Game\Entity\Simple">
+      <UniqueIdentifier>{316d524c-a9c3-4c56-af14-1d277829b248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Game\Entity\SOA">
+      <UniqueIdentifier>{b970bf82-f3a5-43f9-9a85-03d952ad50b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -67,6 +82,33 @@
     </ClCompile>
     <ClCompile Include="GLShader.cpp">
       <Filter>Source Files\Engine\Utils\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Engine\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Engine\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="IEntity.cpp">
+      <Filter>Source Files\Engine\Game\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem.cpp">
+      <Filter>Source Files\Engine\Game\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleEntity.cpp">
+      <Filter>Source Files\Engine\Game\Entity\Simple</Filter>
+    </ClCompile>
+    <ClCompile Include="SOAEntity.cpp">
+      <Filter>Source Files\Engine\Game\Entity\SOA</Filter>
+    </ClCompile>
+    <ClCompile Include="GridEntity.cpp">
+      <Filter>Source Files\Engine\Game\Entity\Simple</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\Engine\Game\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="IGameWindow.cpp">
+      <Filter>Source Files\Engine\Game\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +137,9 @@
     <QtMoc Include="QWorkerObject.h">
       <Filter>Source Files\Engine\Utils\Threads</Filter>
     </QtMoc>
+    <QtMoc Include="Game.h">
+      <Filter>Source Files\Engine\Game</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -105,6 +150,30 @@
     </ClInclude>
     <ClInclude Include="QScopedLock.h">
       <Filter>Source Files\Engine\Utils\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Source Files\Engine\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntity.h">
+      <Filter>Source Files\Engine\Game\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem.h">
+      <Filter>Source Files\Engine\Game\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleEntity.h">
+      <Filter>Source Files\Engine\Game\Entity\Simple</Filter>
+    </ClInclude>
+    <ClInclude Include="SOAEntity.h">
+      <Filter>Source Files\Engine\Game\Entity\SOA</Filter>
+    </ClInclude>
+    <ClInclude Include="GridEntity.h">
+      <Filter>Source Files\Engine\Game\Entity\Simple</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Source Files\Engine\Game\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameWindow.h">
+      <Filter>Source Files\Engine\Game\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
