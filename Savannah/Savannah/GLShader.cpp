@@ -127,23 +127,28 @@ void GLShader::AddAttribute(std::string const& attribute)
 
 //----------------------------------------------------
 
-uint GLShader::operator[](std::string const& attribute)
+uint GLShader::Attribute(std::string const& attribute)
 {
-	return m_Attributes[attribute];
+	uint	result = m_Attributes[attribute];
+	assert(result != -1);
+	return result;
 }
 
 //----------------------------------------------------
 
 void GLShader::AddUniform(std::string const& uniform)
 {
-	m_UniformsLocation[uniform] = glGetUniformLocation(m_ProgramID, uniform.c_str());
+	uint uniformLocation = glGetUniformLocation(m_ProgramID, uniform.c_str());
+	m_UniformsLocation[uniform] = uniformLocation;
 }
 
 //----------------------------------------------------
 
-uint GLShader::operator()(std::string const& uniform)
+uint GLShader::Uniform(std::string const& uniform)
 {
-	return m_UniformsLocation[uniform];
+	uint	result = m_UniformsLocation[uniform];
+	assert(result != -1);
+	return result;
 }
 
 //----------------------------------------------------

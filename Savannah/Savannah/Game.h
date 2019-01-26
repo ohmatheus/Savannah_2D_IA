@@ -14,6 +14,23 @@ class	IGameWindow;
 
 //----------------------------------------------------------
 
+struct	SCamera
+{
+	glm::vec3	m_Position = glm::vec3(0.f);
+	glm::vec3	m_Rotation = glm::vec3(0.f);
+
+	glm::mat4	GetView()
+	{
+		glm::mat4 result = glm::mat4(1.f);
+
+		//result = glm::translate(result, m_Position);
+		//result = glm::rotate(result, m_Rotation);
+		return result;
+	}
+};
+
+//----------------------------------------------------------
+
 class Game final : public QObject
 {
 	Q_OBJECT
@@ -24,6 +41,7 @@ public:
 	void					StartAndLoop();
 	void					LoadScene(bool andStart = true);
 	void					StartScene();
+	glm::mat4				ViewProj() { return m_ViewProj; }
 
 private:
 	void					_ProcessRenderData();
@@ -33,6 +51,10 @@ private:
 
 	float					m_Fps = 60.f;
 	SRenderWindowData		*m_RenderWindowData;
+	glm::mat4				m_ViewProj;
+	glm::mat4				m_OrthoMat;
+	glm::mat4				m_ProjMat;
+	SCamera					m_Camera;
 
 	std::vector<Scene*>		m_Scenes;
 	RenderSystem			*m_RenderSystem;

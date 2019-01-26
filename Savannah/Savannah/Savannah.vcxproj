@@ -129,6 +129,7 @@
     <ClCompile Include="GLShader.cpp" />
     <ClCompile Include="IGameWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MeshData.cpp" />
     <ClCompile Include="QRenderViewport.cpp" />
     <ClCompile Include="QRenderWindow.cpp" />
     <ClCompile Include="QSavannahMainWindow.cpp" />
@@ -180,6 +181,7 @@
     </QtMoc>
     <ClInclude Include="GLShader.h" />
     <ClInclude Include="IGameWindow.h" />
+    <ClInclude Include="MeshData.h" />
     <ClInclude Include="QScopedLock.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
