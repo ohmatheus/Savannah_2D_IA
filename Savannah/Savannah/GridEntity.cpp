@@ -4,7 +4,8 @@
 
 //----------------------------------------------------------
 
-GridEntity::GridEntity()
+GridEntity::GridEntity(const std::string &name)
+:	Super(name)
 {
 }
 

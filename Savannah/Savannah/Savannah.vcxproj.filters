@@ -104,9 +104,6 @@
     <ClCompile Include="GridEntity.cpp">
       <Filter>Source Files\Engine\Game\Entity\Simple</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files\Engine\Game\Render</Filter>
-    </ClCompile>
     <ClCompile Include="IGameWindow.cpp">
       <Filter>Source Files\Engine\Game\Render</Filter>
     </ClCompile>
@@ -171,9 +168,6 @@
     </ClInclude>
     <ClInclude Include="GridEntity.h">
       <Filter>Source Files\Engine\Game\Entity\Simple</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Source Files\Engine\Game\Render</Filter>
     </ClInclude>
     <ClInclude Include="IGameWindow.h">
       <Filter>Source Files\Engine\Game\Render</Filter>

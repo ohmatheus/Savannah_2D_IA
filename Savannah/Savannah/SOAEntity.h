@@ -7,8 +7,10 @@
 
 class SOAEntity : public IEntity
 {
+	using Super = IEntity;
+	using Self = SOAEntity;
 public:
-	SOAEntity();
+	SOAEntity(const std::string &name);
 	virtual ~SOAEntity();
 protected:
 };

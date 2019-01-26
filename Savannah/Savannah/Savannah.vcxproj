@@ -135,7 +135,6 @@
     <ClCompile Include="QSavannahMainWindow.cpp" />
     <ClCompile Include="QWorkerObject.cpp" />
     <ClCompile Include="QWorkerThread.cpp" />
-    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SimpleEntity.cpp" />
@@ -183,7 +182,6 @@
     <ClInclude Include="IGameWindow.h" />
     <ClInclude Include="MeshData.h" />
     <ClInclude Include="QScopedLock.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SimpleEntity.h" />

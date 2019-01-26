@@ -7,8 +7,10 @@
 
 class GridEntity : public SimpleEntity
 {
+	using Super = SimpleEntity;
+	using Self = GridEntity;
 public:
-	GridEntity();
+	GridEntity(const std::string &name);
 	virtual ~GridEntity();
 protected:
 };

@@ -4,6 +4,7 @@
 #include "IGameWindow.h"
 
 #include "RenderSystem.h"
+#include "Scene.h"
 
 //
 #include "GLShader.h"
@@ -31,6 +32,9 @@ Game::Game(IGameWindow *renderWindow)
 
 Game::~Game()
 {
+	for (int i = 0; i < m_Scenes.size(); ++i)
+		delete m_Scenes[i];
+	m_Scenes.clear();
 	delete m_RenderSystem;
 	delete m_RenderWindowData;
 }
@@ -41,6 +45,8 @@ void	Game::StartAndLoop()
 {
 	m_RenderWindow->Initialize();
 	_InitRenderSystem();
+
+	float dt = 0.f;
 
 	while (true)
 	{
@@ -61,12 +67,17 @@ void	Game::StartAndLoop()
 		m_RenderWindow->MakeCurrent();
 
 		_ProcessRenderData();
+
+		// Update
+		m_Scenes[0]->Update(dt);
 		//if (!m_RenderWindowData->m_ContinueRunning); 
 		//	break;
 
 
 		// renderring
-		m_RenderSystem->Render(nullptr);
+		m_RenderSystem->PreRender();
+
+		m_Scenes[0]->Render(m_RenderSystem);
 
 		m_RenderWindow->SwapBuffers();
 		QThread::sleep(0.01);
@@ -102,6 +113,10 @@ void	Game::_InitRenderSystem()
 		return;
 	}
 	m_RenderSystem = new RenderSystem(this);
+
+
+	Scene *scene = new Scene();
+	m_Scenes.push_back(scene);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
 	glViewport(0, 0, 800, 600); // resize

@@ -4,7 +4,8 @@
 
 //----------------------------------------------------------
 
-SOAEntity::SOAEntity()
+SOAEntity::SOAEntity(const std::string &name)
+:	Super(name)
 {
 }
 

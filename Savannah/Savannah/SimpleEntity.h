@@ -6,9 +6,15 @@
 
 class SimpleEntity : public IEntity
 {
+	using Super = IEntity;
+	using Self = SimpleEntity;
 public:
-	SimpleEntity();
+	SimpleEntity(const std::string &name);
 	virtual ~SimpleEntity();
+
+	virtual void		Update(float dt) override;
+	virtual void		Render(RenderSystem *renderSystem) override;
+
 protected:
 };
 
