@@ -24,7 +24,12 @@ QRenderWindow::QRenderWindow()
 
 QRenderWindow::~QRenderWindow()
 {
-	delete m_SurfaceFormat;
+	if (m_SurfaceFormat != nullptr)
+		delete m_SurfaceFormat;
+	if (m_Context != nullptr)
+		delete m_Context;
+	if (m_RenderWindowData_UIThread != nullptr)
+		delete m_RenderWindowData_UIThread;
 }
 
 //----------------------------------------------------------
@@ -42,8 +47,6 @@ void	QRenderWindow::Initialize()
 {
 	SCOPEDLOCK(m_WindowLock);
 	m_SurfaceFormat = new QSurfaceFormat();
-
-	//m_RenderWindowData_GameThread = new SRenderWindowData;
 
 	m_SurfaceFormat->setOptions(QSurfaceFormat::DebugContext);
 	m_SurfaceFormat->setDepthBufferSize(16);

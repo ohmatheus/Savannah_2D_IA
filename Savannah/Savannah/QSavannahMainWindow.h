@@ -7,6 +7,7 @@
 
 class	QRenderWindow;
 class	QRenderViewport;
+class	QWorkerObject;
 class	Game;
 
 //----------------------------------------------------------
@@ -35,6 +36,7 @@ private:
 	QRenderViewport		*m_RenderViewport;
 	QThread				m_GameThread;
 	QRenderWindow		*m_RenderWindow;
+	QWorkerObject		*m_GameWorker;
 	Game				*m_Game;
 
 	void				_CreateViewportPanel();

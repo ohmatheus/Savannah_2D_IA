@@ -7,11 +7,16 @@
 int main(int argc, char *argv[])
 {
 	QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
-	QApplication a(argc, argv);
-	QSavannahMainWindow w;
-	w.show();
-	w.LaunchThreadGame();
-	return a.exec();
+	QApplication *a = new QApplication(argc, argv);
+	QSavannahMainWindow *w = new QSavannahMainWindow();
+	w->show();
+	w->LaunchThreadGame();
+	int result = a->exec();
+
+	delete w;
+	delete a;
+
+	return result;
 }
 
 //----------------------------------------------------------

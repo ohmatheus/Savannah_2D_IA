@@ -18,7 +18,15 @@ RenderSystem::RenderSystem(Game *game)
 //----------------------------------------------------------
 
 RenderSystem::~RenderSystem()
-{}
+{
+	for (std::map<std::string, GLShader*>::iterator it = m_ShaderBank.begin(); it != m_ShaderBank.end(); it++)
+		delete it->second;
+	m_ShaderBank.clear();
+
+	for (std::map<std::string, MeshData*>::iterator it = m_MeshBank.begin(); it != m_MeshBank.end(); it++)
+		delete it->second;
+	m_MeshBank.clear();
+}
 
 //----------------------------------------------------------
 

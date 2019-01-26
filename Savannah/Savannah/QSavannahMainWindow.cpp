@@ -27,6 +27,7 @@ QSavannahMainWindow::QSavannahMainWindow(QWidget *parent)
 ,	m_CentralWidget(nullptr)
 ,	m_StatusBar(nullptr)
 ,	m_RenderViewport(nullptr)
+,	m_Game(nullptr)
 {
 	Setup();
 	StartGameThread();
@@ -39,7 +40,11 @@ QSavannahMainWindow::~QSavannahMainWindow()
 	m_GameThread.quit();
 	m_GameThread.wait();
 
-	delete m_Game;
+	if (m_Game != nullptr)
+		delete m_Game;
+	delete m_RenderWindow;
+	//delete m_GameWorker;
+
 }
 
 //----------------------------------------------------------
@@ -76,22 +81,22 @@ void	QSavannahMainWindow::Setup()
 
 void	QSavannahMainWindow::StartGameThread()
 {
-	QWorkerObject	*gameWorkerObject = new QWorkerObject();
+	m_GameWorker = new QWorkerObject();
 
 	// could also pass through m_Game and not a worker object tho
-	gameWorkerObject->SetFunc(std::bind(&Game::StartAndLoop, m_Game));
+	m_GameWorker->SetFunc(std::bind(&Game::StartAndLoop, m_Game));
 
-	gameWorkerObject->moveToThread(&m_GameThread);
+	m_GameWorker->moveToThread(&m_GameThread);
 
-	connect(gameWorkerObject, &QWorkerObject::End, this, []()
+	connect(m_GameWorker, &QWorkerObject::End, this, []()
 	{
 		// some usefull stuff here
 		// TODO close app properly
 	});
 
-	connect(&m_GameThread, &QThread::finished, gameWorkerObject, &QObject::deleteLater);
+	connect(&m_GameThread, &QThread::finished, m_GameWorker, &QObject::deleteLater);
 
-	connect(this, &QSavannahMainWindow::LaunchThreadGame, gameWorkerObject, &QWorkerObject::Play);
+	connect(this, &QSavannahMainWindow::LaunchThreadGame, m_GameWorker, &QWorkerObject::Play);
 	
 	m_GameThread.start();
 }
@@ -100,7 +105,7 @@ void	QSavannahMainWindow::StartGameThread()
 
 void	QSavannahMainWindow::_CreateViewportPanel()
 {
-	QDockWidget	*dockw = new QDockWidget(tr("Viewport"));
+	QDockWidget	*dockw = new QDockWidget(tr("Viewport"), this);
 	dockw->setObjectName("Viewport");
 
 	{

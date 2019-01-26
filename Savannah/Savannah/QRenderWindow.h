@@ -32,10 +32,10 @@ public:
 	void				SetViewportSize(float x, float y);
 
 private:
-	QRenderViewport		*m_Viewport;
-	QOpenGLContext		*m_Context;
-	QSurfaceFormat		*m_SurfaceFormat;
-	SRenderWindowData	*m_RenderWindowData_UIThread;
+	QRenderViewport		*m_Viewport = nullptr;
+	QOpenGLContext		*m_Context = nullptr;
+	QSurfaceFormat		*m_SurfaceFormat = nullptr;
+	SRenderWindowData	*m_RenderWindowData_UIThread = nullptr;
 };
 
 //----------------------------------------------------------

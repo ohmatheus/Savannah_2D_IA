@@ -30,8 +30,10 @@ Game::Game(IGameWindow *renderWindow)
 //----------------------------------------------------------
 
 Game::~Game()
-{}
-
+{
+	delete m_RenderSystem;
+	delete m_RenderWindowData;
+}
 
 //----------------------------------------------------------
 

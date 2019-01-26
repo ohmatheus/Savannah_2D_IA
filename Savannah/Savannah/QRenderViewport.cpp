@@ -44,8 +44,6 @@ void	QRenderViewport::Setup(QWidget *internalContainer, QRenderWindow *internalW
 	assert(m_InternalContainer != nullptr);
 
 	layout->addWidget(m_InternalContainer, 1);
-
-	// Viewport/camera controls
 }
 
 //----------------------------------------------------------
