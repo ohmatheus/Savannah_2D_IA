@@ -35,6 +35,10 @@ public:
 	void					SetMeshName(const std::string &name) { m_MeshName; }
 
 protected:
+	float					m_Yaw;
+	float					m_Pitch;
+	float					m_Roll;
+
 	glm::vec3				m_Position;
 	glm::vec3				m_Rotation;
 	glm::vec3				m_Scale;

@@ -37,34 +37,7 @@ void	RenderSystem::PreRender()
 
 //----------------------------------------------------------
 
-void	RenderSystem::Render(Scene *scene)
-{
-
-	glm::mat4 transformModel = glm::mat4(1.f);
-
-	m_ShaderBank["DefaultShader"]->Bind();
-	glUniformMatrix4fv(m_ShaderBank["DefaultShader"]->Uniform("modelTransform"), 1, GL_FALSE, glm::value_ptr(transformModel));
-
-	GL_CHECK_ERRORS
-
-	glUniformMatrix4fv(m_ShaderBank["DefaultShader"]->Uniform("viewProj"), 1, GL_FALSE, glm::value_ptr(m_Game->ViewProj()));
-
-	GL_CHECK_ERRORS
-
-	glUniform4f(m_ShaderBank["DefaultShader"]->Uniform("uColor"), 0.0f, 1.f, 0.0f, 1.0f);
-
-	GL_CHECK_ERRORS
-
-	glBindVertexArray(m_MeshBank["Triangle"]->VAO());
-	
-	GL_CHECK_ERRORS
-
-	glDrawArrays(m_MeshBank["Triangle"]->Mode(), 0, 3);
-}
-
-//----------------------------------------------------------
-
-bool	RenderSystem::RegisterShader(std::string const &shaderName, GLShader* shader)
+bool	RenderSystem::RegisterShader(std::string const &shaderName, GLShader *shader)
 {
 	if (m_ShaderBank[shaderName] != nullptr)
 		return false;
@@ -74,7 +47,7 @@ bool	RenderSystem::RegisterShader(std::string const &shaderName, GLShader* shade
 
 //----------------------------------------------------------
 
-bool	RenderSystem::RegisterMesh(std::string const &meshName, MeshData* mesh)
+bool	RenderSystem::RegisterMesh(std::string const &meshName, MeshData *mesh)
 {
 	if (m_MeshBank[meshName] != nullptr)
 		return false;
@@ -100,13 +73,13 @@ void	RenderSystem::_InitDefaultShader()
 		;
 
 	char *fragShader =
-		"#version 410 core											\n"
-		"out vec4		FragColor;									\n"
-		"uniform vec4	uColor;										\n"
-		"void main()												\n"
-		"{															\n"
-		"	FragColor = uColor;										\n"
-		"}															\n"
+		"#version 410 core												\n"
+		"out vec4		FragColor;										\n"
+		"uniform vec4	uColor;											\n"
+		"void main()													\n"
+		"{																\n"
+		"	FragColor = uColor;											\n"
+		"}																\n"
 		;
 
 	shader->LoadShader(GLShader::VERTEX_SHADER, vertexShader);

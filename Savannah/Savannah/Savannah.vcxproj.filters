@@ -57,6 +57,9 @@
     <Filter Include="Source Files\Engine\Game\Entity\SOA">
       <UniqueIdentifier>{b970bf82-f3a5-43f9-9a85-03d952ad50b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Utils\Timer">
+      <UniqueIdentifier>{b75a893b-760f-4d4a-be19-e9bf7209fbb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -174,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="MeshData.h">
       <Filter>Source Files\Engine\Game\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Source Files\Engine\Utils\Timer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

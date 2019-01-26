@@ -5,6 +5,7 @@
 
 #include "RenderSystem.h"
 #include "Scene.h"
+#include "Timer.h"
 
 //
 #include "GLShader.h"
@@ -13,6 +14,7 @@
 #include <QApplication> // temp
 #include <QWidget> // temp
 #include <QThread> // temp
+#include <QTimer> // temp
 
 #include <iostream>
 
@@ -46,7 +48,11 @@ void	Game::StartAndLoop()
 	m_RenderWindow->Initialize();
 	_InitRenderSystem();
 
-	float dt = 0.f;
+	Timer timer;
+	float		dt = 0.f;
+	const float fixedSimulationFramerate = 60.f; // max dt
+	float		limitedDt = 0;
+	timer.Start();
 
 	while (true)
 	{
@@ -63,24 +69,35 @@ void	Game::StartAndLoop()
 		if (!continueRunning)
 			break;
 
+		
+		dt = timer.Stop();
+		timer.Start();
+		// fix framerate (not very precise tho... but good enough)
+		{
+			const float		dtLimit = 1.0f / fixedSimulationFramerate;
+			const float		timeDelta = dtLimit - dt;
+			const float		timeToWait = (timeDelta * 1.0e+3f) - 1.0f;
+
+			if (dt > dtLimit)
+				dt = dtLimit;
+
+			if (timeToWait > 0.f)
+				QThread::msleep(uint(timeToWait));
+		}
+
 		m_RenderWindow->SwapRenderData(m_RenderWindowData);
 		m_RenderWindow->MakeCurrent();
 
 		_ProcessRenderData();
-
-		// Update
-		m_Scenes[0]->Update(dt);
 		//if (!m_RenderWindowData->m_ContinueRunning); 
 		//	break;
 
+		m_Scenes[0]->Update(dt);
 
-		// renderring
 		m_RenderSystem->PreRender();
-
 		m_Scenes[0]->Render(m_RenderSystem);
 
 		m_RenderWindow->SwapBuffers();
-		QThread::sleep(0.01);
 	}
 }
 

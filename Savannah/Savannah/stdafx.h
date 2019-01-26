@@ -3,7 +3,9 @@
 #include "glew.h"
 #include "assert.h"
 
-typedef	unsigned int uint;
+typedef	unsigned int		uint;
+typedef	unsigned __int64	u64;
+
 
 #define GL_CHECK_ERRORS assert(glGetError() == GL_NO_ERROR);
 
@@ -17,6 +19,9 @@ typedef	unsigned int uint;
 #if	!defined(__COUNTER__)
 #	define	__COUNTER__		__LINE__
 #endif
+
+#define MAX(a, b) a > b ? a : b;
+#define MIN(a, b) a < b ? a : b;
 
 #define PI 3.14159265359f
 
@@ -38,5 +43,4 @@ typedef	unsigned int uint;
 //#endif
 //
 //#include <vld.h>
-
 

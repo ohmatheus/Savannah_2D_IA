@@ -23,6 +23,7 @@ SimpleEntity::~SimpleEntity()
 void		SimpleEntity::Update(float dt)
 {
 	// ???
+	m_Yaw += dt * 10.f;
 }
 
 //----------------------------------------------------------

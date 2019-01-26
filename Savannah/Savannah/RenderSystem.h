@@ -21,7 +21,6 @@ public:
 	Game		*GetGame() { return m_Game; }
 
 	void		PreRender();
-	void		Render(Scene *scene);
 
 	bool		RegisterShader(std::string const &shaderName, GLShader *shader);
 	bool		RegisterMesh(std::string const &meshName, MeshData *mesh);
