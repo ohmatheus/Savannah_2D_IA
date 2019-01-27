@@ -1,5 +1,8 @@
 #pragma once
 
+#include <QEvent> // god..
+#include <vector>
+
 //----------------------------------------------------------
 
 struct SRenderWindowData
@@ -29,9 +32,11 @@ public:
 	virtual void		Initialize() = 0;
 	virtual void		SwapRenderData(SRenderWindowData *&outRenderData) = 0;
 	virtual void		MakeCurrent() = 0;
+	virtual void		SwapEvents(std::vector<QEvent> *&outEvents) = 0;
 
 protected:
 	QMutex				m_WindowLock; // temp from Qt
+	QMutex				m_EventLock; // temp from Qt
 
 };
 

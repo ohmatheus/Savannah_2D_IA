@@ -59,7 +59,6 @@ void 	QRenderViewport::resizeEvent(QResizeEvent *event)
 
 bool		QRenderViewport::event(QEvent *ev)
 {
-	int i = 0;
 	return Super::event(ev);
 }
 

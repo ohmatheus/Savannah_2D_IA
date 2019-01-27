@@ -20,6 +20,8 @@ QRenderWindow::QRenderWindow()
 ,	m_RenderWindowData_UIThread(nullptr)
 {
 	m_RenderWindowData_UIThread = new SRenderWindowData;
+	m_EventsToSend = new std::vector<QEvent>;
+	m_EventsToSend->reserve(1000);
 }
 
 //----------------------------------------------------------
@@ -32,6 +34,8 @@ QRenderWindow::~QRenderWindow()
 		delete m_Context;
 	if (m_RenderWindowData_UIThread != nullptr)
 		delete m_RenderWindowData_UIThread;
+
+	delete m_EventsToSend;
 }
 
 //----------------------------------------------------------
@@ -89,6 +93,20 @@ void	QRenderWindow::SwapRenderData(SRenderWindowData *&outRenderData)
 
 //----------------------------------------------------------
 
+void	QRenderWindow::SwapEvents(std::vector<QEvent> *&outEvents)
+{
+	if (!m_EventsToSend->empty())
+	{
+		SCOPEDLOCK(m_EventLock);
+		//assert(outEvents->empty());
+		std::vector<QEvent> *temp = m_EventsToSend;
+		outEvents = m_EventsToSend;
+		m_EventsToSend = temp;
+	}
+}
+
+//----------------------------------------------------------
+
 void	QRenderWindow::MakeCurrent()
 {
 	if (!m_Context->makeCurrent(this))
@@ -119,8 +137,11 @@ void	QRenderWindow::SwapBuffers()
 // send events directly to game, and do nothing
 bool	QRenderWindow::event(QEvent *ev)
 {
-	if (m_Game != nullptr)
-		m_Game->AddEvent(ev);
+	Super::event(ev);
+	{
+		SCOPEDLOCK(m_EventLock);
+		m_EventsToSend->push_back(QEvent(*ev));
+	}
 	return false;
 }
 

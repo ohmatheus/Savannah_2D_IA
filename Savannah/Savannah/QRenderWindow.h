@@ -28,7 +28,8 @@ public:
 	virtual void		Initialize() override;
 	virtual void		SwapRenderData(SRenderWindowData *&outRenderData) override;
 	virtual void		MakeCurrent() override;
-		
+	virtual void		SwapEvents(std::vector<QEvent> *&outEvents) override;
+
 	// UI Thread
 	void				SetViewportSize(float x, float y);
 
@@ -43,6 +44,7 @@ private:
 	QSurfaceFormat		*m_SurfaceFormat = nullptr;
 	SRenderWindowData	*m_RenderWindowData_UIThread = nullptr;
 	Game				*m_Game = nullptr;
+	std::vector<QEvent> *m_EventsToSend;
 };
 
 //----------------------------------------------------------

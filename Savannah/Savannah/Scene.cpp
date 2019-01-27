@@ -58,6 +58,14 @@ void		Scene::_PopulateDefaultScene()
 		m_Entities.push_back(entity);
 	}
 	{
+		SimpleEntity *entity = new SimpleEntity("toto");
+		entity->SetColor(glm::vec4(0.f, 1.f, 1.f, 1.f));
+		entity->SetMeshName("Triangle");
+		entity->SetShaderName("DefaultShader");
+		entity->SetPosition(glm::vec3(-2.f, 0.f, 0.f));
+		m_Entities.push_back(entity);
+	}
+	{
 		SimpleEntity *entity = new SimpleEntity("Grid");
 		entity->SetColor(glm::vec4(1.f, 0.f, 1.f, 1.f));
 		entity->SetMeshName("Grid");

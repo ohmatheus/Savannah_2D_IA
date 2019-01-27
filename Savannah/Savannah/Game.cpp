@@ -30,6 +30,9 @@ Game::Game(IGameWindow *renderWindow)
 	m_RenderWindowData = new SRenderWindowData;
 
 	m_ViewProj = glm::mat4(1.f);
+
+	m_Events = new std::vector<QEvent>;
+	m_Events->reserve(1000);
 }
 
 //----------------------------------------------------------
@@ -71,7 +74,10 @@ void	Game::StartAndLoop()
 		if (!continueRunning)
 			break;
 
+		//assert(m_Events->empty());
+		m_RenderWindow->SwapEvents(m_Events);
 		ProcessEvents();
+		assert(m_Events->empty());
 
 		dt = timer.Stop();
 		timer.Start();
@@ -106,37 +112,15 @@ void	Game::StartAndLoop()
 
 //----------------------------------------------------------
 
-void	Game::AddEvent(QEvent *ev)
-{
-	SCOPEDLOCK(m_GameLock);
-	if (ev->type() != QEvent::MouseButtonPress &&
-		ev->type() != QEvent::MouseMove &&
-		ev->type() != QEvent::MouseButtonRelease &&
-		ev->type() != QEvent::Wheel &&
-		ev->type() != QEvent::KeyPress &&
-		ev->type() != QEvent::KeyRelease &&
-		ev->type() != QEvent::MouseButtonPress)
-		return;
-	m_EventPoll.push_back(QEvent(*ev)); // copy
-}
-
-//----------------------------------------------------------
-
 void	Game::ProcessEvents()
 {
-	SCOPEDLOCK(m_GameLock);
+	for (int i = 0; i < m_Events->size(); i++)
+	{
+		QEvent *ev = &(*m_Events)[i];
+		_ProcessEvent(ev);
+	}
 
-	std::cout << "kjhsdkjhsdfkj";
-
-	if (m_EventPoll.empty())
-		return;
-
-	QEvent *ev = &m_EventPoll.front();
-	if (ev == nullptr)
-		return;
-	_ProcessEvent(ev);
-	m_EventPoll.pop_front();
-	//delete ev;
+	m_Events->clear();
 }
 
 //----------------------------------------------------------
@@ -174,14 +158,13 @@ void	Game::_InitRenderSystem()
 	m_Scenes.push_back(scene);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
+	glClearDepth(1.f);
+	glEnable(GL_DEPTH_TEST);
 	glViewport(0, 0, 800, 600); // resize
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	m_RenderWindow->SwapBuffers();
 
-	// init object
 	{
-		//transformModel = glm::rotate(transformModel, glm::radians(90.f), glm::vec3(0.0, 0.0, 1.0));
-
 		m_OrthoMat = glm::ortho(-400.f, 400.0f, -300.f, 300.0f, 0.1f, 100.0f);
 		m_ProjMat = glm::perspective(glm::radians(m_Fov), 800.f / 600.f, 0.1f, 100.0f);
 
@@ -211,19 +194,8 @@ void	Game::_ProcessEvent(QEvent *ev)
 	{
 		QKeyEvent *k = (QKeyEvent *)ev;
 		keyPressEvent(k);
-		//bool res = false;
-		//if (!(k->modifiers() & (Qt::ControlModifier | Qt::AltModifier))) {  //### Add MetaModifier?
-		//	if (k->key() == Qt::Key_Backtab
-		//		|| (k->key() == Qt::Key_Tab && (k->modifiers() & Qt::ShiftModifier)))
-		//		res = focusNextPrevChild(false);
-		//	else if (k->key() == Qt::Key_Tab)
-		//		res = focusNextPrevChild(true);
-		//	if (res)
-		//		break;
-		//}
 		break;
 	}
-
 	case QEvent::KeyRelease:
 		keyReleaseEvent((QKeyEvent*)ev); 
 		break;
@@ -250,7 +222,7 @@ void	Game::keyReleaseEvent(QKeyEvent *ev)
 
 void	Game::mousePressEvent(QMouseEvent *ev)
 {
-	int i = 0;
+
 }
 
 //----------------------------------------------------------

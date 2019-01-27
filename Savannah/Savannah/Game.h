@@ -48,7 +48,6 @@ public:
 	glm::mat4				View() { return m_Camera.GetView(); }
 	glm::mat4				Proj() { return m_ProjMat; }
 
-	void					AddEvent(QEvent *ev);
 	void					ProcessEvents();
 
 protected:
@@ -78,8 +77,7 @@ private:
 	std::vector<Scene*>		m_Scenes;
 	RenderSystem			*m_RenderSystem;
 	IGameWindow				*m_RenderWindow;
-	std::list<QEvent>		m_EventPoll;
-	QMutex					m_GameLock;
+	std::vector<QEvent>		*m_Events;
 };
 
 //----------------------------------------------------------
