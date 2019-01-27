@@ -42,30 +42,28 @@ void		Scene::Render(RenderSystem *renderSystem)
 void		Scene::_PopulateDefaultScene()
 {
 	{
-		SimpleEntity *entity = new SimpleEntity("Red Triangle");
-		entity->SetColor(glm::vec4(1.f, 0.f, 0.f, 1.f));
-		entity->SetMeshName("Triangle");
-		entity->SetShaderName("DefaultShader");
-		entity->SetPosition(glm::vec3(2.f, 0.f, 0.f));
-		m_Entities.push_back(entity);
-	}
-
-	{
-		SimpleEntity *entity = new SimpleEntity("Red Triangle");
-		entity->SetColor(glm::vec4(1.f, 0.f, 0.f, 1.f));
-		entity->SetMeshName("Triangle");
-		entity->SetShaderName("DefaultShader");
-		entity->SetPosition(glm::vec3(-2.f, 0.f, 0.f));
-		m_Entities.push_back(entity);
-	}
-
-	{
 		SimpleEntity *entity = new SimpleEntity("Green Triangle");
 		entity->SetColor(glm::vec4(0.f, 1.f, 0.f, 1.f));
 		entity->SetMeshName("Triangle");
 		entity->SetShaderName("DefaultShader");
 		entity->SetPosition(glm::vec3(0.f, 0.f, 0.f));
-		entity->SetScale(0.2f);
+		m_Entities.push_back(entity);
+	}
+	{
+		SimpleEntity *entity = new SimpleEntity("Plane");
+		entity->SetColor(glm::vec4(0.f, 0.f, 1.f, 1.f));
+		entity->SetMeshName("Rectangle");
+		entity->SetShaderName("DefaultShader");
+		entity->SetPosition(glm::vec3(2.f, 0.f, 0.f));
+		m_Entities.push_back(entity);
+	}
+	{
+		SimpleEntity *entity = new SimpleEntity("Grid");
+		entity->SetColor(glm::vec4(1.f, 0.f, 1.f, 1.f));
+		entity->SetMeshName("Grid");
+		entity->SetShaderName("DefaultShader");
+		entity->SetPosition(glm::vec3(0.f, 0.f, 0.f));
+		entity->SetScale(10.f);
 		m_Entities.push_back(entity);
 	}
 }

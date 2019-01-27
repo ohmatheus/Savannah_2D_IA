@@ -23,7 +23,7 @@ SimpleEntity::~SimpleEntity()
 void		SimpleEntity::Update(float dt)
 {
 	// ???
-	m_Yaw += dt * 50.f;
+	//m_Yaw += dt * 50.f;
 }
 
 //----------------------------------------------------------
@@ -42,10 +42,9 @@ void		SimpleEntity::Render(RenderSystem *renderSystem)
 	glUniformMatrix4fv(shader->Uniform("model"), 1, GL_FALSE, glm::value_ptr(modelW));
 	glUniformMatrix4fv(shader->Uniform("view"), 1, GL_FALSE, glm::value_ptr(renderSystem->GetGame()->View()));
 	glUniformMatrix4fv(shader->Uniform("proj"), 1, GL_FALSE, glm::value_ptr(renderSystem->GetGame()->Proj()));
-	//glUniform4f(shader->Uniform("uColor"), m_Color.x, m_Color.y, m_Color.z, m_Color.w);
 	glUniform4fv(shader->Uniform("uColor"), 1, glm::value_ptr(m_Color));
 	glBindVertexArray(mesh->VAO());
-	glDrawArrays(mesh->Mode(), 0, 3);
+	glDrawArrays(mesh->Mode(), 0, mesh->VerticesNbr());
 	//shader->Unbind();
 }
 

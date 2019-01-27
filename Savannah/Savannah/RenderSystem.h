@@ -32,6 +32,7 @@ private:
 	void	_InitDefaultShader();
 	void	_Init2DShader();
 	void	_InitTriangleMeshData();
+	void	_GenerateGrid();
 
 	Game								*m_Game;
 	// scumbags resource managers

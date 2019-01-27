@@ -107,18 +107,77 @@ void	RenderSystem::_InitDefaultShader()
 
 void	RenderSystem::_InitTriangleMeshData()
 {
-	MeshData *mesh = new MeshData;
-
-	float vertices[] =
 	{
-		-0.5f,	-0.5f,	0.f,
-		0.5f,	-0.5f,	0.f,
-		0.0f,	0.5f,	0.f
-	};
+		MeshData *mesh = new MeshData;
+		float vertices[] =
+		{
+			-0.5f,	-0.5f,	0.f,
+			0.5f,	-0.5f,	0.f,
+			0.0f,	0.5f,	0.f
+		};
+		mesh->SetVertices(vertices, ARRAY_COUNT(vertices), 3, 3 * sizeof(float), GL_TRIANGLES);
+		RegisterMesh("Triangle", mesh);
+	}
 
-	mesh->SetVertices(vertices, ARRAY_COUNT(vertices) * sizeof(float), 3, 3 * sizeof(float), GL_TRIANGLES);
+	{
+		MeshData *mesh = new MeshData;
+		float vertices[] =
+		{
+			-0.5f,	-0.5f,	0.f,
+			0.5f,	-0.5f,	0.f,
+			-0.5f,	0.5f,	0.f,
+			0.5f,	0.5f,	0.f
+		};
+		mesh->SetVertices(vertices, ARRAY_COUNT(vertices), 3, 3 * sizeof(float), GL_TRIANGLE_STRIP);
+		RegisterMesh("Rectangle", mesh);
+	}
 
-	RegisterMesh("Triangle", mesh);
+	// grid
+	{
+		MeshData *mesh = new MeshData;
+
+		const int	xSubdiv = 100;
+		const int	ySubdiv = 100;
+		const int	verticeNbr = (xSubdiv + 1) * 2 * 2 + (ySubdiv + 1) * 2 * 2; // 2 * 2 vertex per subdiv
+
+		const float top = 0.5f;
+		const float left = -0.5f;
+
+		const uint	offsetForSubdiv = 3 * 2;
+		float		*components = (float*)malloc(verticeNbr * sizeof(float) * 3);
+
+		for (int i = 0; i <= xSubdiv; i++)
+		{
+			double hRatio = lerp(left, -left, double(i) / double(xSubdiv));
+
+			components[offsetForSubdiv * i + 0] = hRatio;	// X1
+			components[offsetForSubdiv * i + 1] = top;		// Y1
+			components[offsetForSubdiv * i + 2] = 0.f;		// Z1
+
+			components[offsetForSubdiv * i + 3] = hRatio;	// X2
+			components[offsetForSubdiv * i + 4] = -top;		// Y2
+			components[offsetForSubdiv * i + 5] = 0.f;		// Z2
+		}
+
+		for (int i = 0; i <= ySubdiv; i++)
+		{
+			double vRatio = lerp(top, -top, double(i) / double(ySubdiv));
+
+			components[offsetForSubdiv * (i + xSubdiv + 1) + 0] = left;		// X1
+			components[offsetForSubdiv * (i + xSubdiv + 1) + 1] = vRatio;	// Y1
+			components[offsetForSubdiv * (i + xSubdiv + 1) + 2] = 0.f;		// Z1
+
+			components[offsetForSubdiv * (i + xSubdiv + 1) + 3] = -left;	// X2
+			components[offsetForSubdiv * (i + xSubdiv + 1) + 4] = vRatio;	// Y2
+			components[offsetForSubdiv * (i + xSubdiv + 1) + 5] = 0.f;		// Z2
+		}
+
+
+		mesh->SetVertices(components, verticeNbr * 3, 3, 3 * sizeof(float), GL_LINES);
+
+		RegisterMesh("Grid", mesh);
+		delete components;
+	}
 }
 
 //----------------------------------------------------------

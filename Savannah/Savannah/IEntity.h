@@ -32,8 +32,8 @@ public:
 	glm::vec3				Scale() { return m_Scale; }
 	glm::vec4				Color() { return m_Color; }
 
-	void					SetShaderName(const std::string &name) { m_ShaderName; }
-	void					SetMeshName(const std::string &name) { m_MeshName; }
+	void					SetShaderName(const std::string &name) { m_ShaderName = name; }
+	void					SetMeshName(const std::string &name) { m_MeshName = name; }
 
 protected:
 	float					m_Yaw;

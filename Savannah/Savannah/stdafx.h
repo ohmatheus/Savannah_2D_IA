@@ -6,7 +6,6 @@
 typedef	unsigned int		uint;
 typedef	unsigned __int64	u64;
 
-
 #define GL_CHECK_ERRORS assert(glGetError() == GL_NO_ERROR);
 
 #define	ARRAY_COUNT(__arr)				(sizeof(__arr) / sizeof((__arr)[0]))
@@ -22,6 +21,18 @@ typedef	unsigned __int64	u64;
 
 #define MAX(a, b) a > b ? a : b;
 #define MIN(a, b) a < b ? a : b;
+
+template<typename _Type>
+_Type	clamp(_Type x, _Type min, _Type max)
+{
+	return x > min ? x < max ? x : max : min;
+}
+
+template<typename _Type, typename _TypeFrac>
+_Type	lerp(const _Type a, const _Type b, const _TypeFrac f)
+{
+	return a + f * (b - a);
+}
 
 #define PI 3.14159265359f
 
