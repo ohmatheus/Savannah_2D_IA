@@ -51,23 +51,24 @@ public:
 	glm::mat4				View() { return m_Camera.GetView(); }
 	glm::mat4				Proj() { return m_ProjMat; }
 
-	void					ProcessEvents();
+	void					ProcessEvents(float dt);
 
 protected:
-	void					keyPressEvent(QKeyEvent *);
-	void					keyReleaseEvent(QKeyEvent *);
-	void					mousePressEvent(QMouseEvent *);
-	void					mouseReleaseEvent(QMouseEvent *);
-	void					mouseDoubleClickEvent(QMouseEvent *);
-	void					mouseMoveEvent(QMouseEvent *);
-	void					wheelEvent(QWheelEvent *);
+	void					KeyPressEvent(QKeyEvent *ev, float dt);
+	void					KeyReleaseEvent(QKeyEvent *ev, float dt);
+	void					MousePressEvent(QMouseEvent *ev, float dt);
+	void					MouseReleaseEvent(QMouseEvent *ev, float dt);
+	void					MouseDoubleClickEvent(QMouseEvent *ev, float dt);
+	void					MouseMoveEvent(QMouseEvent *ev, float dt);
+	void					WheelEvent(QWheelEvent *ev, float dt);
 
 private:
 	void					_ProcessRenderData();
 	void					_Update(float dt);
 	void					_RenderScene();
 	void					_InitRenderSystem();
-	void					_ProcessEvent(QEvent *);
+	void					_ProcessEvent(QEvent *ev, float dt);
+	void					_PostEvent();
 
 	float					m_Fps = 60.f;
 	SRenderWindowData		*m_RenderWindowData;

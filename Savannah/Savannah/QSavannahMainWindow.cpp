@@ -17,6 +17,7 @@
 #include <QtWidgets/QWidget>
 #include <QDockWidget>
 #include <QVBoxLayout>
+#include <QPushButton>
 
 //----------------------------------------------------------
 
@@ -53,16 +54,18 @@ void	QSavannahMainWindow::Setup()
 {
 	setObjectName(QString::fromUtf8("SavannahMainWindow"));
 
-	resize(1600, 800);
+	//resize(1900, 1200);
 	m_MenuBar = new QMenuBar(this);
 	m_MenuBar->setObjectName(QString::fromUtf8("menuBar"));
 	setMenuBar(m_MenuBar);
 	m_MainToolBar = new QToolBar(this);
 	m_MainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
 	addToolBar(m_MainToolBar);
-	m_CentralWidget = new QWidget(this);
-	m_CentralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-	setCentralWidget(m_CentralWidget);
+
+	//m_CentralWidget = new QWidget(this);
+	//m_CentralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+	//setCentralWidget(m_CentralWidget);
+
 	m_StatusBar = new QStatusBar(this);
 	m_StatusBar->setObjectName(QString::fromUtf8("statusBar"));
 	setStatusBar(m_StatusBar);
@@ -129,18 +132,39 @@ void	QSavannahMainWindow::_CreateViewportPanel()
 		layout->addWidget(m_RenderViewport);
 	}
 
-	dockw->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);	// Horizontally greedy: expands if possible
-
-	addDockWidget(Qt::TopDockWidgetArea, dockw);
-
-	// We should create a render system, that's hold all the rendering controll, including threading
+	dockw->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);	// Horizontally greedy: expands if possible
+	dockw->setAllowedAreas(Qt::AllDockWidgetAreas);
+	addDockWidget(Qt::LeftDockWidgetArea, dockw);
 }
 
 //----------------------------------------------------------
 
 void	QSavannahMainWindow::_CreateControlPanel()
 {
+	QDockWidget	*dockw = new QDockWidget(tr("Control"), this);
+	dockw->setObjectName("Control");
 
+	{
+		// m_ViewMenu->addAction(dockw->toggleViewAction());
+		// Here add pause/play button
+
+		auto		*dummy = new QWidget(dockw);
+		dockw->setWidget(dummy);
+
+		auto		*layout = new QVBoxLayout(dummy);
+		layout->setSpacing(0);
+		layout->setContentsMargins(0, 0, 0, 0);
+
+		dummy->setMaximumSize(QSize(400, 1000));
+
+
+		QPushButton *test = new QPushButton(this);
+		layout->addWidget(test);
+	}
+	dockw->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);	// Horizontally greedy: expands if possible
+	dockw->setAllowedAreas(Qt::RightDockWidgetArea);
+
+	addDockWidget(Qt::RightDockWidgetArea, dockw);
 }
 
 //----------------------------------------------------------

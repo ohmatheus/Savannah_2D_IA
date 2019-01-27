@@ -74,10 +74,7 @@ void	Game::StartAndLoop()
 		if (!continueRunning)
 			break;
 
-		//assert(m_Events->empty());
-		m_RenderWindow->SwapEvents(m_Events);
-		ProcessEvents();
-		assert(m_Events->empty());
+
 
 		dt = timer.Stop();
 		timer.Start();
@@ -93,6 +90,11 @@ void	Game::StartAndLoop()
 			if (timeToWait > 0.f)
 				QThread::msleep(uint(timeToWait));
 		}
+
+		m_RenderWindow->SwapEvents(m_Events);
+		ProcessEvents(dt);
+		assert(m_Events->empty());
+		_PostEvent();
 
 		m_RenderWindow->SwapRenderData(m_RenderWindowData);
 		m_RenderWindow->MakeCurrent();
@@ -113,12 +115,12 @@ void	Game::StartAndLoop()
 
 //----------------------------------------------------------
 
-void	Game::ProcessEvents()
+void	Game::ProcessEvents(float dt)
 {
 	for (int i = 0; i < m_Events->size(); i++)
 	{
 		QEvent *ev = (*m_Events)[i];
-		_ProcessEvent(ev);
+		_ProcessEvent(ev, dt);
 	}
 
 	m_Events->clear();
@@ -141,6 +143,16 @@ void	Game::_ProcessRenderData()
 
 		m_RenderWindowData->m_Dirty = false;
 	}
+}
+
+//----------------------------------------------------------
+
+void	Game::_PostEvent()
+{
+	if (m_Camera.m_Position.z < -8.f)
+		m_Camera.m_Position.z = -8.f;
+	if (m_Camera.m_Position.z > -1.f)
+		m_Camera.m_Position.z = -1.f;
 }
 
 //----------------------------------------------------------
@@ -175,30 +187,30 @@ void	Game::_InitRenderSystem()
 
 //----------------------------------------------------------
 
-void	Game::_ProcessEvent(QEvent *ev)
+void	Game::_ProcessEvent(QEvent *ev, float dt)
 {
 	switch (ev->type())
 	{
 	case QEvent::MouseMove:
-		mouseMoveEvent((QMouseEvent*)ev);
+		MouseMoveEvent((QMouseEvent*)ev, dt);
 		break;
 	case QEvent::MouseButtonPress:
-		mousePressEvent((QMouseEvent*)ev);
+		MousePressEvent((QMouseEvent*)ev, dt);
 		break;
 	case QEvent::MouseButtonRelease:
-		mouseReleaseEvent((QMouseEvent*)ev);
+		MouseReleaseEvent((QMouseEvent*)ev, dt);
 		break;
 	case QEvent::Wheel:
-		wheelEvent((QWheelEvent*)ev);
+		WheelEvent((QWheelEvent*)ev, dt);
 		break;
 	case QEvent::KeyPress:
 	{
 		QKeyEvent *k = (QKeyEvent *)ev;
-		keyPressEvent(k);
+		KeyPressEvent(k, dt);
 		break;
 	}
 	case QEvent::KeyRelease:
-		keyReleaseEvent((QKeyEvent*)ev); 
+		KeyReleaseEvent((QKeyEvent*)ev, dt);
 		break;
 
 	default: break;
@@ -207,7 +219,7 @@ void	Game::_ProcessEvent(QEvent *ev)
 
 //----------------------------------------------------------
 
-void	Game::keyPressEvent(QKeyEvent *ev)
+void	Game::KeyPressEvent(QKeyEvent *ev, float dt)
 {
 	if (ev->key() == Qt::Key_Space)
 		m_Paused = !m_Paused;
@@ -215,44 +227,47 @@ void	Game::keyPressEvent(QKeyEvent *ev)
 
 //----------------------------------------------------------
 
-void	Game::keyReleaseEvent(QKeyEvent *ev)
+void	Game::KeyReleaseEvent(QKeyEvent *ev, float dt)
 {
 
 }
 
 //----------------------------------------------------------
 
-void	Game::mousePressEvent(QMouseEvent *ev)
+void	Game::MousePressEvent(QMouseEvent *ev, float dt)
 {
 
 }
 
 //----------------------------------------------------------
 
-void	Game::mouseReleaseEvent(QMouseEvent *ev)
+void	Game::MouseReleaseEvent(QMouseEvent *ev, float dt)
 {
 
 }
 
 //----------------------------------------------------------
 
-void	Game::mouseDoubleClickEvent(QMouseEvent *ev)
+void	Game::MouseDoubleClickEvent(QMouseEvent *ev, float dt)
 {
 
 }
 
 //----------------------------------------------------------
 
-void	Game::mouseMoveEvent(QMouseEvent *ev)
+void	Game::MouseMoveEvent(QMouseEvent *ev, float dt)
 {
 
 }
 
 //----------------------------------------------------------
 
-void	Game::wheelEvent(QWheelEvent *)
+void	Game::WheelEvent(QWheelEvent *ev, float dt)
 {
-
+	QPoint	pt = ev->angleDelta();
+	const int	degrees = pt.y() / 8;
+	const int	steps = degrees / 15;
+	m_Camera.m_Position += glm::vec3(0.f, 0.f, 5.f) * dt * float(steps);
 }
 
 //----------------------------------------------------------
