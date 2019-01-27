@@ -11,6 +11,9 @@
 
 #include <QCoreApplication>
 #include <QOpenGLContext>
+#include <QKeyEvent>
+#include <QWheelEvent>
+#include <QWheelEvent>
 
 //----------------------------------------------------------
 
@@ -20,7 +23,7 @@ QRenderWindow::QRenderWindow()
 ,	m_RenderWindowData_UIThread(nullptr)
 {
 	m_RenderWindowData_UIThread = new SRenderWindowData;
-	m_EventsToSend = new std::vector<QEvent>;
+	m_EventsToSend = new std::vector<QEvent*>;
 	m_EventsToSend->reserve(1000);
 }
 
@@ -93,13 +96,13 @@ void	QRenderWindow::SwapRenderData(SRenderWindowData *&outRenderData)
 
 //----------------------------------------------------------
 
-void	QRenderWindow::SwapEvents(std::vector<QEvent> *&outEvents)
+void	QRenderWindow::SwapEvents(std::vector<QEvent*> *&outEvents)
 {
 	if (!m_EventsToSend->empty())
 	{
 		SCOPEDLOCK(m_EventLock);
 		//assert(outEvents->empty());
-		std::vector<QEvent> *temp = m_EventsToSend;
+		std::vector<QEvent*> *temp = m_EventsToSend;
 		outEvents = m_EventsToSend;
 		m_EventsToSend = temp;
 	}
@@ -134,15 +137,79 @@ void	QRenderWindow::SwapBuffers()
 
 //----------------------------------------------------------
 
-// send events directly to game, and do nothing
-bool	QRenderWindow::event(QEvent *ev)
+void	QRenderWindow::keyPressEvent(QKeyEvent *ev)
 {
-	Super::event(ev);
+	Super::keyPressEvent(ev);
 	{
 		SCOPEDLOCK(m_EventLock);
-		m_EventsToSend->push_back(QEvent(*ev));
+		m_EventsToSend->push_back(new QKeyEvent(*ev));
 	}
-	return false;
+}
+
+//----------------------------------------------------------
+
+void	QRenderWindow::keyReleaseEvent(QKeyEvent *ev)
+{
+	Super::keyReleaseEvent(ev);
+	{
+		SCOPEDLOCK(m_EventLock);
+		m_EventsToSend->push_back(new QKeyEvent(*ev));
+	}
+}
+
+//----------------------------------------------------------
+
+void	QRenderWindow::mousePressEvent(QMouseEvent *ev)
+{
+	Super::mousePressEvent(ev);
+	{
+		SCOPEDLOCK(m_EventLock);
+		m_EventsToSend->push_back(new QMouseEvent(*ev));
+	}
+}
+
+//----------------------------------------------------------
+
+void	QRenderWindow::mouseReleaseEvent(QMouseEvent *ev)
+{
+	Super::mouseReleaseEvent(ev);
+	{
+		SCOPEDLOCK(m_EventLock);
+		m_EventsToSend->push_back(new QMouseEvent(*ev));
+	}
+}
+
+//----------------------------------------------------------
+
+void	QRenderWindow::mouseDoubleClickEvent(QMouseEvent *ev)
+{
+	Super::mouseDoubleClickEvent(ev);
+	{
+		SCOPEDLOCK(m_EventLock);
+		m_EventsToSend->push_back(new QMouseEvent(*ev));
+	}
+}
+
+//----------------------------------------------------------
+
+void	QRenderWindow::mouseMoveEvent(QMouseEvent *ev)
+{
+	Super::mouseMoveEvent(ev);
+	{
+		SCOPEDLOCK(m_EventLock);
+		m_EventsToSend->push_back(new QMouseEvent(*ev));
+	}
+}
+
+//----------------------------------------------------------
+
+void	QRenderWindow::wheelEvent(QWheelEvent *ev)
+{
+	Super::wheelEvent(ev);
+	{
+		SCOPEDLOCK(m_EventLock);
+		m_EventsToSend->push_back(new QWheelEvent(*ev));
+	}
 }
 
 //----------------------------------------------------------

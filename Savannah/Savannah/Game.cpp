@@ -31,7 +31,7 @@ Game::Game(IGameWindow *renderWindow)
 
 	m_ViewProj = glm::mat4(1.f);
 
-	m_Events = new std::vector<QEvent>;
+	m_Events = new std::vector<QEvent*>;
 	m_Events->reserve(1000);
 }
 
@@ -101,7 +101,8 @@ void	Game::StartAndLoop()
 		//if (!m_RenderWindowData->m_ContinueRunning); 
 		//	break;
 
-		m_Scenes[0]->Update(dt);
+		if (!m_Paused)
+			m_Scenes[0]->Update(dt * m_SimulationSpeed);
 
 		m_RenderSystem->PreRender();
 		m_Scenes[0]->Render(m_RenderSystem);
@@ -116,7 +117,7 @@ void	Game::ProcessEvents()
 {
 	for (int i = 0; i < m_Events->size(); i++)
 	{
-		QEvent *ev = &(*m_Events)[i];
+		QEvent *ev = (*m_Events)[i];
 		_ProcessEvent(ev);
 	}
 
@@ -208,7 +209,8 @@ void	Game::_ProcessEvent(QEvent *ev)
 
 void	Game::keyPressEvent(QKeyEvent *ev)
 {
-
+	if (ev->key() == Qt::Key_Space)
+		m_Paused = !m_Paused;
 }
 
 //----------------------------------------------------------

@@ -18,10 +18,13 @@ class	QWheelEvent;
 
 //----------------------------------------------------------
 
-struct	SCamera
+struct	SCamera // will have to be an entity
 {
 	glm::vec3	m_Position = glm::vec3(0.f, 0.f, -2.f);
 	glm::vec3	m_Rotation = glm::vec3(0.f);
+
+	//glm::vec3	m_Forward = glm::vec3(0.0f, 0.0f, -1.0f);
+	//glm::vec3	m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	glm::mat4	GetView()
 	{
@@ -73,11 +76,13 @@ private:
 	glm::mat4				m_ProjMat;
 	SCamera					m_Camera;
 	float					m_Fov = 45.f;
+	float					m_SimulationSpeed = 1.f;
+	bool					m_Paused = false;
 
 	std::vector<Scene*>		m_Scenes;
 	RenderSystem			*m_RenderSystem;
 	IGameWindow				*m_RenderWindow;
-	std::vector<QEvent>		*m_Events;
+	std::vector<QEvent*>	*m_Events;
 };
 
 //----------------------------------------------------------
