@@ -75,6 +75,7 @@ void	QSavannahMainWindow::Setup()
 	_CreateViewportPanel();
 
 	m_Game = new Game(m_RenderWindow);
+	m_RenderWindow->SetGame(m_Game);
 }
 
 //----------------------------------------------------------

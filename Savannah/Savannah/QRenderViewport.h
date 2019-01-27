@@ -23,6 +23,7 @@ public:
 
 protected:
 	virtual void 		resizeEvent(QResizeEvent *event) override;
+	virtual bool		event(QEvent *ev) override;
 
 private:
 	QRenderWindow		*m_InternalWindow;

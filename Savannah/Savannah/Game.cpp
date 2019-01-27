@@ -15,6 +15,8 @@
 #include <QWidget> // temp
 #include <QThread> // temp
 #include <QTimer> // temp
+#include <QEvent> // temp
+#include <QKeyEvent> // temp
 
 #include <iostream>
 
@@ -69,7 +71,8 @@ void	Game::StartAndLoop()
 		if (!continueRunning)
 			break;
 
-		
+		ProcessEvents();
+
 		dt = timer.Stop();
 		timer.Start();
 		// fix framerate (not very precise tho... but good enough)
@@ -103,6 +106,41 @@ void	Game::StartAndLoop()
 
 //----------------------------------------------------------
 
+void	Game::AddEvent(QEvent *ev)
+{
+	SCOPEDLOCK(m_GameLock);
+	if (ev->type() != QEvent::MouseButtonPress &&
+		ev->type() != QEvent::MouseMove &&
+		ev->type() != QEvent::MouseButtonRelease &&
+		ev->type() != QEvent::Wheel &&
+		ev->type() != QEvent::KeyPress &&
+		ev->type() != QEvent::KeyRelease &&
+		ev->type() != QEvent::MouseButtonPress)
+		return;
+	m_EventPoll.push_back(QEvent(*ev)); // copy
+}
+
+//----------------------------------------------------------
+
+void	Game::ProcessEvents()
+{
+	SCOPEDLOCK(m_GameLock);
+
+	std::cout << "kjhsdkjhsdfkj";
+
+	if (m_EventPoll.empty())
+		return;
+
+	QEvent *ev = &m_EventPoll.front();
+	if (ev == nullptr)
+		return;
+	_ProcessEvent(ev);
+	m_EventPoll.pop_front();
+	//delete ev;
+}
+
+//----------------------------------------------------------
+
 void	Game::_ProcessRenderData()
 {
 	assert(m_RenderWindowData != nullptr);
@@ -110,7 +148,7 @@ void	Game::_ProcessRenderData()
 	{
 		glViewport(0, 0, m_RenderWindowData->m_X, m_RenderWindowData->m_Y);
 
-		m_OrthoMat = glm::ortho(-1.f, 1.0f, -1.f, 1.0f, 0.1f, 100.0f); // fucked
+		m_OrthoMat = glm::ortho(-1.f, 1.0f, -1.f, 1.0f, 0.1f, 100.0f);
 		m_ProjMat = glm::perspective(glm::radians(m_Fov), m_RenderWindowData->m_X / m_RenderWindowData->m_Y, 0.1f, 100.0f);
 
 		// VClip = proj * view * model * local
@@ -149,6 +187,98 @@ void	Game::_InitRenderSystem()
 
 		m_ViewProj = m_ProjMat * m_Camera.GetView();
 	}
+}
+
+//----------------------------------------------------------
+
+void	Game::_ProcessEvent(QEvent *ev)
+{
+	switch (ev->type())
+	{
+	case QEvent::MouseMove:
+		mouseMoveEvent((QMouseEvent*)ev);
+		break;
+	case QEvent::MouseButtonPress:
+		mousePressEvent((QMouseEvent*)ev);
+		break;
+	case QEvent::MouseButtonRelease:
+		mouseReleaseEvent((QMouseEvent*)ev);
+		break;
+	case QEvent::Wheel:
+		wheelEvent((QWheelEvent*)ev);
+		break;
+	case QEvent::KeyPress:
+	{
+		QKeyEvent *k = (QKeyEvent *)ev;
+		keyPressEvent(k);
+		//bool res = false;
+		//if (!(k->modifiers() & (Qt::ControlModifier | Qt::AltModifier))) {  //### Add MetaModifier?
+		//	if (k->key() == Qt::Key_Backtab
+		//		|| (k->key() == Qt::Key_Tab && (k->modifiers() & Qt::ShiftModifier)))
+		//		res = focusNextPrevChild(false);
+		//	else if (k->key() == Qt::Key_Tab)
+		//		res = focusNextPrevChild(true);
+		//	if (res)
+		//		break;
+		//}
+		break;
+	}
+
+	case QEvent::KeyRelease:
+		keyReleaseEvent((QKeyEvent*)ev); 
+		break;
+
+	default: break;
+	}
+}
+
+//----------------------------------------------------------
+
+void	Game::keyPressEvent(QKeyEvent *ev)
+{
+
+}
+
+//----------------------------------------------------------
+
+void	Game::keyReleaseEvent(QKeyEvent *ev)
+{
+
+}
+
+//----------------------------------------------------------
+
+void	Game::mousePressEvent(QMouseEvent *ev)
+{
+	int i = 0;
+}
+
+//----------------------------------------------------------
+
+void	Game::mouseReleaseEvent(QMouseEvent *ev)
+{
+
+}
+
+//----------------------------------------------------------
+
+void	Game::mouseDoubleClickEvent(QMouseEvent *ev)
+{
+
+}
+
+//----------------------------------------------------------
+
+void	Game::mouseMoveEvent(QMouseEvent *ev)
+{
+
+}
+
+//----------------------------------------------------------
+
+void	Game::wheelEvent(QWheelEvent *)
+{
+
 }
 
 //----------------------------------------------------------

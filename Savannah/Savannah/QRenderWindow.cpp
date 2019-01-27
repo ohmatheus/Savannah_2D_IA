@@ -5,6 +5,8 @@
 
 #include "GLShader.h"
 
+#include "Game.h"
+
 #include <iostream>
 
 #include <QCoreApplication>
@@ -110,6 +112,16 @@ void	QRenderWindow::SetViewportSize(float x, float y)
 void	QRenderWindow::SwapBuffers()
 {
 	m_Context->swapBuffers(this);
+}
+
+//----------------------------------------------------------
+
+// send events directly to game, and do nothing
+bool	QRenderWindow::event(QEvent *ev)
+{
+	if (m_Game != nullptr)
+		m_Game->AddEvent(ev);
+	return false;
 }
 
 //----------------------------------------------------------

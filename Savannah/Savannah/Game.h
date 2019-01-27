@@ -11,6 +11,10 @@ class	Scene;
 class	RenderSystem;
 class	SRenderWindowData;
 class	IGameWindow;
+class	QEvent;
+class	QMouseEvent;
+class	QKeyEvent;
+class	QWheelEvent;
 
 //----------------------------------------------------------
 
@@ -44,11 +48,24 @@ public:
 	glm::mat4				View() { return m_Camera.GetView(); }
 	glm::mat4				Proj() { return m_ProjMat; }
 
+	void					AddEvent(QEvent *ev);
+	void					ProcessEvents();
+
+protected:
+	void					keyPressEvent(QKeyEvent *);
+	void					keyReleaseEvent(QKeyEvent *);
+	void					mousePressEvent(QMouseEvent *);
+	void					mouseReleaseEvent(QMouseEvent *);
+	void					mouseDoubleClickEvent(QMouseEvent *);
+	void					mouseMoveEvent(QMouseEvent *);
+	void					wheelEvent(QWheelEvent *);
+
 private:
 	void					_ProcessRenderData();
 	void					_Update(float dt);
 	void					_RenderScene();
 	void					_InitRenderSystem();
+	void					_ProcessEvent(QEvent *);
 
 	float					m_Fps = 60.f;
 	SRenderWindowData		*m_RenderWindowData;
@@ -56,11 +73,13 @@ private:
 	glm::mat4				m_OrthoMat;
 	glm::mat4				m_ProjMat;
 	SCamera					m_Camera;
-	float					m_Fov = 90.f;
+	float					m_Fov = 45.f;
 
 	std::vector<Scene*>		m_Scenes;
 	RenderSystem			*m_RenderSystem;
 	IGameWindow				*m_RenderWindow;
+	std::list<QEvent>		m_EventPoll;
+	QMutex					m_GameLock;
 };
 
 //----------------------------------------------------------

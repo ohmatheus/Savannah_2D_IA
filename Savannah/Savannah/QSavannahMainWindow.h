@@ -21,7 +21,6 @@ public:
 
 	virtual ~QSavannahMainWindow();
 
-
 	void				Setup();
 	void				StartGameThread();
 
