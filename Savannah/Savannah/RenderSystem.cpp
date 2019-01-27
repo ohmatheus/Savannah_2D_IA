@@ -65,10 +65,13 @@ void	RenderSystem::_InitDefaultShader()
 		"#version 410 core												\n"
 		"layout(location = 0) in vec3 aPos;								\n"
 		"uniform mat4 viewProj;											\n"
-		"uniform mat4 modelTransform;									\n"
+		"uniform mat4 model;											\n"
+		"uniform mat4 view;												\n"
+		"uniform mat4 proj;												\n"
 		"void main()													\n"
 		"{																\n"
-		"	gl_Position = viewProj * modelTransform * vec4(aPos, 1.0f);	\n"
+		//"	gl_Position = view * model * vec4(aPos, 1.0f);		\n"
+		"	gl_Position = proj * view * model * vec4(aPos, 1.0f);		\n"
 		"}																\n"
 		;
 
@@ -88,8 +91,9 @@ void	RenderSystem::_InitDefaultShader()
 	shader->Bind();
 	{
 		shader->AddUniform("uColor");
-		shader->AddUniform("modelTransform");
-		shader->AddUniform("viewProj");
+		shader->AddUniform("model");
+		shader->AddUniform("view");
+		shader->AddUniform("proj");
 	}
 	shader->Unbind();
 
@@ -107,9 +111,9 @@ void	RenderSystem::_InitTriangleMeshData()
 
 	float vertices[] =
 	{
-		-0.5f,	-0.5f,	-2.5f,
-		0.5f,	-0.5f,	-2.5f,
-		0.0f,	0.5f,	-2.5f
+		-0.5f,	-0.5f,	0.f,
+		0.5f,	-0.5f,	0.f,
+		0.0f,	0.5f,	0.f
 	};
 
 	mesh->SetVertices(vertices, ARRAY_COUNT(vertices) * sizeof(float), 3, 3 * sizeof(float), GL_TRIANGLES);

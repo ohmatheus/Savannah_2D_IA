@@ -111,10 +111,10 @@ void	Game::_ProcessRenderData()
 		glViewport(0, 0, m_RenderWindowData->m_X, m_RenderWindowData->m_Y);
 
 		m_OrthoMat = glm::ortho(-1.f, 1.0f, -1.f, 1.0f, 0.1f, 100.0f); // fucked
-		m_ProjMat = glm::perspective(glm::radians(45.0f), m_RenderWindowData->m_X / m_RenderWindowData->m_Y, 0.1f, 100.0f);
+		m_ProjMat = glm::perspective(glm::radians(m_Fov), m_RenderWindowData->m_X / m_RenderWindowData->m_Y, 0.1f, 100.0f);
 
 		// VClip = proj * view * model * local
-		m_ViewProj = m_ProjMat * m_Camera.GetView();
+		m_ViewProj = m_Camera.GetView() * m_ProjMat;
 
 		m_RenderWindowData->m_Dirty = false;
 	}
@@ -145,7 +145,7 @@ void	Game::_InitRenderSystem()
 		//transformModel = glm::rotate(transformModel, glm::radians(90.f), glm::vec3(0.0, 0.0, 1.0));
 
 		m_OrthoMat = glm::ortho(-400.f, 400.0f, -300.f, 300.0f, 0.1f, 100.0f);
-		m_ProjMat = glm::perspective(glm::radians(45.0f), 800.f / 600.f, 0.1f, 100.0f);
+		m_ProjMat = glm::perspective(glm::radians(m_Fov), 800.f / 600.f, 0.1f, 100.0f);
 
 		m_ViewProj = m_ProjMat * m_Camera.GetView();
 	}

@@ -58,6 +58,16 @@ void		Scene::_PopulateDefaultScene()
 		entity->SetPosition(glm::vec3(-2.f, 0.f, 0.f));
 		m_Entities.push_back(entity);
 	}
+
+	{
+		SimpleEntity *entity = new SimpleEntity("Green Triangle");
+		entity->SetColor(glm::vec4(0.f, 1.f, 0.f, 1.f));
+		entity->SetMeshName("Triangle");
+		entity->SetShaderName("DefaultShader");
+		entity->SetPosition(glm::vec3(0.f, 0.f, 0.f));
+		entity->SetScale(0.2f);
+		m_Entities.push_back(entity);
+	}
 }
 
 //----------------------------------------------------------

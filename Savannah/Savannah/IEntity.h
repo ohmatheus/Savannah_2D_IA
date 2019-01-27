@@ -24,6 +24,7 @@ public:
 	void					SetPosition(const glm::vec3 &position) { m_Position = position; }
 	void					SetRotation(const glm::vec3 &rotation) { m_Rotation = rotation; }
 	void					SetScale(const glm::vec3 &scale) { m_Scale = scale; }
+	void					SetScale(float globalScale) { SetScale(glm::vec3(globalScale)); }
 	void					SetColor(const glm::vec4 &color) { m_Color = color; }
 
 	glm::vec3				Position() { return m_Position; }
