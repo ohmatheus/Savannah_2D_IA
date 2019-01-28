@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-#include "Scene.h"
+#include "IScene.h"
 #include "IEntity.h"
 #include "SimpleEntity.h"
 
 //----------------------------------------------------------
 
-Scene::Scene()
+IScene::IScene()
 {
 	// scene name
 	_PopulateDefaultScene();
@@ -14,7 +14,7 @@ Scene::Scene()
 
 //----------------------------------------------------------
 
-Scene::~Scene()
+IScene::~IScene()
 {
 	for (int i = 0; i < m_Entities.size(); ++i)
 		delete m_Entities[i];
@@ -23,7 +23,7 @@ Scene::~Scene()
 
 //----------------------------------------------------------
 
-void		Scene::Update(float dt)
+void		IScene::Update(float dt)
 {
 	for (int i = 0; i < m_Entities.size(); ++i)
 		m_Entities[i]->Update(dt);
@@ -31,7 +31,7 @@ void		Scene::Update(float dt)
 
 //----------------------------------------------------------
 
-void		Scene::Render(RenderSystem *renderSystem)
+void		IScene::Render(RenderSystem *renderSystem)
 {
 	for (int i = 0; i < m_Entities.size(); ++i)
 		m_Entities[i]->Render(renderSystem);
@@ -39,7 +39,7 @@ void		Scene::Render(RenderSystem *renderSystem)
 
 //----------------------------------------------------------
 
-void		Scene::_PopulateDefaultScene()
+void		IScene::_PopulateDefaultScene()
 {
 	{
 		SimpleEntity *entity = new SimpleEntity("Green Triangle");
@@ -64,15 +64,6 @@ void		Scene::_PopulateDefaultScene()
 		m_Entities.push_back(entity);
 	}
 	{
-		SimpleEntity *entity = new SimpleEntity("Grid");
-		entity->SetColor(glm::vec4(1.f, 0.f, 1.f, 1.f));
-		entity->SetMeshName("Grid");
-		entity->SetShaderName("DefaultShader");
-		entity->SetPosition(glm::vec3(2.f, 0.f, 0.f));
-		//entity->SetScale(10.f);
-		m_Entities.push_back(entity);
-
-		entity->AddChild(planeTest);
 	}
 }
 

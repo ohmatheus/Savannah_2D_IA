@@ -2,12 +2,12 @@
 
 #include <QObject>
 
-//	Inherits here from qobejct just because of event, no time to implement my own event system and translate it from Qt
-//	So this little hack of copying the viewport event and passing to the game thread is the best i found regarding time/efficiency.
+//	Inherits here from qobejct just because of events, no time to implement my own event system and translate it from Qt
+//	So this little hack of copying the window events and passing to the game thread is the best i found regarding time/efficiency.
 
 //----------------------------------------------------------
 
-class	Scene;
+class	IScene;
 class	RenderSystem;
 class	SRenderWindowData;
 class	IGameWindow;
@@ -50,6 +50,7 @@ public:
 	void					StartScene();
 	glm::mat4				View() { return m_Camera.GetView(); }
 	glm::mat4				Proj() { return m_ProjMat; }
+	RenderSystem			*GetRenderSystem() { return m_RenderSystem; }
 
 	void					ProcessEvents(float dt);
 
@@ -80,7 +81,7 @@ private:
 	float					m_SimulationSpeed = 1.f;
 	bool					m_Paused = false;
 
-	std::vector<Scene*>		m_Scenes;
+	std::vector<IScene*>	m_Scenes;
 	RenderSystem			*m_RenderSystem;
 	IGameWindow				*m_RenderWindow;
 	std::vector<QEvent*>	*m_Events;

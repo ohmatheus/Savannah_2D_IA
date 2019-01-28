@@ -9,14 +9,11 @@ class	RenderSystem;
 
 //----------------------------------------------------------
 
-class Scene
+class IScene
 {
-
 public:
-	Scene();
-	virtual ~Scene();
-
-	// add copy construct
+	IScene();
+	virtual ~IScene();
 
 	virtual void		Update(float dt);
 	virtual void		Render(RenderSystem *renderSystem);

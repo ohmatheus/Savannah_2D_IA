@@ -28,6 +28,8 @@ public:
 	GLShader	*GetShader(const std::string &name) { return m_ShaderBank[name]; }
 	MeshData	*GetMesh(const std::string &name) { return m_MeshBank[name]; }
 
+	std::string	GenrateGridMesh(float halfSize, int xSubdiv, int ySubdiv);
+
 private:
 	void	_InitDefaultShader();
 	void	_Init2DShader();

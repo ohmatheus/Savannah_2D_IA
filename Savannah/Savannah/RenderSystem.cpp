@@ -6,6 +6,8 @@
 #include "GLShader.h"
 #include "MeshData.h"
 
+#include <sstream>
+
 //----------------------------------------------------------
 
 RenderSystem::RenderSystem(Game *game)
@@ -131,52 +133,64 @@ void	RenderSystem::_InitTriangleMeshData()
 		mesh->SetVertices(vertices, ARRAY_COUNT(vertices), 3, 3 * sizeof(float), GL_TRIANGLE_STRIP);
 		RegisterMesh("Rectangle", mesh);
 	}
+}
 
-	// grid
+//----------------------------------------------------------
+
+std::string	RenderSystem::GenrateGridMesh(float halfSize, int xSubdiv, int ySubdiv)
+{
+	MeshData *mesh = new MeshData;
+
+	const std::string	halfSizeStr = std::to_string(halfSize);
+	const std::string	xSubdivStr = std::to_string(xSubdiv);
+	const std::string	ySubdivStr = std::to_string(ySubdiv);
+
+	std::stringstream	stream;
+	stream << "Grid_" << halfSizeStr << "_" + xSubdivStr + "_" + ySubdivStr;
+	const std::string	meshName = stream.str();
+
+	if (m_MeshBank[meshName] != nullptr)
+		return meshName;
+
+	const int			verticeNbr = (xSubdiv + 1) * 2 * 2 + (ySubdiv + 1) * 2 * 2; // 2 * 2 vertex per subdiv
+
+	const float			top = halfSize;
+	const float			left = -halfSize;
+
+	const uint			offsetForSubdiv = 3 * 2;
+	float				*components = (float*)malloc(verticeNbr * sizeof(float) * 3);
+
+	for (int i = 0; i <= xSubdiv; i++)
 	{
-		MeshData *mesh = new MeshData;
+		double	hRatio = lerp(left, -left, double(i) / double(xSubdiv));
 
-		const int	xSubdiv = 100;
-		const int	ySubdiv = 100;
-		const int	verticeNbr = (xSubdiv + 1) * 2 * 2 + (ySubdiv + 1) * 2 * 2; // 2 * 2 vertex per subdiv
+		components[offsetForSubdiv * i + 0] = hRatio;	// X1
+		components[offsetForSubdiv * i + 1] = top;		// Y1
+		components[offsetForSubdiv * i + 2] = 0.f;		// Z1
 
-		const float top = 0.5f;
-		const float left = -0.5f;
-
-		const uint	offsetForSubdiv = 3 * 2;
-		float		*components = (float*)malloc(verticeNbr * sizeof(float) * 3);
-
-		for (int i = 0; i <= xSubdiv; i++)
-		{
-			double	hRatio = lerp(left, -left, double(i) / double(xSubdiv));
-
-			components[offsetForSubdiv * i + 0] = hRatio;	// X1
-			components[offsetForSubdiv * i + 1] = top;		// Y1
-			components[offsetForSubdiv * i + 2] = 0.f;		// Z1
-
-			components[offsetForSubdiv * i + 3] = hRatio;	// X2
-			components[offsetForSubdiv * i + 4] = -top;		// Y2
-			components[offsetForSubdiv * i + 5] = 0.f;		// Z2
-		}
-
-		for (int i = 0; i <= ySubdiv; i++)
-		{
-			double	vRatio = lerp(top, -top, double(i) / double(ySubdiv));
-
-			components[offsetForSubdiv * (i + xSubdiv + 1) + 0] = left;		// X1
-			components[offsetForSubdiv * (i + xSubdiv + 1) + 1] = vRatio;	// Y1
-			components[offsetForSubdiv * (i + xSubdiv + 1) + 2] = 0.f;		// Z1
-
-			components[offsetForSubdiv * (i + xSubdiv + 1) + 3] = -left;	// X2
-			components[offsetForSubdiv * (i + xSubdiv + 1) + 4] = vRatio;	// Y2
-			components[offsetForSubdiv * (i + xSubdiv + 1) + 5] = 0.f;		// Z2
-		}
-
-		mesh->SetVertices(components, verticeNbr * 3, 3, 3 * sizeof(float), GL_LINES);
-
-		RegisterMesh("Grid", mesh);
-		delete components;
+		components[offsetForSubdiv * i + 3] = hRatio;	// X2
+		components[offsetForSubdiv * i + 4] = -top;		// Y2
+		components[offsetForSubdiv * i + 5] = 0.f;		// Z2
 	}
+
+	for (int i = 0; i <= ySubdiv; i++)
+	{
+		double	vRatio = lerp(top, -top, double(i) / double(ySubdiv));
+
+		components[offsetForSubdiv * (i + xSubdiv + 1) + 0] = left;		// X1
+		components[offsetForSubdiv * (i + xSubdiv + 1) + 1] = vRatio;	// Y1
+		components[offsetForSubdiv * (i + xSubdiv + 1) + 2] = 0.f;		// Z1
+
+		components[offsetForSubdiv * (i + xSubdiv + 1) + 3] = -left;	// X2
+		components[offsetForSubdiv * (i + xSubdiv + 1) + 4] = vRatio;	// Y2
+		components[offsetForSubdiv * (i + xSubdiv + 1) + 5] = 0.f;		// Z2
+	}
+
+	mesh->SetVertices(components, verticeNbr * 3, 3, 3 * sizeof(float), GL_LINES);
+
+	RegisterMesh(meshName, mesh);
+	delete components;
+	return meshName;
 }
 
 //----------------------------------------------------------

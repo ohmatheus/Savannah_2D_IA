@@ -4,7 +4,7 @@
 #include "IGameWindow.h"
 
 #include "RenderSystem.h"
-#include "Scene.h"
+#include "GridScene.h"
 #include "Timer.h"
 
 //
@@ -167,7 +167,7 @@ void	Game::_InitRenderSystem()
 	m_RenderSystem = new RenderSystem(this);
 
 
-	Scene *scene = new Scene();
+	GridScene *scene = new GridScene(this);
 	m_Scenes.push_back(scene);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 1.0f);

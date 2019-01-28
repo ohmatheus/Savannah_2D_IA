@@ -60,6 +60,9 @@
     <Filter Include="Source Files\Engine\Utils\Timer">
       <UniqueIdentifier>{b75a893b-760f-4d4a-be19-e9bf7209fbb4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Game\Scenes">
+      <UniqueIdentifier>{86ce6862-871b-44a3-adf6-071ae54f4df6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -89,9 +92,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files\Engine\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\Engine\Game</Filter>
-    </ClCompile>
     <ClCompile Include="IEntity.cpp">
       <Filter>Source Files\Engine\Game\Entity</Filter>
     </ClCompile>
@@ -112,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="MeshData.cpp">
       <Filter>Source Files\Engine\Game\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="GridScene.cpp">
+      <Filter>Source Files\Engine\Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="IScene.cpp">
+      <Filter>Source Files\Engine\Game\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,9 +160,6 @@
     <ClInclude Include="QScopedLock.h">
       <Filter>Source Files\Engine\Utils\Threads</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Source Files\Engine\Game</Filter>
-    </ClInclude>
     <ClInclude Include="IEntity.h">
       <Filter>Source Files\Engine\Game\Entity</Filter>
     </ClInclude>
@@ -180,6 +183,12 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Source Files\Engine\Utils\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="GridScene.h">
+      <Filter>Source Files\Engine\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="IScene.h">
+      <Filter>Source Files\Engine\Game\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
