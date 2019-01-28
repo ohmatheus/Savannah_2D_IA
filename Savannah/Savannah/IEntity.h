@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 //----------------------------------------------------------
 
@@ -35,6 +36,9 @@ public:
 	void					SetShaderName(const std::string &name) { m_ShaderName = name; }
 	void					SetMeshName(const std::string &name) { m_MeshName = name; }
 
+	void					AddChild(IEntity *ent);
+	IEntity					*Parent() { return m_Parent; }
+
 protected:
 	float					m_Yaw;
 	float					m_Pitch;
@@ -47,6 +51,8 @@ protected:
 	std::string				m_ShaderName; // TODO replace by an ID
 	std::string				m_MeshName; // TODO replace by an ID
 	std::string				m_Name;
+	IEntity					*m_Parent = nullptr;
+	std::vector<IEntity*>	m_Children;
 	//Behaviour	*m_Behaviour; // TODO
 };
 

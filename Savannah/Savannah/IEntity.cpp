@@ -33,8 +33,20 @@ glm::mat4	IEntity::ModelMatrix()
 	result = glm::translate(result, m_Position);
 	result = glm::rotate(result, glm::radians(m_Yaw), glm::vec3(0.0f, 1.0f, 0.0f));
 	result = glm::scale(result, m_Scale);
-	// scale
-	return result;
+	
+	if (m_Parent != nullptr)
+		return m_Parent->ModelMatrix() * result;
+	else
+		return result;
+}
+
+//----------------------------------------------------------
+
+void	IEntity::AddChild(IEntity *ent)
+{
+	assert(ent->Parent() == nullptr);
+	ent->m_Parent = this;
+	m_Children.push_back(ent);
 }
 
 //----------------------------------------------------------

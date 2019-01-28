@@ -155,8 +155,7 @@ void	QSavannahMainWindow::_CreateControlPanel()
 		layout->setSpacing(0);
 		layout->setContentsMargins(0, 0, 0, 0);
 
-		dummy->setMaximumSize(QSize(400, 1000));
-
+		dummy->setMaximumSize(QSize(400, 2000));
 
 		QPushButton *test = new QPushButton(this);
 		layout->addWidget(test);

@@ -148,7 +148,7 @@ void	RenderSystem::_InitTriangleMeshData()
 
 		for (int i = 0; i <= xSubdiv; i++)
 		{
-			double hRatio = lerp(left, -left, double(i) / double(xSubdiv));
+			double	hRatio = lerp(left, -left, double(i) / double(xSubdiv));
 
 			components[offsetForSubdiv * i + 0] = hRatio;	// X1
 			components[offsetForSubdiv * i + 1] = top;		// Y1
@@ -161,7 +161,7 @@ void	RenderSystem::_InitTriangleMeshData()
 
 		for (int i = 0; i <= ySubdiv; i++)
 		{
-			double vRatio = lerp(top, -top, double(i) / double(ySubdiv));
+			double	vRatio = lerp(top, -top, double(i) / double(ySubdiv));
 
 			components[offsetForSubdiv * (i + xSubdiv + 1) + 0] = left;		// X1
 			components[offsetForSubdiv * (i + xSubdiv + 1) + 1] = vRatio;	// Y1
@@ -171,7 +171,6 @@ void	RenderSystem::_InitTriangleMeshData()
 			components[offsetForSubdiv * (i + xSubdiv + 1) + 4] = vRatio;	// Y2
 			components[offsetForSubdiv * (i + xSubdiv + 1) + 5] = 0.f;		// Z2
 		}
-
 
 		mesh->SetVertices(components, verticeNbr * 3, 3, 3 * sizeof(float), GL_LINES);
 

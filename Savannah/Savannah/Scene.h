@@ -9,17 +9,19 @@ class	RenderSystem;
 
 //----------------------------------------------------------
 
-class Scene final
+class Scene
 {
 
 public:
 	Scene();
-	~Scene();
+	virtual ~Scene();
 
-	void		Update(float dt);
-	void		Render(RenderSystem *renderSystem);
+	// add copy construct
 
-private:
+	virtual void		Update(float dt);
+	virtual void		Render(RenderSystem *renderSystem);
+
+protected:
 	void		_PopulateDefaultScene();
 
 	std::vector<IEntity*>	m_Entities;

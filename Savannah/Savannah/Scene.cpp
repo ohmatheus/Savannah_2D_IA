@@ -49,14 +49,12 @@ void		Scene::_PopulateDefaultScene()
 		entity->SetPosition(glm::vec3(0.f, 0.f, 0.f));
 		m_Entities.push_back(entity);
 	}
-	{
-		SimpleEntity *entity = new SimpleEntity("Plane");
-		entity->SetColor(glm::vec4(0.f, 0.f, 1.f, 1.f));
-		entity->SetMeshName("Rectangle");
-		entity->SetShaderName("DefaultShader");
-		entity->SetPosition(glm::vec3(2.f, 0.f, 0.f));
-		m_Entities.push_back(entity);
-	}
+	SimpleEntity *planeTest = new SimpleEntity("Plane");
+	planeTest->SetColor(glm::vec4(0.f, 0.f, 1.f, 1.f));
+	planeTest->SetMeshName("Rectangle");
+	planeTest->SetShaderName("DefaultShader");
+	planeTest->SetPosition(glm::vec3(2.f, 0.f, 0.f));
+	m_Entities.push_back(planeTest);
 	{
 		SimpleEntity *entity = new SimpleEntity("toto");
 		entity->SetColor(glm::vec4(0.f, 1.f, 1.f, 1.f));
@@ -70,9 +68,11 @@ void		Scene::_PopulateDefaultScene()
 		entity->SetColor(glm::vec4(1.f, 0.f, 1.f, 1.f));
 		entity->SetMeshName("Grid");
 		entity->SetShaderName("DefaultShader");
-		entity->SetPosition(glm::vec3(0.f, 0.f, 0.f));
-		entity->SetScale(10.f);
+		entity->SetPosition(glm::vec3(2.f, 0.f, 0.f));
+		//entity->SetScale(10.f);
 		m_Entities.push_back(entity);
+
+		entity->AddChild(planeTest);
 	}
 }
 
