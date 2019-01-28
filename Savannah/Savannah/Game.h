@@ -20,7 +20,7 @@ class	QWheelEvent;
 
 struct	SCamera // will have to be an entity
 {
-	glm::vec3	m_Position = glm::vec3(0.f, 0.f, -2.f);
+	glm::vec3	m_Position = glm::vec3(0.f, 0.f, -80.f);
 	glm::vec3	m_Rotation = glm::vec3(0.f);
 
 	//glm::vec3	m_Forward = glm::vec3(0.0f, 0.0f, -1.0f);

@@ -137,11 +137,11 @@ void	RenderSystem::_InitTriangleMeshData()
 
 //----------------------------------------------------------
 
-std::string	RenderSystem::GenrateGridMesh(float halfSize, int xSubdiv, int ySubdiv)
+std::string	RenderSystem::GenrateGridMesh(float cellSize, int xSubdiv, int ySubdiv)
 {
 	MeshData *mesh = new MeshData;
 
-	const std::string	halfSizeStr = std::to_string(halfSize);
+	const std::string	halfSizeStr = std::to_string(cellSize);
 	const std::string	xSubdivStr = std::to_string(xSubdiv);
 	const std::string	ySubdivStr = std::to_string(ySubdiv);
 
@@ -154,8 +154,8 @@ std::string	RenderSystem::GenrateGridMesh(float halfSize, int xSubdiv, int ySubd
 
 	const int			verticeNbr = (xSubdiv + 1) * 2 * 2 + (ySubdiv + 1) * 2 * 2; // 2 * 2 vertex per subdiv
 
-	const float			top = halfSize;
-	const float			left = -halfSize;
+	const float			left = cellSize * xSubdiv * 0.5f;
+	const float			top = -cellSize * ySubdiv * 0.5f;
 
 	const uint			offsetForSubdiv = 3 * 2;
 	float				*components = (float*)malloc(verticeNbr * sizeof(float) * 3);

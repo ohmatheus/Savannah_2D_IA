@@ -135,8 +135,8 @@ void	Game::_ProcessRenderData()
 	{
 		glViewport(0, 0, m_RenderWindowData->m_X, m_RenderWindowData->m_Y);
 
-		m_OrthoMat = glm::ortho(-1.f, 1.0f, -1.f, 1.0f, 0.1f, 100.0f);
-		m_ProjMat = glm::perspective(glm::radians(m_Fov), m_RenderWindowData->m_X / m_RenderWindowData->m_Y, 0.1f, 100.0f);
+		m_OrthoMat = glm::ortho(-1.f, 1.0f, -1.f, 1.0f, 0.1f, 200.0f);
+		m_ProjMat = glm::perspective(glm::radians(m_Fov), m_RenderWindowData->m_X / m_RenderWindowData->m_Y, 0.1f, 200.0f);
 
 		// VClip = proj * view * model * local
 		m_ViewProj = m_Camera.GetView() * m_ProjMat;
@@ -149,8 +149,8 @@ void	Game::_ProcessRenderData()
 
 void	Game::_PostEvent()
 {
-	if (m_Camera.m_Position.z < -8.f)
-		m_Camera.m_Position.z = -8.f;
+	//if (m_Camera.m_Position.z < -8.f)
+	//	m_Camera.m_Position.z = -8.f;
 	if (m_Camera.m_Position.z > -1.f)
 		m_Camera.m_Position.z = -1.f;
 }
@@ -170,7 +170,7 @@ void	Game::_InitRenderSystem()
 	GridScene *scene = new GridScene(this);
 	m_Scenes.push_back(scene);
 
-	glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
 	glClearDepth(1.f);
 	glEnable(GL_DEPTH_TEST);
 	glViewport(0, 0, 800, 600); // resize
@@ -178,8 +178,8 @@ void	Game::_InitRenderSystem()
 	m_RenderWindow->SwapBuffers();
 
 	{
-		m_OrthoMat = glm::ortho(-400.f, 400.0f, -300.f, 300.0f, 0.1f, 100.0f);
-		m_ProjMat = glm::perspective(glm::radians(m_Fov), 800.f / 600.f, 0.1f, 100.0f);
+		m_OrthoMat = glm::ortho(-400.f, 400.0f, -300.f, 300.0f, 0.1f, 200.0f);
+		m_ProjMat = glm::perspective(glm::radians(m_Fov), 800.f / 600.f, 0.1f, 200.0f);
 
 		m_ViewProj = m_ProjMat * m_Camera.GetView();
 	}

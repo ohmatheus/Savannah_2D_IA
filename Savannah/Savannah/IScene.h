@@ -19,8 +19,6 @@ public:
 	virtual void		Render(RenderSystem *renderSystem);
 
 protected:
-	void		_PopulateDefaultScene();
-
 	std::vector<IEntity*>	m_Entities;
 };
 
