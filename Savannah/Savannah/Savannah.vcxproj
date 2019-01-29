@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GridScene.h" />
+    <ClInclude Include="StateMachineManager.h" />
     <ClInclude Include="Timer.h" />
     <QtMoc Include="QSavannahMainWindow.h" />
     <QtMoc Include="QRenderWindow.h">
