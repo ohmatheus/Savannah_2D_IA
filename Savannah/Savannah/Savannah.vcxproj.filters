@@ -63,6 +63,9 @@
     <Filter Include="Source Files\Engine\Game\Scenes">
       <UniqueIdentifier>{86ce6862-871b-44a3-adf6-071ae54f4df6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Game\IA">
+      <UniqueIdentifier>{f15d298a-cba7-4f4b-8382-737479263b73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -189,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="IScene.h">
       <Filter>Source Files\Engine\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachineManager.h">
+      <Filter>Source Files\Engine\Game\IA</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

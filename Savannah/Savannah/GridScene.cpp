@@ -6,6 +6,8 @@
 #include "SimpleEntity.h"
 #include "MeshData.h"
 
+#include "StateMachineManager.h"
+
 //----------------------------------------------------------
 
 GridScene::GridScene(Game *game)
