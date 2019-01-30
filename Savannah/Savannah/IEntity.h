@@ -14,11 +14,11 @@ class Behaviour; // TODO
 class IEntity
 {
 public:
-	IEntity(const std::string &name);
+	IEntity(const std::string &name, bool isActive = true);
 	virtual ~IEntity();
 
 	virtual void			Update(float dt) = 0;
-	virtual void			Render(RenderSystem *renderSystem) = 0;
+	virtual void			Render(RenderSystem *renderSystem);
 
 	glm::mat4				ModelMatrix(); // copy
 
@@ -43,7 +43,13 @@ public:
 	void					AddChild(IEntity *ent);
 	IEntity					*Parent() { return m_Parent; }
 
+	bool					IsActive() { return m_IsActive; }
+	void					SetActive(bool active) { m_IsActive = active; }
+
 protected:
+	bool					m_IsActive;
+	bool					m_HasFlag = false;
+
 	float					m_Pitch;
 	float					m_Yaw;
 	float					m_Roll;

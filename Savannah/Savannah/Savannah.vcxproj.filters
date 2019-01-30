@@ -78,6 +78,9 @@
     <Filter Include="Source Files\Engine\Game\IA\CustomStateMachine">
       <UniqueIdentifier>{0bd9f993-1612-42b7-aa49-c6a00d69e547}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Game\Entity\Spawner">
+      <UniqueIdentifier>{1330dfbb-2323-41b8-9dad-45b6663f9096}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -148,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="AntelopeSM.cpp">
       <Filter>Source Files\Engine\Game\IA\CustomStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="Spawner.cpp">
+      <Filter>Source Files\Engine\Game\Entity\Spawner</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +240,9 @@
     </ClInclude>
     <ClInclude Include="AntelopeSM.h">
       <Filter>Source Files\Engine\Game\IA\CustomStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Spawner.h">
+      <Filter>Source Files\Engine\Game\Entity\Spawner</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

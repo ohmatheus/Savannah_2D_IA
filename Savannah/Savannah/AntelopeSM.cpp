@@ -38,16 +38,11 @@ namespace StateMachine
 			directionVector = glm::normalize(directionVector);
 			const glm::vec3		diff = glm::normalize(targetPosition - position);
 			const float			dot = glm::dot(diff, directionVector);
-
-			//glm::vec2			cross = CrossProduct(glm::vec2(directionVector));
-			float				cross = CrossProduct(glm::vec2(directionVector), glm::vec2(diff));
-			//glm::vec3			cross = glm::cross(directionVector, glm::vec3(0.f, 1.f, 0.f));
-			//const float		dotSign = glm::dot(cross, diff);
-
+			const float			cross = CrossProduct(glm::vec2(directionVector), glm::vec2(diff));
 			const float			acosDot = glm::acos(dot);
 			const float			angleDif = glm::degrees(acosDot);
 
-			ent->Rotate((cross <= 0 ? -1 : 1) * angleDif, dt);
+			ent->Rotate((cross < 0 ? -1 : 1) * angleDif, dt);
 			ent->MoveForward(dt);
 		});
 	}

@@ -16,11 +16,10 @@ class SimpleEntity : public IEntity
 	using Super = IEntity;
 	using Self = SimpleEntity;
 public:
-	SimpleEntity(const std::string &name);
+	SimpleEntity(const std::string &name, bool isActive = true);
 	virtual ~SimpleEntity();
 
 	virtual void		Update(float dt) override;
-	virtual void		Render(RenderSystem *renderSystem) override;
 
 	void				ChangeStateNode(StateMachine::StateNode *node) { m_CurrentStateNode = node; }
 
@@ -41,7 +40,7 @@ public:
 protected:
 	StateMachine::StateNode	*m_CurrentStateNode = nullptr;
 	float					m_MovementSpeed = 2.5f;
-	float					m_RotationSpeed = 25.f;
+	float					m_RotationSpeed = 50.f;
 };
 
 //----------------------------------------------------------

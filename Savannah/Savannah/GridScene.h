@@ -6,6 +6,7 @@
 
 class	Game;
 class	SimpleEntity;
+class	GridSpawner;
 class	GridFlagEntity;
 
 namespace StateMachine
@@ -32,16 +33,19 @@ public:
 	};
 
 	IEntity								*GetFlagsEntity(ETeam team);
+	SimpleEntity						*AddEntity(ETeam type, const glm::vec3 &position, bool isActive = true);
 
 protected:
 	void								_CreateScene();
 	void								_GenerateAndAddGrid(int xSubdiv, int ySubdiv); // call rendersystem to generate mesh
-	void								_AddEntity(ETeam type, const glm::vec3 &position);
 
 	Game								*m_Game;
 	SimpleEntity						*m_GridEntity;
+
 	StateMachine::StateMachineManager	*m_AntelopeStateMachine = nullptr;
 	StateMachine::StateMachineManager	*m_LionStateMachine = nullptr;
+
+	GridSpawner							*m_Spawners[ETeam::_MAX];
 	SimpleEntity						*m_Flags[ETeam::_MAX];
 	//glm::vec4			m_AntelopeColor;
 	//glm::vec4			m_LionColor;

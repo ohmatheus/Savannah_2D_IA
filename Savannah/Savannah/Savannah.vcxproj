@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AntelopeSM.cpp" />
+    <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="StateNode.cpp" />
     <ClCompile Include="GridScene.cpp" />
     <ClCompile Include="GridEntity.cpp" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AntelopeSM.h" />
+    <ClInclude Include="Spawner.h" />
     <ClInclude Include="StateNode.h" />
     <ClInclude Include="GridScene.h" />
     <ClInclude Include="Conditions.h" />
