@@ -20,7 +20,7 @@ public:
 	virtual void			Update(float dt) = 0;
 	virtual void			Render(RenderSystem *renderSystem) = 0;
 
-	glm::mat4				ModelMatrix();
+	const glm::mat4			&ModelMatrix();
 
 	void					SetPosition(const glm::vec3 &position) { m_Position = position; }
 	void					SetRotation(const glm::vec3 &rotation) { m_Rotation = rotation; }
@@ -28,10 +28,14 @@ public:
 	void					SetScale(float globalScale) { SetScale(glm::vec3(globalScale)); }
 	void					SetColor(const glm::vec4 &color) { m_Color = color; }
 
-	glm::vec3				Position() { return m_Position; }
-	glm::vec3				Rotation() { return m_Rotation; }
-	glm::vec3				Scale() { return m_Scale; }
-	glm::vec4				Color() { return m_Color; }
+	const glm::vec3			&Position() { return m_Position; }
+	const glm::vec3			&Rotation() { return m_Rotation; }
+	const glm::vec3			&Scale() { return m_Scale; }
+	const glm::vec4			&Color() { return m_Color; }
+
+	float					&Pitch() { return m_Pitch; }
+	float					&Yaw() { return m_Yaw; }
+	float					&Roll() { return m_Roll; }
 
 	void					SetShaderName(const std::string &name) { m_ShaderName = name; }
 	void					SetMeshName(const std::string &name) { m_MeshName = name; }
@@ -41,8 +45,8 @@ public:
 
 protected:
 	float					m_Pitch;
-	float					m_Roll;
 	float					m_Yaw;
+	float					m_Roll;
 
 	glm::vec3				m_Position;
 	glm::vec3				m_Rotation;

@@ -26,12 +26,14 @@ IEntity::~IEntity()
 
 //----------------------------------------------------------
 
-glm::mat4	IEntity::ModelMatrix()
+const glm::mat4	&IEntity::ModelMatrix()
 {
 	glm::mat4 result = glm::mat4(1.f);
 
 	result = glm::translate(result, m_Position);
 	result = glm::rotate(result, glm::radians(m_Yaw), glm::vec3(0.0f, 1.0f, 0.0f));
+	result = glm::rotate(result, glm::radians(m_Pitch), glm::vec3(1.0f, 0.0f, 0.0f));
+	result = glm::rotate(result, glm::radians(m_Roll), glm::vec3(0.0f, 0.0f, 1.0f));
 	result = glm::scale(result, m_Scale);
 	
 	if (m_Parent != nullptr)

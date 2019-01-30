@@ -24,8 +24,16 @@ public:
 
 	void				ChangeStateNode(StateMachine::StateNode *node) { m_CurrentStateNode = node; }
 
+	void				MoveForward(float dt);
+	void				Rotate(bool clockwise, float dt);
+
+	float				MovementSpeed() { return m_MovementSpeed; }
+	float				RotationSpeed() { return m_RotationSpeed; }
+
 protected:
 	StateMachine::StateNode	*m_CurrentStateNode = nullptr;
+	float					m_MovementSpeed = 2.5f;
+	float					m_RotationSpeed = 25.f;
 };
 
 //----------------------------------------------------------

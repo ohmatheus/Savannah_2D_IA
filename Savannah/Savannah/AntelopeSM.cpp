@@ -12,7 +12,8 @@ namespace StateMachine
 		m_Root = idle;
 		idle->SetFunc([](SimpleEntity *ent, float dt)
 		{
-			//ent->m_Yaw += 60.f * dt;
+			ent->Rotate(false, dt);
+			ent->MoveForward(dt);
 		});
 	}
 
