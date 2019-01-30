@@ -30,14 +30,45 @@ GridScene::~GridScene()
 
 //----------------------------------------------------------
 
+IEntity		*GridScene::GetFlagsEntity(ETeam team)
+{
+	return m_Flags[team];
+};
+
+//----------------------------------------------------------
+
 void	GridScene::_CreateScene()
 {
-	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine();
+	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine(this);
 
 	_GenerateAndAddGrid(100, 60);
 
 	_AddEntity(ANTELOPE, glm::vec3(1.f, 1.f, 0.f));
 	_AddEntity(LION, glm::vec3(-1.f, -1.f, 0.f));
+
+	// flags
+	{
+		SimpleEntity	*entity = new SimpleEntity("Lion Flag");
+		entity->SetColor(glm::vec4(0.f, 0.5f, 0.7f, 1.f));
+		entity->SetMeshName("Diamond");
+		entity->SetShaderName("DefaultShader");
+		entity->SetPosition(glm::vec3(-40.f, 20.f, 0.1f));
+
+		m_GridEntity->AddChild(entity);
+		m_Entities.push_back(entity);
+		m_Flags[LION] = entity;
+	}
+	{
+		SimpleEntity	*entity = new SimpleEntity("Antelope Flag");
+		entity->SetColor(glm::vec4(1.f, 0.f, 0.f, 1.f));
+		entity->SetMeshName("Diamond");
+		entity->SetShaderName("DefaultShader");
+		entity->SetPosition(glm::vec3(40.f, -20.f, 0.1f));
+
+		m_GridEntity->AddChild(entity);
+		m_Entities.push_back(entity);
+		m_Flags[ANTELOPE] = entity;
+	}
 }
 
 //----------------------------------------------------------

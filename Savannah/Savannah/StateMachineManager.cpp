@@ -9,7 +9,8 @@
 
 namespace StateMachine
 {
-	StateMachineManager::StateMachineManager()
+	StateMachineManager::StateMachineManager(IScene *scene)
+	:	m_Scene(scene)
 	{}
 
 //----------------------------------------------------------
@@ -24,7 +25,7 @@ namespace StateMachine
 
 	StateNode		*StateMachineManager::NewState()
 	{
-		StateNode *newNode = new StateNode();
+		StateNode *newNode = new StateNode(m_Scene);
 		m_All.push_back(newNode);
 		return newNode;
 	}

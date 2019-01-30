@@ -4,6 +4,10 @@
 
 //----------------------------------------------------------
 
+class	IScene;
+
+//----------------------------------------------------------
+
 namespace StateMachine
 {
 	class	StateNode;
@@ -42,7 +46,7 @@ namespace StateMachine
 	{
 		using Self = StateMachineManager;
 	public:
-		StateMachineManager();
+		StateMachineManager(IScene *scene);
 		virtual ~StateMachineManager();
 
 		StateNode		*NewState();
@@ -56,6 +60,7 @@ namespace StateMachine
 	protected:
 		StateNode							*m_Root;
 		std::vector<StateMachineObject*>	m_All;
+		IScene								*m_Scene;
 	};
 }
 //----------------------------------------------------------

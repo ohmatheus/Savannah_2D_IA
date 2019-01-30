@@ -6,8 +6,9 @@ namespace StateMachine
 {
 	class AntelopeStateMachine : public StateMachineManager
 	{
+		using Super = StateMachineManager;
 	public:
-		AntelopeStateMachine();
+		AntelopeStateMachine(IScene *scene);
 		virtual ~AntelopeStateMachine();
 	};
 }

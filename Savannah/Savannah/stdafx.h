@@ -23,13 +23,13 @@ typedef	unsigned __int64	u64;
 #define MIN(a, b) a < b ? a : b;
 
 template<typename _Type>
-_Type	clamp(_Type x, _Type min, _Type max)
+inline _Type	clamp(_Type x, _Type min, _Type max)
 {
 	return x > min ? x < max ? x : max : min;
 }
 
 template<typename _Type, typename _TypeFrac>
-_Type	lerp(const _Type a, const _Type b, const _TypeFrac f)
+inline _Type	lerp(const _Type a, const _Type b, const _TypeFrac f)
 {
 	return a + f * (b - a);
 }

@@ -26,7 +26,7 @@ IEntity::~IEntity()
 
 //----------------------------------------------------------
 
-const glm::mat4	&IEntity::ModelMatrix()
+glm::mat4	IEntity::ModelMatrix()
 {
 	glm::mat4 result = glm::mat4(1.f);
 

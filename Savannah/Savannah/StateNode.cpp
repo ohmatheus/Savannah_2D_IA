@@ -6,7 +6,8 @@
 
 namespace StateMachine
 {
-	StateNode::StateNode()
+	StateNode::StateNode(IScene *scene)
+	:	m_Scene(scene)
 	{
 
 	}
@@ -26,10 +27,11 @@ namespace StateMachine
 				return;
 			}
 		}
-		m_Func(ent, dt);
+		assert(m_Scene != nullptr);
+		m_Func(m_Scene, ent, dt);
 	}
 
-	void	StateNode::SetFunc(const std::function<void(SimpleEntity *ent, float dt)> &func)
+	void	StateNode::SetFunc(const FuncPtr &func)
 	{
 		m_Func = func;
 	}

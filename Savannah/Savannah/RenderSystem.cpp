@@ -133,6 +133,19 @@ void	RenderSystem::_InitTriangleMeshData()
 		mesh->SetVertices(vertices, ARRAY_COUNT(vertices), 3, 3 * sizeof(float), GL_TRIANGLE_STRIP);
 		RegisterMesh("Rectangle", mesh);
 	}
+
+	{
+		MeshData *mesh = new MeshData;
+		float vertices[] =
+		{
+			0.f,	-0.5f,	0.f,
+			0.5f,	0.f,	0.f,
+			-0.5f,	0.f,	0.f,
+			0.f,	0.5f,	0.f
+		};
+		mesh->SetVertices(vertices, ARRAY_COUNT(vertices), 3, 3 * sizeof(float), GL_TRIANGLE_STRIP);
+		RegisterMesh("Diamond", mesh);
+	}
 }
 
 //----------------------------------------------------------

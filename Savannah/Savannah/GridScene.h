@@ -27,19 +27,22 @@ public:
 	enum ETeam
 	{
 		LION		= 0,
-		ANTELOPE	= 1
+		ANTELOPE	= 1,
+		_MAX		= 2
 	};
 
-protected:
-	void				_CreateScene();
-	void				_GenerateAndAddGrid(int xSubdiv, int ySubdiv); // call rendersystem to generate mesh
-	void				_AddEntity(ETeam type, const glm::vec3 &position);
+	IEntity								*GetFlagsEntity(ETeam team);
 
-	Game				*m_Game;
-	SimpleEntity		*m_GridEntity;
+protected:
+	void								_CreateScene();
+	void								_GenerateAndAddGrid(int xSubdiv, int ySubdiv); // call rendersystem to generate mesh
+	void								_AddEntity(ETeam type, const glm::vec3 &position);
+
+	Game								*m_Game;
+	SimpleEntity						*m_GridEntity;
 	StateMachine::StateMachineManager	*m_AntelopeStateMachine = nullptr;
 	StateMachine::StateMachineManager	*m_LionStateMachine = nullptr;
-	//GridFlagEntity		m_Flags[2];
+	SimpleEntity						*m_Flags[ETeam::_MAX];
 	//glm::vec4			m_AntelopeColor;
 	//glm::vec4			m_LionColor;
 };
