@@ -6,7 +6,7 @@
 #include "SimpleEntity.h"
 #include "MeshData.h"
 
-#include "StateMachineManager.h"
+#include "AntelopeSM.h"
 
 //----------------------------------------------------------
 
@@ -21,12 +21,19 @@ GridScene::GridScene(Game *game)
 //----------------------------------------------------------
 
 GridScene::~GridScene()
-{}
+{
+	if (m_LionStateMachine != nullptr)
+		delete m_LionStateMachine;
+	if (m_AntelopeStateMachine != nullptr)
+		delete m_AntelopeStateMachine;
+}
 
 //----------------------------------------------------------
 
 void	GridScene::_CreateScene()
 {
+	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine();
+
 	_GenerateAndAddGrid(100, 60);
 
 	_AddEntity(ANTELOPE, glm::vec3(1.f, 1.f, 0.f));
@@ -66,6 +73,7 @@ void	GridScene::_AddEntity(ETeam type, const glm::vec3 &position)
 	entity->SetShaderName("DefaultShader");
 	entity->SetPosition(position + glm::vec3(0.f, 0.f, 0.1f));
 
+	entity->ChangeStateNode(type == LION ? m_AntelopeStateMachine->Root() : m_AntelopeStateMachine->Root());
 	m_GridEntity->AddChild(entity);
 
 	m_Entities.push_back(entity);

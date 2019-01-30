@@ -4,6 +4,7 @@
 #include "RenderSystem.h"
 #include "GLShader.h"
 #include "MeshData.h"
+#include "StateNode.h"
 #include "Game.h"
 
 //----------------------------------------------------------
@@ -22,8 +23,8 @@ SimpleEntity::~SimpleEntity()
 
 void		SimpleEntity::Update(float dt)
 {
-	// ???
-	//m_Yaw += dt * 50.f;
+	if (m_CurrentStateNode != nullptr)
+		m_CurrentStateNode->UpdateEntity(this, dt);
 }
 
 //----------------------------------------------------------

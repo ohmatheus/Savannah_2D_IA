@@ -40,9 +40,9 @@ public:
 	IEntity					*Parent() { return m_Parent; }
 
 protected:
-	float					m_Yaw;
 	float					m_Pitch;
 	float					m_Roll;
+	float					m_Yaw;
 
 	glm::vec3				m_Position;
 	glm::vec3				m_Rotation;

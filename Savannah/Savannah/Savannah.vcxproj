@@ -123,8 +123,11 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AntelopeSM.cpp" />
+    <ClCompile Include="StateNode.cpp" />
     <ClCompile Include="GridScene.cpp" />
     <ClCompile Include="GridEntity.cpp" />
+    <ClCompile Include="Conditions.cpp" />
     <ClCompile Include="IEntity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GLShader.cpp" />
@@ -140,15 +143,21 @@
     <ClCompile Include="IScene.cpp" />
     <ClCompile Include="SimpleEntity.cpp" />
     <ClCompile Include="SOAEntity.cpp" />
+    <ClCompile Include="StateMachineManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Transition.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AntelopeSM.h" />
+    <ClInclude Include="StateNode.h" />
     <ClInclude Include="GridScene.h" />
+    <ClInclude Include="Conditions.h" />
     <ClInclude Include="StateMachineManager.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Transition.h" />
     <QtMoc Include="QSavannahMainWindow.h" />
     <QtMoc Include="QRenderWindow.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;$(SolutionDir)Savannah\Src\Editor;$(SolutionDir)Savannah\Src\Engine;$(SolutionDir)Savannah\Src;$(SolutionDir)Savannah\Src\Editor\Viewport</IncludePath>

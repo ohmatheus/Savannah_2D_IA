@@ -8,6 +8,11 @@ class	Game;
 class	SimpleEntity;
 class	GridFlagEntity;
 
+namespace StateMachine
+{
+	class	StateMachineManager;
+}
+
 //----------------------------------------------------------
 
 // 2 dimensional grid scene
@@ -32,6 +37,8 @@ protected:
 
 	Game				*m_Game;
 	SimpleEntity		*m_GridEntity;
+	StateMachine::StateMachineManager	*m_AntelopeStateMachine = nullptr;
+	StateMachine::StateMachineManager	*m_LionStateMachine = nullptr;
 	//GridFlagEntity		m_Flags[2];
 	//glm::vec4			m_AntelopeColor;
 	//glm::vec4			m_LionColor;
