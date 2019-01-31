@@ -35,6 +35,8 @@ public:
 	IEntity								*GetFlagsEntity(ETeam team);
 	SimpleEntity						*AddEntity(ETeam type, const glm::vec3 &position, bool isActive = true);
 
+	SimpleEntity						*Flag(ETeam teamFlag) { return m_Flags[teamFlag]; }
+
 protected:
 	void								_CreateScene();
 	void								_GenerateAndAddGrid(int xSubdiv, int ySubdiv); // call rendersystem to generate mesh

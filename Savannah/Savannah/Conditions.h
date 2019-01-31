@@ -5,6 +5,7 @@
 //----------------------------------------------------------
 
 class	SimpleEntity;
+class	GridScene;
 
 //----------------------------------------------------------
 
@@ -37,6 +38,8 @@ namespace StateMachine
 		virtual bool		Test(SimpleEntity *ent) override;
 
 	private:
+		bool				_GetValueToTest(EConditionParameter arg, GridScene *scene, SimpleEntity *ent, _Type &outValue);
+
 		_Type				m_ControlValue;
 		EConditionParameter	m_ParameterToTest;
 		EConditionOperation	m_TestOperation;

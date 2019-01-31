@@ -14,7 +14,7 @@ RenderSystem::RenderSystem(Game *game)
 :	m_Game(game)
 {
 	_InitDefaultShader();
-	_InitTriangleMeshData();
+	_InitMeshDatas();
 }
 
 //----------------------------------------------------------
@@ -72,7 +72,6 @@ void	RenderSystem::_InitDefaultShader()
 		"uniform mat4 proj;												\n"
 		"void main()													\n"
 		"{																\n"
-		//"	gl_Position = view * model * vec4(aPos, 1.0f);		\n"
 		"	gl_Position = proj * view * model * vec4(aPos, 1.0f);		\n"
 		"}																\n"
 		;
@@ -107,7 +106,7 @@ void	RenderSystem::_InitDefaultShader()
 
 //----------------------------------------------------------
 
-void	RenderSystem::_InitTriangleMeshData()
+void	RenderSystem::_InitMeshDatas()
 {
 	{
 		MeshData *mesh = new MeshData;

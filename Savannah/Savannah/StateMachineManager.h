@@ -17,9 +17,11 @@ namespace StateMachine
 	enum EConditionParameter
 	{
 		EHealth,
+		EHasFriendAlive,
 		EEnnemyDistance,
 		EFriendDistance,
-		EFlagDistance
+		EMyFlagDistance,
+		EEnemyFlagDistance
 	};
 
 	enum EConditionOperation
@@ -32,8 +34,8 @@ namespace StateMachine
 
 	enum ELogicalCondition
 	{
-		And = 0 << 0,
-		Or = 0 << 1
+		And =	1 << 0,
+		Or =	1 << 1
 	};
 
 	class StateMachineObject

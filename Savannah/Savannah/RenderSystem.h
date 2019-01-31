@@ -33,7 +33,7 @@ public:
 private:
 	void	_InitDefaultShader();
 	void	_Init2DShader();
-	void	_InitTriangleMeshData();
+	void	_InitMeshDatas();
 	void	_GenerateGrid();
 
 	Game								*m_Game;

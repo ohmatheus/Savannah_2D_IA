@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IEntity.h"
+#include "GridScene.h"
 
 //----------------------------------------------------------
 
@@ -16,7 +17,7 @@ class SimpleEntity : public IEntity
 	using Super = IEntity;
 	using Self = SimpleEntity;
 public:
-	SimpleEntity(const std::string &name, bool isActive = true);
+	SimpleEntity(const std::string &name, GridScene::ETeam team, bool isActive = true);
 	virtual ~SimpleEntity();
 
 	virtual void		Update(float dt) override;
@@ -37,10 +38,13 @@ public:
 	float				MovementSpeed() { return m_MovementSpeed; }
 	float				RotationSpeed() { return m_RotationSpeed; }
 
+	GridScene::ETeam	Team() { return m_Team; }
+
 protected:
 	StateMachine::StateNode	*m_CurrentStateNode = nullptr;
 	float					m_MovementSpeed = 2.5f;
 	float					m_RotationSpeed = 50.f;
+	GridScene::ETeam		m_Team;
 };
 
 //----------------------------------------------------------

@@ -6,8 +6,9 @@
 
 //----------------------------------------------------------
 
-SimpleEntity::SimpleEntity(const std::string &name, bool isActive)
+SimpleEntity::SimpleEntity(const std::string &name, GridScene::ETeam team, bool isActive)
 :	Super(name, isActive)
+,	m_Team(team)
 {
 }
 
