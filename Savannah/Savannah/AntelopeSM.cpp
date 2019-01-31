@@ -2,7 +2,7 @@
 
 #include "AntelopeSM.h"
 #include "StateNode.h"
-#include "SimpleEntity.h"
+#include "GridEntity.h"
 #include "GridScene.h"
 
 namespace
@@ -25,7 +25,7 @@ namespace StateMachine
 	{
 		StateNode *idle = NewState();
 		m_Root = idle;
-		idle->SetFunc([](IScene *sce, SimpleEntity *ent, float dt)
+		idle->SetFunc([](IScene *sce, GridEntity *ent, float dt)
 		{
 			GridScene *gridScene = static_cast<GridScene*>(sce);
 			assert(gridScene != nullptr);

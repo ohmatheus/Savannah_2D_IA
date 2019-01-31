@@ -12,15 +12,16 @@ namespace StateMachine
 
 //----------------------------------------------------------
 
-class SimpleEntity : public IEntity
+class GridEntity : public IEntity
 {
 	using Super = IEntity;
-	using Self = SimpleEntity;
+	using Self = GridEntity;
 public:
-	SimpleEntity(const std::string &name, GridScene::ETeam team, bool isActive = true);
-	virtual ~SimpleEntity();
+	GridEntity(const std::string &name, GridScene::ETeam team, bool isActive = true);
+	virtual ~GridEntity();
 
 	virtual void		Update(float dt) override;
+	virtual void		Render(RenderSystem *rs) override;
 
 	void				ChangeStateNode(StateMachine::StateNode *node) { m_CurrentStateNode = node; }
 

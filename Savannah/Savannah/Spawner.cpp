@@ -1,15 +1,14 @@
 #include "stdafx.h"
 
 #include "Spawner.h"
-#include "SimpleEntity.h"
+#include "GridEntity.h"
 
 //----------------------------------------------------------
 
 GridSpawner::GridSpawner(GridScene::ETeam team, GridScene *scene, int poolSize)
-:	Super("", true)
+:	Super("", team, true)
 ,	m_Scene(scene)
 ,	m_PoolSize(poolSize)
-,	m_Team(team)
 {
 	OnSceneStart();
 	m_SpawnTimer = 0.f;
@@ -36,8 +35,9 @@ void	GridSpawner::OnSceneStart()
 
 void	GridSpawner::Update(float dt)
 {
-	// manage spawn with a timer
+	//Super::Update(dt);
 
+	// manage spawn with a timer
 	const float ratio = m_SpawnPerSecond / 1.f;
 	m_SpawnTimer += dt;
 

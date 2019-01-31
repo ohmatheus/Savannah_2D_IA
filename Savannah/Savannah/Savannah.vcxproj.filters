@@ -51,9 +51,6 @@
     <Filter Include="Source Files\Engine\Game\Render">
       <UniqueIdentifier>{4684b551-ec0a-4a35-b1aa-2f47920020b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Game\Entity\Simple">
-      <UniqueIdentifier>{316d524c-a9c3-4c56-af14-1d277829b248}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Engine\Game\Entity\SOA">
       <UniqueIdentifier>{b970bf82-f3a5-43f9-9a85-03d952ad50b7}</UniqueIdentifier>
     </Filter>
@@ -80,6 +77,9 @@
     </Filter>
     <Filter Include="Source Files\Engine\Game\Entity\Spawner">
       <UniqueIdentifier>{1330dfbb-2323-41b8-9dad-45b6663f9096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Game\Entity\Grid">
+      <UniqueIdentifier>{316d524c-a9c3-4c56-af14-1d277829b248}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -116,9 +116,6 @@
     <ClCompile Include="RenderSystem.cpp">
       <Filter>Source Files\Engine\Game\Render</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleEntity.cpp">
-      <Filter>Source Files\Engine\Game\Entity\Simple</Filter>
-    </ClCompile>
     <ClCompile Include="SOAEntity.cpp">
       <Filter>Source Files\Engine\Game\Entity\SOA</Filter>
     </ClCompile>
@@ -151,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="Spawner.cpp">
       <Filter>Source Files\Engine\Game\Entity\Spawner</Filter>
+    </ClCompile>
+    <ClCompile Include="GridEntity.cpp">
+      <Filter>Source Files\Engine\Game\Entity\Grid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +199,6 @@
     <ClInclude Include="RenderSystem.h">
       <Filter>Source Files\Engine\Game\Render</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleEntity.h">
-      <Filter>Source Files\Engine\Game\Entity\Simple</Filter>
-    </ClInclude>
     <ClInclude Include="SOAEntity.h">
       <Filter>Source Files\Engine\Game\Entity\SOA</Filter>
     </ClInclude>
@@ -237,6 +234,9 @@
     </ClInclude>
     <ClInclude Include="Spawner.h">
       <Filter>Source Files\Engine\Game\Entity\Spawner</Filter>
+    </ClInclude>
+    <ClInclude Include="GridEntity.h">
+      <Filter>Source Files\Engine\Game\Entity\Grid</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

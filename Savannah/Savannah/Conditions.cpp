@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "Conditions.h"
-#include "SimpleEntity.h"
+#include "GridEntity.h"
 #include "GridScene.h"
 
 #include <vector>
@@ -37,7 +37,7 @@ namespace StateMachine
 //----------------------------------------------------------
 
 	template <typename _Type>
-	bool		ValueCondition<_Type>::Test(SimpleEntity *ent)
+	bool		ValueCondition<_Type>::Test(GridEntity *ent)
 	{
 		return true;
 	}
@@ -45,7 +45,7 @@ namespace StateMachine
 	//----------------------------------------------------------
 
 	template <typename _Type>
-	bool	ValueCondition<_Type>::_GetValueToTest(EConditionParameter arg, GridScene *scene, SimpleEntity *ent, _Type &outValue)
+	bool	ValueCondition<_Type>::_GetValueToTest(EConditionParameter arg, GridScene *scene, GridEntity *ent, _Type &outValue)
 	{
 		switch (arg)
 		{
@@ -59,7 +59,7 @@ namespace StateMachine
 			const std::vector<IEntity*>	entities = scene->Entities();
 			for (int i = 0; i < entities.size(); ++i)
 			{
-				SimpleEntity *gridEnt = dynamic_cast<SimpleEntity*>(entities[i]);
+				GridEntity *gridEnt = dynamic_cast<GridEntity*>(entities[i]);
 				if (gridEnt != nullptr)
 				{
 					if (gridEnt->Team() == ent->Team())
@@ -76,7 +76,7 @@ namespace StateMachine
 			const std::vector<IEntity*>	entities = scene->Entities();
 			for (int i = 0; i < entities.size(); ++i)
 			{
-				SimpleEntity *gridEnt = dynamic_cast<SimpleEntity*>(entities[i]);
+				GridEntity *gridEnt = dynamic_cast<GridEntity*>(entities[i]);
 				if (gridEnt != nullptr)
 				{
 					if (gridEnt->Team() != ent->Team())
@@ -93,7 +93,7 @@ namespace StateMachine
 			const std::vector<IEntity*>	entities = scene->Entities();
 			for (int i = 0; i < entities.size(); ++i)
 			{
-				SimpleEntity *gridEnt = dynamic_cast<SimpleEntity*>(entities[i]);
+				GridEntity *gridEnt = dynamic_cast<GridEntity*>(entities[i]);
 				if (gridEnt != nullptr)
 				{
 					if (gridEnt->Team() == ent->Team())
@@ -107,14 +107,14 @@ namespace StateMachine
 		}
 		case EConditionParameter::EMyFlagDistance:
 		{
-			SimpleEntity *flag = scene->Flag(ent->Team());
+			GridEntity *flag = scene->Flag(ent->Team());
 			outValue = glm::length(flag->Position() - ent->Position());
 			return true;
 			break;
 		}
 		case EConditionParameter::EEnemyFlagDistance:
 		{
-			SimpleEntity *flag = scene->Flag(ent->Team());
+			GridEntity *flag = scene->Flag(ent->Team());
 			outValue = glm::length(flag->Position() - ent->Position());
 			return true;
 			break;
@@ -144,7 +144,7 @@ namespace StateMachine
 
 //----------------------------------------------------------
 
-	bool		CombineCondition::Test(SimpleEntity *ent)
+	bool		CombineCondition::Test(GridEntity *ent)
 	{
 		switch (m_LogicalCondition)
 		{

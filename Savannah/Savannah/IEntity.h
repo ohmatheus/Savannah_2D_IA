@@ -18,7 +18,7 @@ public:
 	virtual ~IEntity();
 
 	virtual void			Update(float dt) = 0;
-	virtual void			Render(RenderSystem *renderSystem);
+	virtual void			Render(RenderSystem *renderSystem) = 0;
 
 	glm::mat4				ModelMatrix(); // copy
 

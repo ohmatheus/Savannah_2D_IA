@@ -141,7 +141,7 @@
     <ClCompile Include="QWorkerThread.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="IScene.cpp" />
-    <ClCompile Include="SimpleEntity.cpp" />
+    <ClCompile Include="GridEntity.cpp" />
     <ClCompile Include="SOAEntity.cpp" />
     <ClCompile Include="StateMachineManager.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -197,7 +197,7 @@
     <ClInclude Include="QScopedLock.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="IScene.h" />
-    <ClInclude Include="SimpleEntity.h" />
+    <ClInclude Include="GridEntity.h" />
     <ClInclude Include="SOAEntity.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

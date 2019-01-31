@@ -16,7 +16,7 @@ namespace StateMachine
 
 //----------------------------------------------------------
 
-	bool		Transition::TestCondition(SimpleEntity *ent)
+	bool		Transition::TestCondition(GridEntity *ent)
 	{
 		return true;
 	}

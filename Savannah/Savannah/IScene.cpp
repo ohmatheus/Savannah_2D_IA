@@ -2,7 +2,7 @@
 
 #include "IScene.h"
 #include "IEntity.h"
-#include "SimpleEntity.h"
+#include "GridEntity.h"
 
 //----------------------------------------------------------
 

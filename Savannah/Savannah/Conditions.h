@@ -4,7 +4,7 @@
 
 //----------------------------------------------------------
 
-class	SimpleEntity;
+class	GridEntity;
 class	GridScene;
 
 //----------------------------------------------------------
@@ -18,7 +18,7 @@ namespace StateMachine
 		ICondition();
 		virtual ~ICondition();
 
-		virtual bool	Test(SimpleEntity *ent) = 0;
+		virtual bool	Test(GridEntity *ent) = 0;
 	};
 
 	//----------------------------------------------------------
@@ -35,10 +35,10 @@ namespace StateMachine
 		ValueCondition(EConditionParameter, EConditionOperation, const _Type &controlValue);
 		virtual ~ValueCondition();
 
-		virtual bool		Test(SimpleEntity *ent) override;
+		virtual bool		Test(GridEntity *ent) override;
 
 	private:
-		bool				_GetValueToTest(EConditionParameter arg, GridScene *scene, SimpleEntity *ent, _Type &outValue);
+		bool				_GetValueToTest(EConditionParameter arg, GridScene *scene, GridEntity *ent, _Type &outValue);
 
 		_Type				m_ControlValue;
 		EConditionParameter	m_ParameterToTest;
@@ -58,7 +58,7 @@ namespace StateMachine
 		CombineCondition(ICondition *conditionA, ELogicalCondition logicalCondition, ICondition *conditionB);
 		virtual ~CombineCondition();
 
-		virtual bool		Test(SimpleEntity *ent) override;
+		virtual bool		Test(GridEntity *ent) override;
 	private:
 		ICondition			*m_FirstCondition;
 		ICondition			*m_SecondCondition;

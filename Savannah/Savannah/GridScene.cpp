@@ -3,7 +3,7 @@
 #include "GridScene.h"
 #include "Game.h"
 #include "RenderSystem.h"
-#include "SimpleEntity.h"
+#include "GridEntity.h"
 #include "MeshData.h"
 
 #include "Spawner.h"
@@ -39,12 +39,12 @@ IEntity		*GridScene::GetFlagsEntity(ETeam team)
 
 //----------------------------------------------------------
 
-SimpleEntity	*GridScene::AddEntity(ETeam type, const glm::vec3 &position, bool isActive)
+GridEntity	*GridScene::AddEntity(ETeam type, const glm::vec3 &position, bool isActive)
 {
 	glm::vec4	lionColor = glm::vec4(0.8f, 0.5f, 0.f, 1.f);
 	glm::vec4	antelopeColor = glm::vec4(0.8f, 0.25f, 0.f, 1.f);
 
-	SimpleEntity	*entity = new SimpleEntity("Default name", isActive);
+	GridEntity	*entity = new GridEntity("Default name", type, isActive);
 	entity->SetColor(type == LION ? lionColor : antelopeColor);
 	entity->SetMeshName(type == LION ? "Rectangle" : "Triangle");
 	entity->SetShaderName("DefaultShader");
@@ -71,7 +71,7 @@ void	GridScene::_CreateScene()
 
 	// flags
 	{
-		SimpleEntity	*entity = new SimpleEntity("Lion Flag");
+		GridEntity	*entity = new GridEntity("Lion Flag", LION);
 		entity->SetColor(glm::vec4(0.f, 1.f, 0.7f, 1.f));
 		entity->SetMeshName("Diamond");
 		entity->SetShaderName("DefaultShader");
@@ -82,7 +82,7 @@ void	GridScene::_CreateScene()
 		m_Flags[LION] = entity;
 	}
 	{
-		SimpleEntity	*entity = new SimpleEntity("Antelope Flag");
+		GridEntity	*entity = new GridEntity("Antelope Flag", ANTELOPE);
 		entity->SetColor(glm::vec4(1.f, 0.f, 0.f, 1.f));
 		entity->SetMeshName("Diamond");
 		entity->SetShaderName("DefaultShader");
@@ -93,7 +93,7 @@ void	GridScene::_CreateScene()
 		m_Flags[ANTELOPE] = entity;
 	}
 
-	for (int i = 0; i < ETeam::_MAX; i++)
+	for (int i = 0; i < ETeam::_NONE; i++)
 	{
 		m_Spawners[i] = new GridSpawner((ETeam)i, this, 10);
 		m_Entities.push_back(m_Spawners[i]);
@@ -116,7 +116,7 @@ void	GridScene::_GenerateAndAddGrid(int xSubdiv, int ySubdiv)
 
 	const std::string meshName = renderSystem->GenrateGridMesh(1.f, xSubdiv, ySubdiv);
 
-	SimpleEntity *entity = new SimpleEntity("Grid");
+	GridEntity *entity = new GridEntity("Grid", _NONE);
 	entity->SetColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.f));
 	entity->SetMeshName(meshName);
 	entity->SetShaderName("DefaultShader");

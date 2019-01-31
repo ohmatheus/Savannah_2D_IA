@@ -5,7 +5,7 @@
 //----------------------------------------------------------
 
 class StateNode;
-class SimpleEntity;
+class GridEntity;
 class ICondition;
 
 //----------------------------------------------------------
@@ -19,7 +19,7 @@ namespace StateMachine
 		Transition();
 		virtual ~Transition();
 
-		bool		TestCondition(SimpleEntity *ent);
+		bool		TestCondition(GridEntity *ent);
 		StateNode	*Get() { return m_NextNode; }
 		void		SetCondition(ICondition *condition) { m_Condition = condition; }
 

@@ -2,7 +2,7 @@
 
 #include "StateNode.h"
 #include "Transition.h"
-#include "SimpleEntity.h"
+#include "GridEntity.h"
 
 namespace StateMachine
 {
@@ -17,7 +17,7 @@ namespace StateMachine
 
 	}
 
-	void	StateNode::UpdateEntity(SimpleEntity *ent, float dt)
+	void	StateNode::UpdateEntity(GridEntity *ent, float dt)
 	{
 		for (int i = 0; i < m_OutTransitions.size(); i++)
 		{
