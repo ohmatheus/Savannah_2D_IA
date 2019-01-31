@@ -15,6 +15,7 @@ public:
 	IScene();
 	virtual ~IScene();
 
+	virtual void		PreUpdate();
 	virtual void		Update(float dt);
 	virtual void		Render(RenderSystem *renderSystem);
 

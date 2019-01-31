@@ -2,21 +2,18 @@
 
 #include "AntelopeSM.h"
 #include "StateNode.h"
+#include "Transition.h"
 #include "GridEntity.h"
 #include "GridScene.h"
+#include "Steering.h"
 
-namespace
-{
-	glm::vec2 CrossProduct(const glm::vec2 & v)
-	{
-		return glm::vec2(v.y, -v.x);
-	}
-
-	float		CrossProduct(const glm::vec2 &v1, const glm::vec2 &v2)
-	{
-		return (v1.x * v2.y) - (v1.y * v2.x);
-	}
-}
+#include <cmath>
+//
+//template <typename _T>
+//void	toto<t>::
+//{
+//
+//}
 
 namespace StateMachine
 {
@@ -27,24 +24,65 @@ namespace StateMachine
 		m_Root = idle;
 		idle->SetFunc([](IScene *sce, GridEntity *ent, float dt)
 		{
-			GridScene *gridScene = static_cast<GridScene*>(sce);
+			// do nothing
+		});
+
+		StateNode	*goForFlag = NewState();
+		goForFlag->SetFunc([](IScene *sce, GridEntity *ent, float dt)
+		{
+			GridScene			*gridScene = static_cast<GridScene*>(sce);
 			assert(gridScene != nullptr);
+			GridScene::ETeam	type = ent->Team();
+			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
 
-			glm::vec3			targetPosition = gridScene->GetFlagsEntity(GridScene::LION)->Position();
+			glm::vec3			targetPosition;
+			targetPosition = gridScene->GetFlagsEntity(enemyType)->Position();
 
-			const glm::mat4		model = ent->ModelMatrix();
 			const glm::vec3		&position = ent->Position();
-			glm::vec3			directionVector = model * glm::vec4(0.f, 1.f, 0.f, 0.f);
-			directionVector = glm::normalize(directionVector);
-			const glm::vec3		diff = glm::normalize(targetPosition - position);
-			const float			dot = glm::dot(diff, directionVector);
-			const float			cross = CrossProduct(glm::vec2(directionVector), glm::vec2(diff));
-			const float			acosDot = glm::acos(dot);
-			const float			angleDif = glm::degrees(acosDot);
+			glm::vec3			forward = ent->Forward();
+			const glm::vec3		direction = glm::normalize(targetPosition - position);
 
-			ent->Rotate((cross < 0 ? -1 : 1) * angleDif, dt);
+			const float angleDif = ISteering::Angle(direction, forward);
+
+			ent->Rotate(angleDif, dt);
 			ent->MoveForward(dt);
 		});
+
+		StateNode	*makeFriends = NewState();
+		makeFriends->SetFunc([](IScene *sce, GridEntity *ent, float dt)
+		{
+			GridScene			*gridScene = static_cast<GridScene*>(sce);
+			assert(gridScene != nullptr);
+			GridScene::ETeam	type = ent->Team();
+			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
+
+			GridEntity	*nearestFriend = ent->m_StateMachineAttr.m_NearestFriend;
+
+			glm::vec3			targetPosition;
+			if (nearestFriend != nullptr)
+				targetPosition = nearestFriend->Position();
+			else
+				return;
+
+			const glm::vec3		&position = ent->Position();
+			glm::vec3			forward = ent->Forward();
+			const glm::vec3		direction = glm::normalize(targetPosition - position);
+
+			const float angleDif = ISteering::Angle(direction, forward);
+
+			ent->Rotate(angleDif, dt);
+			ent->MoveForward(dt);
+		});
+
+		ICondition	*isAlone = NewCondition(EFriendDistance, Superior, 1.f);
+		ICondition	*isNotAlone = NewCondition(EFriendDistance, Inferior, 1.f);
+
+		Transition	*idleToMakeFriends = NewTransition(makeFriends, isAlone);
+		idle->AddTransition(idleToMakeFriends);
+
+		Transition	*makeFriendsToGoForFlag = NewTransition(goForFlag, isNotAlone);
+		makeFriends->AddTransition(makeFriendsToGoForFlag);
+
 	}
 
 //----------------------------------------------------------

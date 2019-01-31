@@ -32,22 +32,22 @@ namespace StateMachine
 
 //----------------------------------------------------------
 
-	Transition		*StateMachineManager::NewTransition()
+	Transition		*StateMachineManager::NewTransition(StateNode *to, ICondition *condition)
 	{
-		Transition *newTransition = new Transition();
+		Transition *newTransition = new Transition(to, condition);
 		m_All.push_back(newTransition);
 		return newTransition;
 	}
 
 //----------------------------------------------------------
 
-	template <typename _Type>
-	ICondition		*StateMachineManager::NewCondition(EConditionParameter arg, EConditionOperation op, const _Type &controlValue)
-	{
-		ICondition *newCondition = new ValueCondition<_Type>(arg, op, controlValue);
-		m_All.push_back(newCondition);
-		return newCondition;
-	}
+	//template <typename _Type>
+	//ICondition		*StateMachineManager::NewCondition(EConditionParameter arg, EConditionOperation op, const _Type &controlValue)
+	//{
+	//	ICondition *newCondition = new ValueCondition<_Type>(arg, op, controlValue);
+	//	m_All.push_back(newCondition);
+	//	return newCondition;
+	//}
 
 //----------------------------------------------------------
 

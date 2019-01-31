@@ -6,6 +6,7 @@
 #include "GLShader.h"
 #include "MeshData.h"
 #include "Game.h"
+#include "Steering.h"
 
 //----------------------------------------------------------
 
@@ -28,6 +29,16 @@ void		GridEntity::Update(float dt)
 		return;
 	if (m_CurrentStateNode != nullptr)
 		m_CurrentStateNode->UpdateEntity(this, dt);
+}
+
+//----------------------------------------------------------
+
+const glm::vec3		GridEntity::Forward()
+{
+	const glm::mat4		model = ModelMatrix();
+	const glm::vec3		&position = Position();
+	glm::vec3			forward = model * glm::vec4(0.f, 1.f, 0.f, 0.f);
+	return glm::normalize(forward);
 }
 
 //----------------------------------------------------------

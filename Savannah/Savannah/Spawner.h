@@ -20,6 +20,8 @@ public:
 	void			OnSceneStart();
 	virtual	void	Update(float dt) override;
 
+	const std::vector<GridEntity*>	&Entities() { return m_EntityManager; }
+
 protected:
 	GridScene					*m_Scene;
 	int							m_PoolSize = 10;

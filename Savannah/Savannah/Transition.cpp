@@ -1,12 +1,16 @@
 #include "stdafx.h"
 
 #include "Transition.h"
+#include "GridScene.h"
+#include "Conditions.h"
 
 namespace StateMachine
 {
 //----------------------------------------------------------
 
-	Transition::Transition()
+	Transition::Transition(StateNode *to, ICondition *condition)
+	:	m_NextNode(to)
+	,	m_Condition(condition)
 	{}
 
 //----------------------------------------------------------
@@ -16,9 +20,9 @@ namespace StateMachine
 
 //----------------------------------------------------------
 
-	bool		Transition::TestCondition(GridEntity *ent)
+	bool		Transition::TestCondition(GridScene *sce, GridEntity *ent)
 	{
-		return true;
+		return m_Condition->Test(sce, ent);
 	}
 
 //----------------------------------------------------------

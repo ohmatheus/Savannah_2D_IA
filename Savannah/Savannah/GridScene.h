@@ -32,10 +32,20 @@ public:
 		_NONE		= 2
 	};
 
+	enum ESteeringBehaviour
+	{
+		ESeek,
+		EFlee,
+		EAvoid,
+		EArrive
+	};
+
 	IEntity								*GetFlagsEntity(ETeam team);
-	GridEntity							*AddEntity(ETeam type, const glm::vec3 &position, bool isActive = true);
+	GridEntity							*AddEntity(ETeam type, const glm::vec3 &position, bool isActive = true, bool manageByScene = true);
 
 	GridEntity							*Flag(ETeam teamFlag) { return m_Flags[teamFlag]; }
+
+	virtual void						PreUpdate() override;
 
 protected:
 	void								_CreateScene();
@@ -49,6 +59,9 @@ protected:
 
 	GridSpawner							*m_Spawners[ETeam::_NONE];
 	GridEntity							*m_Flags[ETeam::_NONE];
+
+
+
 	//glm::vec4			m_AntelopeColor;
 	//glm::vec4			m_LionColor;
 };

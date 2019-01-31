@@ -1,6 +1,6 @@
 #pragma once
 
-#include "StateMachineManager.h"
+#include "StateMachineHelper.h"
 
 //----------------------------------------------------------
 
@@ -18,7 +18,7 @@ namespace StateMachine
 		ICondition();
 		virtual ~ICondition();
 
-		virtual bool	Test(GridEntity *ent) = 0;
+		virtual bool	Test(GridScene *sce, GridEntity *ent) = 0;
 	};
 
 	//----------------------------------------------------------
@@ -29,13 +29,13 @@ namespace StateMachine
 		using Self = ValueCondition;
 		using Super = ICondition;
 	public:
-		ValueCondition() = delete;
+		ValueCondition() {};
 		ValueCondition(const ValueCondition&) = delete;
 		ValueCondition operator=(const ValueCondition&) = delete;
 		ValueCondition(EConditionParameter, EConditionOperation, const _Type &controlValue);
 		virtual ~ValueCondition();
 
-		virtual bool		Test(GridEntity *ent) override;
+		virtual bool		Test(GridScene *sce, GridEntity *ent) override;
 
 	private:
 		bool				_GetValueToTest(EConditionParameter arg, GridScene *scene, GridEntity *ent, _Type &outValue);
@@ -58,7 +58,7 @@ namespace StateMachine
 		CombineCondition(ICondition *conditionA, ELogicalCondition logicalCondition, ICondition *conditionB);
 		virtual ~CombineCondition();
 
-		virtual bool		Test(GridEntity *ent) override;
+		virtual bool		Test(GridScene *sce, GridEntity *ent) override;
 	private:
 		ICondition			*m_FirstCondition;
 		ICondition			*m_SecondCondition;

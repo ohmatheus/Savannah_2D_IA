@@ -81,6 +81,9 @@
     <Filter Include="Source Files\Engine\Game\Entity\Grid">
       <UniqueIdentifier>{316d524c-a9c3-4c56-af14-1d277829b248}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Game\IA\Steering">
+      <UniqueIdentifier>{e8ae2f68-eb96-4237-9ee6-dbaadb77af96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -238,5 +241,16 @@
     <ClInclude Include="GridEntity.h">
       <Filter>Source Files\Engine\Game\Entity\Grid</Filter>
     </ClInclude>
+    <ClInclude Include="Steering.h">
+      <Filter>Source Files\Engine\Game\IA\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachineHelper.h">
+      <Filter>Source Files\Engine\Game\IA</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Conditions.inl">
+      <Filter>Source Files\Engine\Game\IA\Conditions</Filter>
+    </None>
   </ItemGroup>
 </Project>

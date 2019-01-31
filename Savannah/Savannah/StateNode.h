@@ -25,7 +25,7 @@ namespace StateMachine
 		virtual void				UpdateEntity(GridEntity *ent, float dt);
 		void						SetFunc(const FuncPtr &func);
 
-		void						AddTransition(Transition* transition);
+		void						AddTransition(Transition* transition) { m_OutTransitions.push_back(transition); }
 
 	protected:
 		std::vector<Transition*>	m_OutTransitions;

@@ -104,7 +104,11 @@ void	Game::StartAndLoop()
 		//	break;
 
 		if (!m_Paused)
+		{
+			m_Scenes[0]->PreUpdate();
+
 			m_Scenes[0]->Update(dt * m_SimulationSpeed);
+		}
 
 		m_RenderSystem->PreRender();
 		m_Scenes[0]->Render(m_RenderSystem);

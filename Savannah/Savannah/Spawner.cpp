@@ -18,6 +18,8 @@ GridSpawner::GridSpawner(GridScene::ETeam team, GridScene *scene, int poolSize)
 
 GridSpawner::~GridSpawner()
 {
+	//for (int i = 0; i < m_EntityManager.size(); i++)
+	//	delete m_EntityManager[i];
 }
 
 //----------------------------------------------------------
@@ -27,7 +29,7 @@ void	GridSpawner::OnSceneStart()
 	m_EntityManager.reserve(m_PoolSize);
 	for (int i = 0; i < m_PoolSize; ++i)
 	{
-		m_EntityManager.push_back(m_Scene->AddEntity(m_Team, glm::vec3(0.f, 0.f, 0.f), false));
+		m_EntityManager.push_back(m_Scene->AddEntity(m_Team, glm::vec3(0.f, 0.f, 0.f), false, true));
 	}
 }
 
@@ -41,6 +43,7 @@ void	GridSpawner::Update(float dt)
 	const float ratio = m_SpawnPerSecond / 1.f;
 	m_SpawnTimer += dt;
 
+	// Spawn Phase
 	if (m_SpawnTimer >= ratio)
 	{
 		m_SpawnTimer = m_SpawnTimer - ratio;
@@ -56,6 +59,8 @@ void	GridSpawner::Update(float dt)
 			}
 		}
 	}
+
+	//	Update phase
 }
 
 //----------------------------------------------------------

@@ -153,10 +153,12 @@
   <ItemGroup>
     <ClInclude Include="AntelopeSM.h" />
     <ClInclude Include="Spawner.h" />
+    <ClInclude Include="StateMachineHelper.h" />
     <ClInclude Include="StateNode.h" />
     <ClInclude Include="GridScene.h" />
     <ClInclude Include="Conditions.h" />
     <ClInclude Include="StateMachineManager.h" />
+    <ClInclude Include="Steering.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transition.h" />
     <QtMoc Include="QSavannahMainWindow.h" />
@@ -206,6 +208,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="SavannahResource.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Conditions.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

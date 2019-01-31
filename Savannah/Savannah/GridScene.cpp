@@ -39,7 +39,115 @@ IEntity		*GridScene::GetFlagsEntity(ETeam team)
 
 //----------------------------------------------------------
 
-GridEntity	*GridScene::AddEntity(ETeam type, const glm::vec3 &position, bool isActive)
+float infinity = 0x7F800000;
+float minusInfinity = 0xFF800000;
+
+void		GridScene::PreUpdate()
+{
+	// Here precompute one time every each needed information for state machine
+
+	const std::vector<GridEntity*>	&lions = m_Spawners[LION]->Entities();
+	const std::vector<GridEntity*>	&antelopes = m_Spawners[ANTELOPE]->Entities();
+
+	// each antelope
+	for (int i = 0; i < antelopes.size(); i++)
+	{
+		float	lastDistance = 0x7F800000; // infinity
+		// each antelope - antelope
+		GridEntity		*antelopeA = antelopes[i];
+		const glm::vec3	&positionA = antelopeA->Position();
+
+		for (int j = i + 1; j < antelopes.size(); j++)
+		{
+			// find the nearest friend
+			GridEntity	*antelopeB = antelopes[j];
+
+			const glm::vec3	&positionB = antelopeB->Position();
+			float localDistance = glm::length(positionA - positionB);
+
+			if (localDistance < lastDistance)
+			{
+				float oldNearest = 0x7F800000; // infinity
+				if (antelopeA->m_StateMachineAttr.m_NearestFriend != nullptr)
+				{
+					const glm::vec3	&positionC = antelopeA->m_StateMachineAttr.m_NearestFriend->Position();
+					oldNearest = glm::length(positionA - positionC);
+				}
+
+				if (localDistance < oldNearest)
+				{
+					lastDistance = localDistance;
+					antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeB;
+					antelopeB->m_StateMachineAttr.m_NearestFriend = antelopeA;
+				}
+			}
+		}
+
+		lastDistance = 0x7F800000; // infinity
+
+		for (int j = 0; j < lions.size(); j++)
+		{
+			// find the nearest ennemy
+			GridEntity		*lionB = lions[j];
+			const glm::vec3	&positionB = lionB->Position();
+			float localDistance = glm::length(positionA - positionB);
+
+			if (localDistance < lastDistance)
+			{
+				float oldNearest = 0x7F800000; // infinity
+				if (antelopeA->m_StateMachineAttr.m_NearestEnemy != nullptr)
+				{
+					const glm::vec3	&positionC = antelopeA->m_StateMachineAttr.m_NearestEnemy->Position();
+					oldNearest = glm::length(positionA - positionC);
+				}
+
+				if (localDistance < oldNearest)
+				{
+					lastDistance = localDistance;
+					antelopeA->m_StateMachineAttr.m_NearestEnemy = lionB;
+					lionB->m_StateMachineAttr.m_NearestEnemy = antelopeA;
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < lions.size(); i++)
+	{
+		float	lastDistance = 0x7F800000; // infinity
+
+		GridEntity		*lionA = lions[i];
+		const glm::vec3	&positionA = lionA->Position();
+
+		for (int j = 0; j < lions.size(); j++)
+		{
+			// find the nearest friend
+			GridEntity		*lionB = lions[j];
+			const glm::vec3	&positionB = lionB->Position();
+			float localDistance = glm::length(positionA - positionB);
+
+			if (localDistance < lastDistance)
+			{
+				float oldNearest = 0x7F800000; // infinity
+				if (lionA->m_StateMachineAttr.m_NearestFriend != nullptr)
+				{
+					const glm::vec3	&positionC = antelopes[i]->m_StateMachineAttr.m_NearestFriend->Position();
+					oldNearest = glm::length(positionA - positionC);
+				}
+
+				if (localDistance < oldNearest)
+				{
+					lastDistance = localDistance;
+					lionA->m_StateMachineAttr.m_NearestFriend = lionB;
+					lionB->m_StateMachineAttr.m_NearestFriend = lionA;
+				}
+			}
+		}
+	}
+}
+
+//----------------------------------------------------------
+
+GridEntity	*GridScene::AddEntity(ETeam type, const glm::vec3 &position, bool isActive, bool manageByScene)
 {
 	glm::vec4	lionColor = glm::vec4(0.8f, 0.5f, 0.f, 1.f);
 	glm::vec4	antelopeColor = glm::vec4(0.8f, 0.25f, 0.f, 1.f);

@@ -7,6 +7,7 @@
 class StateNode;
 class GridEntity;
 class ICondition;
+class GridScene;
 
 //----------------------------------------------------------
 
@@ -16,10 +17,10 @@ namespace StateMachine
 	{
 		using Self = Transition;
 	public:
-		Transition();
+		Transition(StateNode *to, ICondition *condition);
 		virtual ~Transition();
 
-		bool		TestCondition(GridEntity *ent);
+		bool		TestCondition(GridScene *sce, GridEntity *ent);
 		StateNode	*Get() { return m_NextNode; }
 		void		SetCondition(ICondition *condition) { m_Condition = condition; }
 

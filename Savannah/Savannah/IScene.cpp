@@ -21,6 +21,12 @@ IScene::~IScene()
 
 //----------------------------------------------------------
 
+void		IScene::PreUpdate()
+{
+}
+
+//----------------------------------------------------------
+
 void		IScene::Update(float dt)
 {
 	for (int i = 0; i < m_Entities.size(); ++i)
