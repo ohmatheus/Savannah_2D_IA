@@ -25,6 +25,12 @@ public:
 
 		//float	m_DistanceFromNearestFriend;
 		//float	m_DistanceFromNearestFriend;
+
+		void Clear()
+		{
+			m_NearestFriend = nullptr;
+			m_NearestEnemy = nullptr;
+		}
 	};
 
 	GridEntity(const std::string &name, GridScene::ETeam team, bool isActive = true);
@@ -37,6 +43,11 @@ public:
 	float				MovementSpeed() { return m_MovementSpeed; }
 	float				RotationSpeed() { return m_RotationSpeed; }
 	GridScene::ETeam	Team() { return m_Team; }
+	virtual void		Die() override;
+	float				Health() { return m_Health; }
+	void				SetHealth(float health) { m_Health = health; }
+	float				Dps() { return m_Dps; }
+	void				Hit(float dmg) { m_Health -= dmg; }
 
 	void				MoveForward(float dt) //inlined
 	{
@@ -53,6 +64,8 @@ protected:
 	float					m_MovementSpeed = 2.5f;
 	float					m_RotationSpeed = 50.f;
 	GridScene::ETeam		m_Team;
+	float					m_Health = 10.f;
+	float					m_Dps = 10.f;
 };
 
 //----------------------------------------------------------

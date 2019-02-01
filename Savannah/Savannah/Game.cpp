@@ -110,7 +110,7 @@ void	Game::StartAndLoop()
 
 		if (!m_Paused)
 		{
-			m_Scenes[0]->PreUpdate();
+			m_Scenes[0]->PreUpdate(dt * m_SimulationSpeed);
 
 			m_Scenes[0]->Update(dt * m_SimulationSpeed);
 		}

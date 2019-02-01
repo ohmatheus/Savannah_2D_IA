@@ -45,7 +45,7 @@ public:
 
 	GridEntity							*Flag(ETeam teamFlag) { return m_Flags[teamFlag]; }
 
-	virtual void						PreUpdate() override;
+	virtual void						PreUpdate(float dt) override;
 
 protected:
 	void								_CreateScene();

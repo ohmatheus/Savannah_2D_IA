@@ -54,7 +54,9 @@ void	GridSpawner::Update(float dt)
 			if (!m_EntityManager[i]->IsActive())
 			{
 				m_EntityManager[i]->SetActive(true);
+				m_EntityManager[i]->SetHealth(10.f);
 				m_EntityManager[i]->SetPosition(m_Position);
+				m_EntityManager[i]->Roll() = 0.f;
 				break;
 			}
 		}

@@ -23,7 +23,7 @@ namespace StateMachine
 
 	void	StateNode::UpdateEntity(GridEntity *ent, float dt)
 	{
-		GridScene *gridScene = static_cast<GridScene*>(m_Scene); //  temporary
+		GridScene *gridScene = static_cast<GridScene*>(m_Scene); // Temporary
 		for (int i = 0; i < m_OutTransitions.size(); i++)
 		{
 			if (m_OutTransitions[i]->TestCondition(gridScene, ent))

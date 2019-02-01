@@ -65,3 +65,12 @@ void		GridEntity::Render(RenderSystem *renderSystem)
 }
 
 //----------------------------------------------------------
+
+void	GridEntity::Die()
+{
+	Super::Die();
+	m_Health = -0.1f;
+	m_StateMachineAttr.Clear();
+}
+
+//----------------------------------------------------------

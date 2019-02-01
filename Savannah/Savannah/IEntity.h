@@ -45,6 +45,7 @@ public:
 
 	bool					IsActive() { return m_IsActive; }
 	void					SetActive(bool active) { m_IsActive = active; }
+	virtual void			Die();
 
 protected:
 	bool					m_IsActive;

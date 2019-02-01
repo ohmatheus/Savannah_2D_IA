@@ -21,7 +21,7 @@ IScene::~IScene()
 
 //----------------------------------------------------------
 
-void		IScene::PreUpdate()
+void		IScene::PreUpdate(float dt)
 {
 }
 

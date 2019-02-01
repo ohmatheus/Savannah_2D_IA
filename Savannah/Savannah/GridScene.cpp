@@ -9,6 +9,7 @@
 #include "Spawner.h"
 
 #include "AntelopeSM.h"
+#include "LionSM.h"
 
 //----------------------------------------------------------
 
@@ -39,45 +40,95 @@ IEntity		*GridScene::GetFlagsEntity(ETeam team)
 
 //----------------------------------------------------------
 
-void		GridScene::PreUpdate()
+void		GridScene::PreUpdate(float dt)
 {
 	// Here precompute one time every each needed information for state machine
+	// Saves a huge amount of time regarding state machine's conditions that do not need to recalculate this.
 
 	const std::vector<GridEntity*>	&lions = m_Spawners[LION]->Entities();
 	const std::vector<GridEntity*>	&antelopes = m_Spawners[ANTELOPE]->Entities();
+
+	// pre pre to know if needs to die
+	for (int i = 0; i < antelopes.size(); i++)
+	{
+		if (antelopes[i]->Health() <= 0.f)
+			antelopes[i]->Die();
+	}
+
+	for (int i = 0; i < lions.size(); i++)
+	{
+		if (lions[i]->Health() <= 0.f)
+			lions[i]->Die();
+	}
 
 	// each antelope
 	for (int i = 0; i < antelopes.size(); i++)
 	{
 		float	lastDistance = 0x7F800000; // infinity
-		// each antelope - antelope
 		GridEntity		*antelopeA = antelopes[i];
+
+		if (!antelopeA->IsActive())
+			continue;
 		const glm::vec3	&positionA = antelopeA->Position();
 
 		for (int j = i + 1; j < antelopes.size(); j++)
 		{
 			// find the nearest friend
 			GridEntity	*antelopeB = antelopes[j];
+			if (!antelopeB->IsActive())
+				continue;
 
 			const glm::vec3	&positionB = antelopeB->Position();
 			float localDistance = glm::length(positionA - positionB);
 
-			if (localDistance < lastDistance)
+			if (localDistance < 0.2f) // special event to avoid entities overlap
 			{
-				float oldNearest = 0x7F800000; // infinity
-				if (antelopeA->m_StateMachineAttr.m_NearestFriend != nullptr)
-				{
-					const glm::vec3	&positionC = antelopeA->m_StateMachineAttr.m_NearestFriend->Position();
-					oldNearest = glm::length(positionA - positionC);
-				}
-
-				if (localDistance < oldNearest)
-				{
-					lastDistance = localDistance;
-					antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeB;
-					antelopeB->m_StateMachineAttr.m_NearestFriend = antelopeA;
-				}
+				const glm::vec3 arbitraryAntiOverlapVector = glm::vec3(0.5f, 0.5f, 0.f);
+				antelopeB->SetPosition(positionB + arbitraryAntiOverlapVector * dt);
+				antelopeA->SetPosition(positionA - arbitraryAntiOverlapVector * dt);
 			}
+
+			GridEntity	*antelopeAC = antelopeA->m_StateMachineAttr.m_NearestFriend;
+			if (antelopeAC != nullptr)
+			{
+				const float distanceOldNearest = glm::length(positionA - antelopeAC->Position());
+				if (localDistance < distanceOldNearest)
+					antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeB;
+				else
+					antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeAC;
+			}
+			else
+				antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeB;
+
+			GridEntity	*antelopeBD = antelopeB->m_StateMachineAttr.m_NearestFriend;
+			if (antelopeBD != nullptr)
+			{
+				const float distanceOldNearest = glm::length(positionB - antelopeBD->Position());
+				if (localDistance < distanceOldNearest)
+					antelopeB->m_StateMachineAttr.m_NearestFriend = antelopeA;
+				else 
+					antelopeB->m_StateMachineAttr.m_NearestFriend = antelopeBD;
+			}
+			else
+				antelopeB->m_StateMachineAttr.m_NearestFriend = antelopeA;
+
+			//if (localDistance < lastDistance)
+			//{
+			//	float oldNearest = 0x7F800000; // infinity
+			//	if (antelopeA->m_StateMachineAttr.m_NearestFriend != nullptr)
+			//	{
+			//		GridEntity	*localNearest = antelopeA->m_StateMachineAttr.m_NearestFriend;
+			//		const glm::vec3	&positionC = localNearest->Position();
+			//		oldNearest = glm::length(positionA - positionC);
+			//	}
+			//
+			//	if (localDistance < oldNearest)
+			//	{
+			//		lastDistance = localDistance;
+			//		antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeB;
+			//		antelopeB->m_StateMachineAttr.m_NearestFriend = antelopeA;
+			//	}
+			//}
 		}
 
 		lastDistance = 0x7F800000; // infinity
@@ -88,6 +139,16 @@ void		GridScene::PreUpdate()
 			GridEntity		*lionB = lions[j];
 			const glm::vec3	&positionB = lionB->Position();
 			float localDistance = glm::length(positionA - positionB);
+
+			if (!lionB->IsActive())
+				continue;
+
+			if (localDistance < 2.5f && antelopeA->IsActive()) // attack range
+			{
+				antelopeA->Hit(lionB->Dps() * dt);
+				lionB->Hit(antelopeA->Dps() * dt);
+				// die at next frame
+			}
 
 			if (localDistance < lastDistance)
 			{
@@ -115,10 +176,16 @@ void		GridScene::PreUpdate()
 		GridEntity		*lionA = lions[i];
 		const glm::vec3	&positionA = lionA->Position();
 
+		if (!lionA->IsActive())
+			continue;
+
 		for (int j = 0; j < lions.size(); j++)
 		{
 			// find the nearest friend
 			GridEntity		*lionB = lions[j];
+			if (!lionB->IsActive())
+				continue;
+
 			const glm::vec3	&positionB = lionB->Position();
 			float localDistance = glm::length(positionA - positionB);
 
@@ -127,7 +194,7 @@ void		GridScene::PreUpdate()
 				float oldNearest = 0x7F800000; // infinity
 				if (lionA->m_StateMachineAttr.m_NearestFriend != nullptr)
 				{
-					const glm::vec3	&positionC = antelopes[i]->m_StateMachineAttr.m_NearestFriend->Position();
+					const glm::vec3	&positionC = lionA->m_StateMachineAttr.m_NearestFriend->Position();
 					oldNearest = glm::length(positionA - positionC);
 				}
 
@@ -155,7 +222,7 @@ GridEntity	*GridScene::AddEntity(ETeam type, const glm::vec3 &position, bool isA
 	entity->SetShaderName("DefaultShader");
 	entity->SetPosition(position + glm::vec3(0.f, 0.f, 0.1f));
 
-	entity->ChangeStateNode(type == LION ? m_AntelopeStateMachine->Root() : m_AntelopeStateMachine->Root());
+	entity->ChangeStateNode(type == LION ? m_LionStateMachine->Root() : m_AntelopeStateMachine->Root());
 	m_GridEntity->AddChild(entity);
 
 	m_Entities.push_back(entity);
@@ -168,6 +235,7 @@ GridEntity	*GridScene::AddEntity(ETeam type, const glm::vec3 &position, bool isA
 void	GridScene::_CreateScene()
 {
 	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine(this);
+	m_LionStateMachine = new StateMachine::LionStateMachine(this);
 
 	_GenerateAndAddGrid(100, 60);
 

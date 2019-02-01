@@ -24,7 +24,7 @@ namespace StateMachine
 		virtual ~StateMachineManager();
 
 		StateNode		*NewState();
-		Transition		*NewTransition(StateNode *to, ICondition *condition);
+		Transition		*NewTransition(StateNode *from, StateNode *to, ICondition *condition);
 
 		template <typename _Type>
 		ICondition		*NewCondition(EConditionParameter arg, EConditionOperation op, const _Type &controlValue)

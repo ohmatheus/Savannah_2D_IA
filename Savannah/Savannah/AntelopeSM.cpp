@@ -7,14 +7,6 @@
 #include "GridScene.h"
 #include "Steering.h"
 
-#include <cmath>
-//
-//template <typename _T>
-//void	toto<t>::
-//{
-//
-//}
-
 namespace StateMachine
 {
 	AntelopeStateMachine::AntelopeStateMachine(IScene *scene)
@@ -74,15 +66,48 @@ namespace StateMachine
 			ent->MoveForward(dt);
 		});
 
+		StateNode	*fleeEnemy = NewState();
+		fleeEnemy->SetFunc([](IScene *sce, GridEntity *ent, float dt)
+		{
+			GridScene			*gridScene = static_cast<GridScene*>(sce);
+			assert(gridScene != nullptr);
+			GridScene::ETeam	type = ent->Team();
+			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
+
+			GridEntity	*nearestEnemy = ent->m_StateMachineAttr.m_NearestEnemy;
+
+			glm::vec3			targetPosition;
+			if (nearestEnemy != nullptr)
+				targetPosition = nearestEnemy->Position();
+			else
+				return;
+
+			const glm::vec3		&position = ent->Position();
+			glm::vec3			forward = ent->Forward();
+			const glm::vec3		direction = glm::normalize(position - targetPosition);
+
+			const float angleDif = ISteering::Angle(direction, forward);
+
+			ent->Rotate(angleDif, dt);
+			ent->MoveForward(dt);
+		});
+
 		ICondition	*isAlone = NewCondition(EFriendDistance, Superior, 1.f);
 		ICondition	*isNotAlone = NewCondition(EFriendDistance, Inferior, 1.f);
 
-		Transition	*idleToMakeFriends = NewTransition(makeFriends, isAlone);
-		idle->AddTransition(idleToMakeFriends);
+		ICondition	*isNearFromEnemy = NewCondition(EEnnemyDistance, Inferior, 5.f);
+		ICondition	*isNotNearFromEnemy = NewCondition(EEnnemyDistance, Superior, 5.f);
 
-		Transition	*makeFriendsToGoForFlag = NewTransition(goForFlag, isNotAlone);
-		makeFriends->AddTransition(makeFriendsToGoForFlag);
+		// Transitions between states
+		NewTransition(idle, makeFriends, isAlone);
+		NewTransition(idle, goForFlag, isNotAlone);
 
+		NewTransition(makeFriends, goForFlag, isNotAlone);
+
+		//NewTransition(goForFlag, idle, isAlone);
+		//NewTransition(goForFlag, fleeEnemy, isNearFromEnemy);
+
+		//NewTransition(fleeEnemy, idle, isNotNearFromEnemy);
 	}
 
 //----------------------------------------------------------

@@ -32,9 +32,12 @@ namespace StateMachine
 
 //----------------------------------------------------------
 
-	Transition		*StateMachineManager::NewTransition(StateNode *to, ICondition *condition)
+	Transition		*StateMachineManager::NewTransition(StateNode *from, StateNode *to, ICondition *condition)
 	{
+		assert(from != nullptr);
+		assert(to != nullptr);
 		Transition *newTransition = new Transition(to, condition);
+		from->AddTransition(newTransition);
 		m_All.push_back(newTransition);
 		return newTransition;
 	}
@@ -43,6 +46,8 @@ namespace StateMachine
 
 	ICondition		*StateMachineManager::NewCondition(ICondition *conditionA, ELogicalCondition logOp, ICondition *conditionB)
 	{
+		assert(conditionA != nullptr);
+		assert(conditionB != nullptr);
 		ICondition *newCondition = new CombineCondition(conditionA, logOp, conditionB);
 		m_All.push_back(newCondition);
 		return newCondition;
