@@ -39,6 +39,11 @@ Game::Game(IGameWindow *renderWindow)
 
 Game::~Game()
 {
+	for (int i = 0; i < m_Events->size(); ++i)
+		delete (*m_Events)[i];
+	m_Events->clear();
+	delete m_Events;
+
 	for (int i = 0; i < m_Scenes.size(); ++i)
 		delete m_Scenes[i];
 	m_Scenes.clear();
@@ -125,6 +130,7 @@ void	Game::ProcessEvents(float dt)
 	{
 		QEvent *ev = (*m_Events)[i];
 		_ProcessEvent(ev, dt);
+		delete ev;
 	}
 
 	m_Events->clear();

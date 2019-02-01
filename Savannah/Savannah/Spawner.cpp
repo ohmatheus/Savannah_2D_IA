@@ -29,7 +29,7 @@ void	GridSpawner::OnSceneStart()
 	m_EntityManager.reserve(m_PoolSize);
 	for (int i = 0; i < m_PoolSize; ++i)
 	{
-		m_EntityManager.push_back(m_Scene->AddEntity(m_Team, glm::vec3(0.f, 0.f, 0.f), false, true));
+		m_EntityManager.push_back(m_Scene->AddEntity(m_Team, glm::vec3(0.f, 0.f, 0.f), false));
 	}
 }
 

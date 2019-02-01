@@ -147,7 +147,7 @@ void		GridScene::PreUpdate()
 
 //----------------------------------------------------------
 
-GridEntity	*GridScene::AddEntity(ETeam type, const glm::vec3 &position, bool isActive, bool manageByScene)
+GridEntity	*GridScene::AddEntity(ETeam type, const glm::vec3 &position, bool isActive)
 {
 	glm::vec4	lionColor = glm::vec4(0.8f, 0.5f, 0.f, 1.f);
 	glm::vec4	antelopeColor = glm::vec4(0.8f, 0.25f, 0.f, 1.f);

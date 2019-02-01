@@ -41,7 +41,7 @@ public:
 	};
 
 	IEntity								*GetFlagsEntity(ETeam team);
-	GridEntity							*AddEntity(ETeam type, const glm::vec3 &position, bool isActive = true, bool manageByScene = true);
+	GridEntity							*AddEntity(ETeam type, const glm::vec3 &position, bool isActive = true);
 
 	GridEntity							*Flag(ETeam teamFlag) { return m_Flags[teamFlag]; }
 

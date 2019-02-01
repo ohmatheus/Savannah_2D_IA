@@ -31,6 +31,14 @@ QRenderWindow::QRenderWindow()
 
 QRenderWindow::~QRenderWindow()
 {
+	{
+		SCOPEDLOCK(m_EventLock);
+		for (int i = 0; i < m_EventsToSend->size(); ++i)
+			delete (*m_EventsToSend)[i];
+		m_EventsToSend->clear();
+		delete m_EventsToSend;
+	}
+
 	if (m_SurfaceFormat != nullptr)
 		delete m_SurfaceFormat;
 	if (m_Context != nullptr)
@@ -38,7 +46,6 @@ QRenderWindow::~QRenderWindow()
 	if (m_RenderWindowData_UIThread != nullptr)
 		delete m_RenderWindowData_UIThread;
 
-	delete m_EventsToSend;
 }
 
 //----------------------------------------------------------
@@ -62,7 +69,7 @@ void	QRenderWindow::Initialize()
 	m_SurfaceFormat->setVersion(4, 1);
 	m_SurfaceFormat->setProfile(QSurfaceFormat::CoreProfile);
 
-	m_Context = new QOpenGLContext();
+	m_Context = new QOpenGLContext(this);
 
 	m_Context->setFormat(*m_SurfaceFormat);
 
@@ -98,11 +105,11 @@ void	QRenderWindow::SwapRenderData(SRenderWindowData *&outRenderData)
 
 void	QRenderWindow::SwapEvents(std::vector<QEvent*> *&outEvents)
 {
+	SCOPEDLOCK(m_EventLock);
 	if (!m_EventsToSend->empty())
 	{
-		SCOPEDLOCK(m_EventLock);
 		//assert(outEvents->empty());
-		std::vector<QEvent*> *temp = m_EventsToSend;
+		std::vector<QEvent*> *temp = outEvents;
 		outEvents = m_EventsToSend;
 		m_EventsToSend = temp;
 	}
