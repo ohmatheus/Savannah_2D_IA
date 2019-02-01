@@ -12,6 +12,7 @@ class	GridFlagEntity;
 namespace StateMachine
 {
 	class	StateMachineManager;
+	class	StateNode;
 }
 
 //----------------------------------------------------------
@@ -47,6 +48,8 @@ public:
 
 	virtual void						PreUpdate(float dt) override;
 
+	StateMachine::StateNode				*GetStateMachineRoot(ETeam team);
+
 protected:
 	void								_CreateScene();
 	void								_GenerateAndAddGrid(int xSubdiv, int ySubdiv); // call rendersystem to generate mesh
@@ -59,6 +62,7 @@ protected:
 
 	GridSpawner							*m_Spawners[ETeam::_NONE];
 	GridEntity							*m_Flags[ETeam::_NONE];
+	float								m_Dps[ETeam::_NONE];
 
 
 

@@ -23,36 +23,32 @@ namespace StateMachine
 	template <typename _Type>
 	bool		ValueCondition<_Type>::Test(GridScene *sce, GridEntity *ent)
 	{
-		switch (m_TestOperation)
-		{
-		case Inferior:
-		{
-			_Type	value = 0;
-			_GetValueToTest(m_ParameterToTest, sce, ent, value);
-			return value < m_ControlValue;
-		}
-		case Superior:
+		bool result = false;
+		if (m_TestOperation & Inferior)
 		{
 			_Type	value = 0;
 			_GetValueToTest(m_ParameterToTest, sce, ent, value);
-			return value > m_ControlValue;
+			result |= value < m_ControlValue;
 		}
-		case Equal:
+		if (m_TestOperation & Superior)
 		{
 			_Type	value = 0;
 			_GetValueToTest(m_ParameterToTest, sce, ent, value);
-			return value == m_ControlValue;
+			result |= value > m_ControlValue;
 		}
-		case Not:
+		if (m_TestOperation & Equal)
 		{
 			_Type	value = 0;
 			_GetValueToTest(m_ParameterToTest, sce, ent, value);
-			return !value;
+			result |= value == m_ControlValue;
 		}
-		default: assert(false); break;
+		if (m_TestOperation & Not)
+		{
+			_Type	value = 0;
+			_GetValueToTest(m_ParameterToTest, sce, ent, value);
+			result |= !value;
 		}
-
-		return false;
+		return result;
 	}
 
 	//----------------------------------------------------------
@@ -79,7 +75,7 @@ namespace StateMachine
 				outValue = 0x7F800000; // inf
 				return false;
 			}
-			//assert(ent->m_StateMachineAttr.m_NearestEnemy->IsActive()); // otherwise means that PreUpdate went wrong
+			assert(ent->m_StateMachineAttr.m_NearestEnemy->IsActive()); // otherwise means that PreUpdate went wrong
 			const glm::vec3		&enemyPosition = ent->m_StateMachineAttr.m_NearestEnemy->Position();
 			const glm::vec3		&myPosition = ent->Position();
 			outValue = glm::length(enemyPosition - myPosition);
@@ -92,7 +88,7 @@ namespace StateMachine
 				outValue = 0x7F800000; // inf
 				return false;
 			}
-			//assert(ent->m_StateMachineAttr.m_NearestFriend->IsActive()); // otherwise means that PreUpdate went wrong
+			assert(ent->m_StateMachineAttr.m_NearestFriend->IsActive()); // otherwise means that PreUpdate went wrong
 			const glm::vec3		&friendPosition = ent->m_StateMachineAttr.m_NearestFriend->Position();
 			const glm::vec3		&myPosition = ent->Position();
 			outValue = glm::length(friendPosition - myPosition);
@@ -109,6 +105,11 @@ namespace StateMachine
 			GridScene::ETeam myTeam = ent->Team();
 			GridEntity *flag = scene->Flag(myTeam == GridScene::LION ? GridScene::ANTELOPE : myTeam);
 			outValue = glm::length(flag->Position() - ent->Position());
+			return true;
+		}
+		case EConditionParameter::ENearFriendCount:
+		{
+			outValue = ent->m_StateMachineAttr.m_FriendsNextToMe;
 			return true;
 		}
 		default: assert(false); break;

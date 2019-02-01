@@ -22,6 +22,7 @@ public:
 	{
 		GridEntity	*m_NearestFriend = nullptr;
 		GridEntity	*m_NearestEnemy = nullptr;
+		int			m_FriendsNextToMe = 0;
 
 		//float	m_DistanceFromNearestFriend;
 		//float	m_DistanceFromNearestFriend;
@@ -47,6 +48,7 @@ public:
 	float				Health() { return m_Health; }
 	void				SetHealth(float health) { m_Health = health; }
 	float				Dps() { return m_Dps; }
+	void				SetDps(float dps) { m_Dps = dps; }
 	void				Hit(float dmg) { m_Health -= dmg; }
 
 	void				MoveForward(float dt) //inlined

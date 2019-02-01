@@ -27,9 +27,9 @@ namespace StateMachine
 		Transition		*NewTransition(StateNode *from, StateNode *to, ICondition *condition);
 
 		template <typename _Type>
-		ICondition		*NewCondition(EConditionParameter arg, EConditionOperation op, const _Type &controlValue)
+		ICondition		*NewCondition(EConditionParameter arg, int op, const _Type &controlValue)
 		{
-			ICondition *newCondition = new ValueCondition<_Type>(arg, op, controlValue);
+			ICondition *newCondition = new ValueCondition<_Type>(arg, static_cast<EConditionOperation>(op), controlValue);
 			m_All.push_back(newCondition);
 			return newCondition;
 		}

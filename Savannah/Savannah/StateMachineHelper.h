@@ -13,15 +13,16 @@ namespace StateMachine
 		EEnnemyDistance,
 		EFriendDistance,
 		EMyFlagDistance,
-		EEnemyFlagDistance
+		EEnemyFlagDistance,
+		ENearFriendCount
 	};
 
 	enum EConditionOperation
 	{
-		Inferior = 0 << 0,
+		Inferior = 1 << 0,
 		Superior = 1 << 1,
 		Equal = 1 << 2,
-		Not = 1 << 3
+		Not = 1 << 3,
 	};
 
 	enum ELogicalCondition
