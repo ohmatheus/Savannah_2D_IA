@@ -39,9 +39,6 @@ IEntity		*GridScene::GetFlagsEntity(ETeam team)
 
 //----------------------------------------------------------
 
-float infinity = 0x7F800000;
-float minusInfinity = 0xFF800000;
-
 void		GridScene::PreUpdate()
 {
 	// Here precompute one time every each needed information for state machine

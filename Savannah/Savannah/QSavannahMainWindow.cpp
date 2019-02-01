@@ -44,8 +44,6 @@ QSavannahMainWindow::~QSavannahMainWindow()
 	if (m_Game != nullptr)
 		delete m_Game;
 	delete m_RenderWindow;
-	//delete m_GameWorker;
-
 }
 
 //----------------------------------------------------------
@@ -54,7 +52,6 @@ void	QSavannahMainWindow::Setup()
 {
 	setObjectName(QString::fromUtf8("SavannahMainWindow"));
 
-	//resize(1900, 1200);
 	m_MenuBar = new QMenuBar(this);
 	m_MenuBar->setObjectName(QString::fromUtf8("menuBar"));
 	setMenuBar(m_MenuBar);
@@ -87,7 +84,6 @@ void	QSavannahMainWindow::StartGameThread()
 {
 	m_GameWorker = new QWorkerObject();
 
-	// could also pass through m_Game and not a worker object tho
 	m_GameWorker->SetFunc(std::bind(&Game::StartAndLoop, m_Game));
 
 	m_GameWorker->moveToThread(&m_GameThread);
