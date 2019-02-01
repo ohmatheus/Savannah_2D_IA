@@ -12,10 +12,14 @@ namespace StateMachine
 
 	}
 
+	//----------------------------------------------------------
+
 	StateNode::~StateNode()
 	{
 
 	}
+
+	//----------------------------------------------------------	
 
 	void	StateNode::UpdateEntity(GridEntity *ent, float dt)
 	{
@@ -31,6 +35,8 @@ namespace StateMachine
 		assert(m_Scene != nullptr);
 		m_Func(m_Scene, ent, dt);
 	}
+
+	//----------------------------------------------------------
 
 	void	StateNode::SetFunc(const FuncPtr &func)
 	{

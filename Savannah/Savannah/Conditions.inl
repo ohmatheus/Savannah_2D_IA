@@ -116,5 +116,5 @@ namespace StateMachine
 		return false;
 		outValue = 0;
 	}
-
+	//----------------------------------------------------------
 }

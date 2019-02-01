@@ -41,20 +41,12 @@ namespace StateMachine
 
 //----------------------------------------------------------
 
-	//template <typename _Type>
-	//ICondition		*StateMachineManager::NewCondition(EConditionParameter arg, EConditionOperation op, const _Type &controlValue)
-	//{
-	//	ICondition *newCondition = new ValueCondition<_Type>(arg, op, controlValue);
-	//	m_All.push_back(newCondition);
-	//	return newCondition;
-	//}
-
-//----------------------------------------------------------
-
 	ICondition		*StateMachineManager::NewCondition(ICondition *conditionA, ELogicalCondition logOp, ICondition *conditionB)
 	{
 		ICondition *newCondition = new CombineCondition(conditionA, logOp, conditionB);
 		m_All.push_back(newCondition);
 		return newCondition;
 	}
+
+//----------------------------------------------------------
 }
