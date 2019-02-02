@@ -26,8 +26,6 @@ GridEntity::~GridEntity()
 GridEntity::GridEntity(const GridEntity &from)
 :	Super(from)
 {
-	assert(m_Children.size() == 0);
-
 	m_CurrentStateNode = nullptr; // given by the scene at AddEntity
 
 	m_MovementSpeed = from.m_MovementSpeed;
@@ -48,10 +46,12 @@ GridEntity	*GridEntity::Clone()
 
 void		GridEntity::Update(float dt)
 {
-	if (!m_IsActive)
-		return;
-	if (m_CurrentStateNode != nullptr)
-		m_CurrentStateNode->UpdateEntity(this, dt);
+	if (m_IsActive)
+	{
+		if (m_CurrentStateNode != nullptr)
+			m_CurrentStateNode->UpdateEntity(this, dt);
+	}
+	Super::Update(dt);
 }
 
 //----------------------------------------------------------
@@ -85,6 +85,8 @@ void		GridEntity::Render(RenderSystem *renderSystem)
 	glBindVertexArray(mesh->VAO());
 	glDrawArrays(mesh->Mode(), 0, mesh->VerticesNbr());
 	//shader->Unbind();
+
+	Super::Render(renderSystem);
 }
 
 //----------------------------------------------------------

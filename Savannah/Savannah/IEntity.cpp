@@ -25,7 +25,26 @@ IEntity::IEntity(const std::string &name, bool isActive)
 //----------------------------------------------------------
 
 IEntity::~IEntity()
-{}
+{
+	for (int i = 0; i < m_Children.size(); i++)
+		delete m_Children[i];
+}
+
+//----------------------------------------------------------
+
+void	IEntity::Update(float dt)
+{
+	for (int i = 0; i < m_Children.size(); i++)
+		m_Children[i]->Update(dt);
+}
+
+//----------------------------------------------------------
+
+void	IEntity::Render(RenderSystem *renderSystem)
+{
+	for (int i = 0; i < m_Children.size(); i++)
+		m_Children[i]->Render(renderSystem);
+}
 
 //----------------------------------------------------------
 
@@ -43,12 +62,11 @@ IEntity::IEntity(const IEntity &from)
 	m_Yaw = from.m_Yaw;
 	m_Roll = from.m_Roll;
 
-	/// Dont copy parent or children design is wrong about that - TODO
-	/*for (int i = 0; i < from.m_Children.size(); i++)
+	for (int i = 0; i < from.m_Children.size(); i++)
 	{
 		m_Children.push_back(from.m_Children[i]->Clone());
-	}*/
-	//m_Parent = nullptr;
+		m_Children[i]->m_Parent = this;
+	}
 }
 
 //----------------------------------------------------------
@@ -83,6 +101,24 @@ void	IEntity::AddChild(IEntity *ent)
 void	IEntity::Die()
 {
 	SetActive(false);
+}
+
+//----------------------------------------------------------
+
+IEntity		*IEntity::GetChild(const std::string &name)
+{
+	for (int i = 0; i < m_Children.size(); ++i)
+	{
+		if (m_Children[i]->Name() == name)
+			return m_Children[i];
+		else
+		{
+			IEntity	*found = m_Children[i]->GetChild(name);
+			if (found != nullptr)
+				return found;
+		}
+	}
+	return nullptr;
 }
 
 //----------------------------------------------------------

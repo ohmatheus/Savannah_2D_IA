@@ -61,7 +61,7 @@ void	GridSpawner::OnSceneStart(GridScene *scene)
 	{
 		for (int j = 0; j <= ySubdiv; j++)
 		{
-			GridEntity *entity = m_Scene->AddEntity(m_Team, glm::vec3(position.x - xOffset + i * cellSize, position.y + yOffset - j * cellSize, 0.f), true);
+			GridEntity *entity = m_Scene->AddEntityToGrid(m_Team, glm::vec3(position.x - xOffset + i * cellSize, position.y + yOffset - j * cellSize, 0.f), true);
 			m_EntityManager.push_back(entity);
 			entity->SetDps(m_Dps);
 		}
@@ -93,6 +93,7 @@ void	GridSpawner::Update(float dt)
 			}
 		}
 	}
+	Super::Update(dt);
 }
 
 //----------------------------------------------------------

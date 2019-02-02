@@ -50,6 +50,7 @@ public:
 	virtual void			Die();
 
 	const std::string		&Name() { return m_Name; }
+	IEntity					*GetChild(const std::string &name);
 
 protected:
 	bool					m_IsActive;

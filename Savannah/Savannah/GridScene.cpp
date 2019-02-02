@@ -49,7 +49,6 @@ GridScene::GridScene(const GridScene &scene)
 	m_Flags[1] = static_cast<GridEntity*>(GetEntity("Antelope Flag")); // ouch + error prone
 	assert(m_Flags[1]);
 
-
 	m_GridEntity = static_cast<GridEntity*>(GetEntity("Grid")); // ouch + error prone
 	assert(m_GridEntity);
 
@@ -117,21 +116,21 @@ void		GridScene::PreUpdate(float dt)
 
 	for (int i = 0; i < antelopes.size(); i++)
 	{
-		GridEntity		*antelopeA = antelopes[i];
+		GridEntity				*antelopeA = antelopes[i];
 
 		if (!antelopeA->IsActive())
 			continue;
-		const glm::vec3	&positionA = antelopeA->Position();
+		const glm::vec3			&positionA = antelopeA->Position();
 
 		for (int j = i + 1; j < antelopes.size(); j++)
 		{
 			// find the nearest friend
-			GridEntity	*antelopeB = antelopes[j];
+			GridEntity			*antelopeB = antelopes[j];
 			if (!antelopeB->IsActive())
 				continue;
 
-			const glm::vec3	&positionB = antelopeB->Position();
-			float localDistance = glm::length(positionA - positionB);
+			const glm::vec3		&positionB = antelopeB->Position();
+			float				localDistance = glm::length(positionA - positionB);
 
 			if (localDistance < 5.f) // friends next to me
 			{
@@ -146,10 +145,10 @@ void		GridScene::PreUpdate(float dt)
 				antelopeA->SetPosition(positionA - arbitraryAntiOverlapVector * dt);
 			}
 
-			GridEntity	*antelopeAC = antelopeA->m_StateMachineAttr.m_NearestFriend;
+			GridEntity			*antelopeAC = antelopeA->m_StateMachineAttr.m_NearestFriend;
 			if (antelopeAC != nullptr)
 			{
-				const float distanceOldNearest = glm::length(positionA - antelopeAC->Position());
+				const float		distanceOldNearest = glm::length(positionA - antelopeAC->Position());
 				if (localDistance < distanceOldNearest || !antelopeAC->IsActive())
 					antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeB;
 				else
@@ -158,10 +157,10 @@ void		GridScene::PreUpdate(float dt)
 			else
 				antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeB;
 
-			GridEntity	*antelopeBD = antelopeB->m_StateMachineAttr.m_NearestFriend;
+			GridEntity			*antelopeBD = antelopeB->m_StateMachineAttr.m_NearestFriend;
 			if (antelopeBD != nullptr)
 			{
-				const float distanceOldNearest = glm::length(positionB - antelopeBD->Position());
+				const float		distanceOldNearest = glm::length(positionB - antelopeBD->Position());
 				if (localDistance < distanceOldNearest || !antelopeBD->IsActive())
 					antelopeB->m_StateMachineAttr.m_NearestFriend = antelopeA;
 				else 
@@ -174,13 +173,13 @@ void		GridScene::PreUpdate(float dt)
 		for (int j = 0; j < lions.size(); j++)
 		{
 			// find the nearest ennemy
-			GridEntity		*lionB = lions[j];
+			GridEntity			*lionB = lions[j];
 
 			if (!lionB->IsActive())
 				continue;
 
-			const glm::vec3	&positionB = lionB->Position();
-			float localDistance = glm::length(positionA - positionB);
+			const glm::vec3		&positionB = lionB->Position();
+			float				localDistance = glm::length(positionA - positionB);
 
 			if (localDistance < 2.5f && antelopeA->IsActive()) // attack range
 			{
@@ -189,7 +188,7 @@ void		GridScene::PreUpdate(float dt)
 				// die at next frame
 			}
 
-			GridEntity	*lionAC = antelopeA->m_StateMachineAttr.m_NearestEnemy;
+			GridEntity			*lionAC = antelopeA->m_StateMachineAttr.m_NearestEnemy;
 			if (lionAC != nullptr)
 			{
 				const float distanceOldNearest = glm::length(positionA - lionAC->Position());
@@ -201,10 +200,10 @@ void		GridScene::PreUpdate(float dt)
 			else
 				antelopeA->m_StateMachineAttr.m_NearestEnemy = lionB;
 
-			GridEntity	*antelopeBD = lionB->m_StateMachineAttr.m_NearestEnemy;
+			GridEntity			*antelopeBD = lionB->m_StateMachineAttr.m_NearestEnemy;
 			if (antelopeBD != nullptr)
 			{
-				const float distanceOldNearest = glm::length(positionB - antelopeBD->Position());
+				const float		distanceOldNearest = glm::length(positionB - antelopeBD->Position());
 				if (localDistance < distanceOldNearest || !antelopeBD->IsActive())
 					lionB->m_StateMachineAttr.m_NearestEnemy = antelopeA;
 				else
@@ -217,8 +216,8 @@ void		GridScene::PreUpdate(float dt)
 
 	for (int i = 0; i < lions.size(); i++)
 	{
-		GridEntity		*lionA = lions[i];
-		const glm::vec3	&positionA = lionA->Position();
+		GridEntity				*lionA = lions[i];
+		const glm::vec3			&positionA = lionA->Position();
 
 		if (!lionA->IsActive())
 			continue;
@@ -226,12 +225,12 @@ void		GridScene::PreUpdate(float dt)
 		for (int j = 0; j < lions.size(); j++)
 		{
 			// find the nearest friend
-			GridEntity		*lionB = lions[j];
+			GridEntity			*lionB = lions[j];
 			if (!lionB->IsActive())
 				continue;
 
-			const glm::vec3	&positionB = lionB->Position();
-			float localDistance = glm::length(positionA - positionB);
+			const glm::vec3		&positionB = lionB->Position();
+			float				localDistance = glm::length(positionA - positionB);
 
 			if (localDistance < 5.f) // friends next to me
 			{
@@ -251,10 +250,10 @@ void		GridScene::PreUpdate(float dt)
 			else
 				lionA->m_StateMachineAttr.m_NearestFriend = lionB;
 
-			GridEntity	*lionBD = lionB->m_StateMachineAttr.m_NearestFriend;
+			GridEntity			*lionBD = lionB->m_StateMachineAttr.m_NearestFriend;
 			if (lionBD != nullptr)
 			{
-				const float distanceOldNearest = glm::length(positionB - lionBD->Position());
+				const float		distanceOldNearest = glm::length(positionB - lionBD->Position());
 				if (localDistance < distanceOldNearest || !lionBD->IsActive())
 					lionB->m_StateMachineAttr.m_NearestFriend = lionA;
 				else
@@ -268,7 +267,7 @@ void		GridScene::PreUpdate(float dt)
 
 //----------------------------------------------------------
 
-GridEntity	*GridScene::AddEntity(ETeam type, const glm::vec3 &position, bool isActive)
+GridEntity	*GridScene::AddEntityToGrid(ETeam type, const glm::vec3 &position, bool isActive)
 {
 	glm::vec4	lionColor = glm::vec4(0.8f, 0.5f, 0.f, 1.f);
 	glm::vec4	antelopeColor = glm::vec4(0.8f, 0.25f, 0.f, 1.f);
@@ -282,7 +281,7 @@ GridEntity	*GridScene::AddEntity(ETeam type, const glm::vec3 &position, bool isA
 	entity->ChangeStateNode(type == LION ? m_LionStateMachine->Root() : m_AntelopeStateMachine->Root());
 	m_GridEntity->AddChild(entity);
 
-	m_Entities.push_back(entity);
+	//m_Entities.push_back(entity);
 
 	return entity;
 }
@@ -308,7 +307,7 @@ void	GridScene::_CreateScene()
 		entity->SetPosition(glm::vec3(-40.f, 20.f, 0.1f));
 
 		m_GridEntity->AddChild(entity);
-		m_Entities.push_back(entity);
+		//m_Entities.push_back(entity);
 		m_Flags[LION] = entity;
 	}
 	{
@@ -319,7 +318,7 @@ void	GridScene::_CreateScene()
 		entity->SetPosition(glm::vec3(40.f, 20.f, 0.1f));
 
 		m_GridEntity->AddChild(entity);
-		m_Entities.push_back(entity);
+		//m_Entities.push_back(entity);
 		m_Flags[ANTELOPE] = entity;
 	}
 
@@ -328,7 +327,7 @@ void	GridScene::_CreateScene()
 		std::string spawnerName = ((ETeam)i == LION ? "Lion" : "Antelope"); // TODO find a way to STRIGIFY an enum
 		spawnerName += "Spawner";
 		m_Spawners[i] = new GridSpawner((ETeam)i, spawnerName, (ETeam)i == LION ? 75 : 300);
-		m_Entities.push_back(m_Spawners[i]);
+		//m_Entities.push_back(m_Spawners[i]);
 		m_GridEntity->AddChild(m_Spawners[i]);
 
 		m_Spawners[i]->SetColor((ETeam)i == LION ? glm::vec4(0.f, 0.7f, 0.1f, 1.f) : glm::vec4(0.5f, 0.f, 0.7f, 1.f));
@@ -367,6 +366,7 @@ void	GridScene::_GenerateAndAddGrid(int xSubdiv, int ySubdiv)
 	entity->SetPosition(glm::vec3(0.f, 0.f, 0.f));
 	m_Entities.push_back(entity);
 	m_GridEntity = entity;
+	//m_GridEntity->Pitch() = -25;
 }
 
 //----------------------------------------------------------

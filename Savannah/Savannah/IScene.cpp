@@ -57,6 +57,12 @@ IEntity		*IScene::GetEntity(const std::string &name)
 	{
 		if (m_Entities[i]->Name() == name)
 			return m_Entities[i];
+		else
+		{
+			IEntity	*found = m_Entities[i]->GetChild(name);
+			if (found != nullptr)
+				return found;
+		}
 	}
 	return nullptr;
 }
