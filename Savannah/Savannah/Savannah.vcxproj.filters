@@ -84,6 +84,9 @@
     <Filter Include="Source Files\Engine\Game\IA\Steering">
       <UniqueIdentifier>{e8ae2f68-eb96-4237-9ee6-dbaadb77af96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Editor\Control">
+      <UniqueIdentifier>{de7e6854-e860-431f-a9e6-80d256e901f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

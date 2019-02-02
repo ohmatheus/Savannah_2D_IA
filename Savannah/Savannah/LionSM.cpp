@@ -31,7 +31,7 @@ namespace StateMachine
 			targetPosition = gridScene->GetFlagsEntity(enemyType)->Position();
 
 			const glm::vec3		&position = ent->Position();
-			glm::vec3			forward = ent->Forward();
+			const glm::vec3		&forward = ent->Forward();
 			const glm::vec3		direction = glm::normalize(targetPosition - position);
 
 			const float angleDif = ISteering::Angle(direction, forward);
@@ -57,7 +57,7 @@ namespace StateMachine
 				return;
 
 			const glm::vec3		&position = ent->Position();
-			glm::vec3			forward = ent->Forward();
+			const glm::vec3		&forward = ent->Forward();
 			const glm::vec3		direction = glm::normalize(targetPosition - position);
 
 			const float angleDif = ISteering::Angle(direction, forward);
