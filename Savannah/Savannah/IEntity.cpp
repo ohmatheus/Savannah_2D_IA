@@ -71,7 +71,7 @@ IEntity::IEntity(const IEntity &from)
 
 //----------------------------------------------------------
 
-glm::mat4	IEntity::ModelMatrix()
+glm::mat4	IEntity::ModelMatrix(bool worldspace)
 {
 	glm::mat4 result = glm::mat4(1.f);
 
@@ -81,8 +81,8 @@ glm::mat4	IEntity::ModelMatrix()
 	result = glm::rotate(result, glm::radians(m_Roll), glm::vec3(0.0f, 0.0f, 1.0f));
 	result = glm::scale(result, m_Scale);
 	
-	if (m_Parent != nullptr)
-		return m_Parent->ModelMatrix() * result;
+	if (m_Parent != nullptr && worldspace)
+		return m_Parent->ModelMatrix(worldspace) * result;
 	else
 		return result;
 }

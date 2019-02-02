@@ -56,11 +56,10 @@ void		GridEntity::Update(float dt)
 
 //----------------------------------------------------------
 
-const glm::vec3		GridEntity::Forward()
+const glm::vec3		GridEntity::Forward(bool worldSpace)
 {
-	const glm::mat4		model = ModelMatrix();
-	const glm::vec3		&position = Position();
-	glm::vec3			forward = model * glm::vec4(0.f, 1.f, 0.f, 0.f);
+	glm::mat4	model = ModelMatrix(worldSpace);
+	glm::vec3	forward = model * glm::vec4(0.f, 1.f, 0.f, 0.f);
 	return glm::normalize(forward);
 }
 
@@ -72,7 +71,7 @@ void		GridEntity::Render(RenderSystem *renderSystem)
 		return;
 	GLShader			*shader = renderSystem->GetShader(m_ShaderName);
 	MeshData			*mesh = renderSystem->GetMesh(m_MeshName);
-	const glm::mat4		modelW = ModelMatrix(); // do not recompute each frame for each entity, keep in class and modify directly TODO
+	const glm::mat4		modelW = ModelMatrix(true); // do not recompute each frame for each entity, keep in class and modify directly TODO
 
 	assert(shader != nullptr);
 	assert(mesh != nullptr);

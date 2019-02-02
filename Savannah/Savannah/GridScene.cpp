@@ -38,10 +38,10 @@ GridScene::GridScene(const GridScene &scene)
 {
 	m_Game = scene.m_Game;
 
-	//m_AntelopeStateMachine = scene.m_AntelopeStateMachine; // should clone
+	//m_AntelopeStateMachine = scene.m_AntelopeStateMachine; // should clone ?
 	//m_LionStateMachine = scene.m_LionStateMachine;
 
-	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine(this); // wrong, this is to gain time
+	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine(this);
 	m_LionStateMachine = new StateMachine::LionStateMachine(this);
 
 	m_Flags[0] = static_cast<GridEntity*>(GetEntity("Lion Flag")); // ouch + error prone
@@ -366,7 +366,7 @@ void	GridScene::_GenerateAndAddGrid(int xSubdiv, int ySubdiv)
 	entity->SetPosition(glm::vec3(0.f, 0.f, 0.f));
 	m_Entities.push_back(entity);
 	m_GridEntity = entity;
-	//m_GridEntity->Pitch() = -25;
+	//m_GridEntity->Pitch() = -50;
 }
 
 //----------------------------------------------------------

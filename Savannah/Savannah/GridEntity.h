@@ -43,7 +43,7 @@ public:
 	virtual void			Update(float dt) override;
 	virtual void			Render(RenderSystem *rs) override;
 	void					ChangeStateNode(StateMachine::StateNode *node) { m_CurrentStateNode = node; }
-	const glm::vec3			Forward();
+	const glm::vec3			Forward(bool worldSpace = false);
 	float					MovementSpeed() { return m_MovementSpeed; }
 	float					RotationSpeed() { return m_RotationSpeed; }
 	GridScene::ETeam		Team() { return m_Team; }

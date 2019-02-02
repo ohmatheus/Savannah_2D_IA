@@ -22,7 +22,7 @@ public:
 	virtual void			Update(float dt) = 0;
 	virtual void			Render(RenderSystem *renderSystem) = 0;
 
-	glm::mat4				ModelMatrix(); // copy
+	glm::mat4				ModelMatrix(bool worldspace = false); // copy
 
 	void					SetPosition(const glm::vec3 &position) { m_Position = position; }
 	void					SetRotation(const glm::vec3 &rotation) { m_Rotation = rotation; }
