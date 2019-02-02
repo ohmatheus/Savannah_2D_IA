@@ -26,6 +26,8 @@ public:
 	GridScene(Game *game);
 	virtual ~GridScene();
 
+	GridScene(const GridScene &scene);
+
 	enum ETeam
 	{
 		LION		= 0,
@@ -40,6 +42,9 @@ public:
 		EAvoid,
 		EArrive
 	};
+
+	virtual IScene						*Clone();
+	virtual void						OnSceneStart() override;
 
 	IEntity								*GetFlagsEntity(ETeam team);
 	GridEntity							*AddEntity(ETeam type, const glm::vec3 &position, bool isActive = true);

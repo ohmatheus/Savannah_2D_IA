@@ -33,6 +33,58 @@ GridScene::~GridScene()
 
 //----------------------------------------------------------
 
+GridScene::GridScene(const GridScene &scene)
+:	Super(scene)
+{
+	m_Game = scene.m_Game;
+
+	//m_AntelopeStateMachine = scene.m_AntelopeStateMachine; // should clone
+	//m_LionStateMachine = scene.m_LionStateMachine;
+
+	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine(this); // wrong, this is to gain time
+	m_LionStateMachine = new StateMachine::LionStateMachine(this);
+
+	m_Flags[0] = static_cast<GridEntity*>(GetEntity("Lion Flag")); // ouch + error prone
+	assert(m_Flags[0]);
+	m_Flags[1] = static_cast<GridEntity*>(GetEntity("Antelope Flag")); // ouch + error prone
+	assert(m_Flags[1]);
+
+
+	m_GridEntity = static_cast<GridEntity*>(GetEntity("Grid")); // ouch + error prone
+	assert(m_GridEntity);
+
+	m_Spawners[0] = static_cast<GridSpawner*>(GetEntity("LionSpawner"));
+	assert(m_Spawners[0]);
+	m_Spawners[1] = static_cast<GridSpawner*>(GetEntity("AntelopeSpawner"));
+	assert(m_Spawners[1]);
+
+	for (int i = 0; i < ETeam::_NONE; i++)
+	{
+		//m_Spawners[(ETeam)i] = scene.m_Spawners[(ETeam)i]->Clone();
+		//m_Flags[(ETeam)i] = scene.m_Flags[(ETeam)i]->Clone();
+		m_Dps[(ETeam)i] = scene.m_Dps[(ETeam)i];
+	}
+}
+
+//----------------------------------------------------------
+
+void	GridScene::OnSceneStart()
+{
+	for (int i = 0; i < ETeam::_NONE; i++)
+	{
+		m_Spawners[i]->OnSceneStart(this);
+	}
+}
+
+//----------------------------------------------------------
+
+IScene	*GridScene::Clone()
+{
+	return new GridScene(*this);
+}
+
+//----------------------------------------------------------
+
 IEntity		*GridScene::GetFlagsEntity(ETeam team)
 {
 	return m_Flags[team];
@@ -273,7 +325,9 @@ void	GridScene::_CreateScene()
 
 	for (int i = 0; i < ETeam::_NONE; i++)
 	{
-		m_Spawners[i] = new GridSpawner((ETeam)i, this, (ETeam)i == LION ? 75 : 300);
+		std::string spawnerName = ((ETeam)i == LION ? "Lion" : "Antelope"); // TODO find a way to STRIGIFY an enum
+		spawnerName += "Spawner";
+		m_Spawners[i] = new GridSpawner((ETeam)i, spawnerName, (ETeam)i == LION ? 75 : 300);
 		m_Entities.push_back(m_Spawners[i]);
 		m_GridEntity->AddChild(m_Spawners[i]);
 
@@ -284,7 +338,6 @@ void	GridScene::_CreateScene()
 		m_Spawners[i]->SetScale(3.f);
 
 		m_Spawners[i]->SetDps(m_Dps[(ETeam)i]);
-		m_Spawners[i]->OnSceneStart(); // TODO move that when be able to copy scene
 	}
 }
 

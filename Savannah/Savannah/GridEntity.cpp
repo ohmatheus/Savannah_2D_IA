@@ -23,6 +23,29 @@ GridEntity::~GridEntity()
 
 //----------------------------------------------------------
 
+GridEntity::GridEntity(const GridEntity &from)
+:	Super(from)
+{
+	assert(m_Children.size() == 0);
+
+	m_CurrentStateNode = nullptr; // given by the scene at AddEntity
+
+	m_MovementSpeed = from.m_MovementSpeed;
+	m_RotationSpeed = from.m_RotationSpeed;
+	m_Team = from.m_Team;
+	m_Health = from.m_Health;
+	m_Dps = from.m_Dps;
+}
+
+//----------------------------------------------------------
+
+GridEntity	*GridEntity::Clone()
+{
+	return new GridEntity(*this);
+}
+
+//----------------------------------------------------------
+
 void		GridEntity::Update(float dt)
 {
 	if (!m_IsActive)

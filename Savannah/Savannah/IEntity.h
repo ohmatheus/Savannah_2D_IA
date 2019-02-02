@@ -16,7 +16,9 @@ class IEntity
 public:
 	IEntity(const std::string &name, bool isActive = true);
 	virtual ~IEntity();
+	IEntity(const IEntity &from);
 
+	virtual	IEntity			*Clone() = 0;
 	virtual void			Update(float dt) = 0;
 	virtual void			Render(RenderSystem *renderSystem) = 0;
 
@@ -46,6 +48,8 @@ public:
 	bool					IsActive() { return m_IsActive; }
 	void					SetActive(bool active) { m_IsActive = active; }
 	virtual void			Die();
+
+	const std::string		&Name() { return m_Name; }
 
 protected:
 	bool					m_IsActive;

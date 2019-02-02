@@ -47,6 +47,8 @@ Game::~Game()
 	for (int i = 0; i < m_Scenes.size(); ++i)
 		delete m_Scenes[i];
 	m_Scenes.clear();
+	if (m_IsGameRunning)
+		delete m_CurrentScene;
 	delete m_RenderSystem;
 	delete m_RenderWindowData;
 }
@@ -57,6 +59,11 @@ void	Game::StartAndLoop()
 {
 	m_RenderWindow->Initialize();
 	_InitRenderSystem();
+
+	GridScene *scene = new GridScene(this);
+	m_Scenes.push_back(scene);
+
+	m_CurrentScene = scene;
 
 	Timer timer;
 	float		dt = 0.f;
@@ -108,15 +115,15 @@ void	Game::StartAndLoop()
 		//if (!m_RenderWindowData->m_ContinueRunning); 
 		//	break;
 
-		if (!m_Paused)
+		if (!m_Paused && m_IsGameRunning)
 		{
-			m_Scenes[0]->PreUpdate(dt * m_SimulationSpeed);
+			m_CurrentScene->PreUpdate(dt * m_SimulationSpeed);
 
-			m_Scenes[0]->Update(dt * m_SimulationSpeed);
+			m_CurrentScene->Update(dt * m_SimulationSpeed);
 		}
 
 		m_RenderSystem->PreRender();
-		m_Scenes[0]->Render(m_RenderSystem);
+		m_CurrentScene->Render(m_RenderSystem);
 
 		m_RenderWindow->SwapBuffers();
 	}
@@ -134,6 +141,29 @@ void	Game::ProcessEvents(float dt)
 	}
 
 	m_Events->clear();
+}
+
+//----------------------------------------------------------
+
+void	Game::LaunchScene()
+{
+	m_CurrentScene = m_Scenes[0]->Clone();
+	m_CurrentScene->OnSceneStart();
+	m_IsGameRunning = true;
+	m_Paused = false;
+}
+
+//----------------------------------------------------------
+
+void	Game::StopScene()
+{
+	if (m_CurrentScene != nullptr)
+	{
+		delete m_CurrentScene;
+	}
+	m_CurrentScene = m_Scenes[0];
+	m_IsGameRunning = false;
+	m_Paused = false;
 }
 
 //----------------------------------------------------------
@@ -175,10 +205,6 @@ void	Game::_InitRenderSystem()
 		return;
 	}
 	m_RenderSystem = new RenderSystem(this);
-
-
-	GridScene *scene = new GridScene(this);
-	m_Scenes.push_back(scene);
 
 	glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
 	glClearDepth(1.f);
@@ -231,8 +257,19 @@ void	Game::_ProcessEvent(QEvent *ev, float dt)
 
 void	Game::KeyPressEvent(QKeyEvent *ev, float dt)
 {
-	if (ev->key() == Qt::Key_Space)
-		m_Paused = !m_Paused;
+	if (m_IsGameRunning)
+	{
+		if (ev->key() == Qt::Key_Space)
+			m_Paused = !m_Paused;
+	}
+
+	if (ev->key() == Qt::Key_P)
+	{
+		if (!m_IsGameRunning)
+			LaunchScene();
+		else
+			StopScene();
+	}
 }
 
 //----------------------------------------------------------

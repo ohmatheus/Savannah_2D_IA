@@ -7,9 +7,8 @@
 
 //----------------------------------------------------------
 
-GridSpawner::GridSpawner(GridScene::ETeam team, GridScene *scene, int poolSize)
-:	Super("", team, true)
-,	m_Scene(scene)
+GridSpawner::GridSpawner(GridScene::ETeam team, const std::string &name, int poolSize)
+:	Super(name, team, true)
 ,	m_PoolSize(poolSize)
 {
 	m_SpawnTimer = 0.f;
@@ -23,8 +22,31 @@ GridSpawner::~GridSpawner()
 
 //----------------------------------------------------------
 
-void	GridSpawner::OnSceneStart()
+GridSpawner::GridSpawner(const GridSpawner &spawner)
+:	Super(spawner)
 {
+	//m_Scene = ???;
+
+	m_PoolSize = spawner.m_PoolSize;
+	//m_EntityManager; // created at OnSceneStart
+	m_SpawnTimer = spawner.m_SpawnTimer;
+	m_SpawnPerSecond = spawner.m_SpawnPerSecond;
+	m_Dps = spawner.m_Dps;
+}
+
+//----------------------------------------------------------
+
+GridSpawner				*GridSpawner::Clone()
+{
+	return new GridSpawner(*this);
+}
+
+//----------------------------------------------------------
+
+void	GridSpawner::OnSceneStart(GridScene *scene)
+{
+	m_Scene = scene;
+
 	m_EntityManager.reserve(m_PoolSize);
 
 	const float xSubdiv = std::ceil(std::sqrtf(m_PoolSize));

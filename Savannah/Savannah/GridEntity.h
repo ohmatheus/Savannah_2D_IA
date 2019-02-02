@@ -36,26 +36,30 @@ public:
 
 	GridEntity(const std::string &name, GridScene::ETeam team, bool isActive = true);
 	virtual ~GridEntity();
+	GridEntity(const GridEntity &from);
 
-	virtual void		Update(float dt) override;
-	virtual void		Render(RenderSystem *rs) override;
-	void				ChangeStateNode(StateMachine::StateNode *node) { m_CurrentStateNode = node; }
-	const glm::vec3		Forward();
-	float				MovementSpeed() { return m_MovementSpeed; }
-	float				RotationSpeed() { return m_RotationSpeed; }
-	GridScene::ETeam	Team() { return m_Team; }
-	virtual void		Die() override;
-	float				Health() { return m_Health; }
-	void				SetHealth(float health) { m_Health = health; }
-	float				Dps() { return m_Dps; }
-	void				SetDps(float dps) { m_Dps = dps; }
-	void				Hit(float dmg) { m_Health -= dmg; }
 
-	void				MoveForward(float dt) //inlined
+	virtual GridEntity		*Clone() override;
+	virtual void			Update(float dt) override;
+	virtual void			Render(RenderSystem *rs) override;
+	void					ChangeStateNode(StateMachine::StateNode *node) { m_CurrentStateNode = node; }
+	const glm::vec3			Forward();
+	float					MovementSpeed() { return m_MovementSpeed; }
+	float					RotationSpeed() { return m_RotationSpeed; }
+	GridScene::ETeam		Team() { return m_Team; }
+	virtual void			Die() override;
+	float					Health() { return m_Health; }
+	void					SetHealth(float health) { m_Health = health; }
+	float					Dps() { return m_Dps; }
+	void					SetDps(float dps) { m_Dps = dps; }
+	void					Hit(float dmg) { m_Health -= dmg; }
+
+	void					MoveForward(float dt) // inlined
 	{
 		m_Position += Forward() * dt * m_MovementSpeed;
 	}
-	void				Rotate(float angle, float dt) // inlined
+
+	void					Rotate(float angle, float dt) // inlined
 	{
 		m_Roll += clamp(angle, -m_RotationSpeed, m_RotationSpeed) * dt * 5;
 	}

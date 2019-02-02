@@ -47,12 +47,12 @@ public:
 
 	void					StartAndLoop();
 	void					LoadScene(bool andStart = true);
-	void					StartScene();
 	glm::mat4				View() { return m_Camera.GetView(); }
 	glm::mat4				Proj() { return m_ProjMat; }
 	RenderSystem			*GetRenderSystem() { return m_RenderSystem; }
-
 	void					ProcessEvents(float dt);
+	void					LaunchScene();
+	void					StopScene();
 
 protected:
 	void					KeyPressEvent(QKeyEvent *ev, float dt);
@@ -80,8 +80,10 @@ private:
 	float					m_Fov = 45.f;
 	float					m_SimulationSpeed = 1.f;
 	bool					m_Paused = false;
+	bool					m_IsGameRunning = false;
 
 	std::vector<IScene*>	m_Scenes;
+	IScene*					m_CurrentScene;
 	RenderSystem			*m_RenderSystem;
 	IGameWindow				*m_RenderWindow;
 	std::vector<QEvent*>	*m_Events;

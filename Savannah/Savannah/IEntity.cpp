@@ -7,6 +7,7 @@
 IEntity::IEntity(const std::string &name, bool isActive)
 :	m_HasFlag(false)
 ,	m_IsActive(isActive)
+,	m_Name(name)
 {
 	m_ShaderName = "DefaultShader";
 	m_MeshName = "Triangle";
@@ -25,6 +26,30 @@ IEntity::IEntity(const std::string &name, bool isActive)
 
 IEntity::~IEntity()
 {}
+
+//----------------------------------------------------------
+
+IEntity::IEntity(const IEntity &from)
+{
+	m_Position = from.m_Position;
+	m_Rotation = from.m_Rotation;
+	m_Scale = from.m_Scale;
+	m_Color = from.m_Color;
+	m_ShaderName = from.m_ShaderName;
+	m_MeshName = from.m_MeshName;
+	m_Name = from.m_Name;
+
+	m_Pitch = from.m_Pitch;
+	m_Yaw = from.m_Yaw;
+	m_Roll = from.m_Roll;
+
+	/// Dont copy parent or children design is wrong about that - TODO
+	/*for (int i = 0; i < from.m_Children.size(); i++)
+	{
+		m_Children.push_back(from.m_Children[i]->Clone());
+	}*/
+	//m_Parent = nullptr;
+}
 
 //----------------------------------------------------------
 
