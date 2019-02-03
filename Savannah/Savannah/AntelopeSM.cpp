@@ -34,7 +34,7 @@ namespace StateMachine
 			const glm::vec3		&forward = ent->Forward();
 			const glm::vec3		direction = glm::normalize(targetPosition - position);
 
-			const float angleDif = ISteering::Angle(direction, forward);
+			const float			angleDif = ISteering::Angle(direction, forward);
 
 			ent->Rotate(angleDif, dt);
 			ent->MoveForward(dt);
@@ -48,7 +48,7 @@ namespace StateMachine
 			GridScene::ETeam	type = ent->Team();
 			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
 
-			GridEntity	*nearestFriend = ent->m_StateMachineAttr.m_NearestFriend;
+			GridEntity			*nearestFriend = ent->m_StateMachineAttr.m_NearestFriend;
 
 			glm::vec3			targetPosition;
 			if (nearestFriend != nullptr)
@@ -60,7 +60,7 @@ namespace StateMachine
 			const glm::vec3		&forward = ent->Forward();
 			const glm::vec3		direction = glm::normalize(targetPosition - position);
 
-			const float angleDif = ISteering::Angle(direction, forward);
+			const float			angleDif = ISteering::Angle(direction, forward);
 
 			ent->Rotate(angleDif, dt);
 			ent->MoveForward(dt);
@@ -74,7 +74,7 @@ namespace StateMachine
 			GridScene::ETeam	type = ent->Team();
 			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
 
-			GridEntity	*nearestEnemy = ent->m_StateMachineAttr.m_NearestEnemy;
+			GridEntity			*nearestEnemy = ent->m_StateMachineAttr.m_NearestEnemy;
 
 			glm::vec3			targetPosition;
 			if (nearestEnemy != nullptr)
@@ -86,7 +86,7 @@ namespace StateMachine
 			const glm::vec3		&forward = ent->Forward();
 			const glm::vec3		direction = glm::normalize(position - targetPosition);
 
-			const float angleDif = ISteering::Angle(direction, forward);
+			const float			angleDif = ISteering::Angle(direction, forward);
 
 			ent->Rotate(angleDif, dt);
 			ent->MoveForward(dt);
@@ -100,7 +100,7 @@ namespace StateMachine
 			GridScene::ETeam	type = ent->Team();
 			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
 
-			GridEntity	*nearestEnemy = ent->m_StateMachineAttr.m_NearestEnemy;
+			GridEntity			*nearestEnemy = ent->m_StateMachineAttr.m_NearestEnemy;
 
 			glm::vec3			targetPosition;
 			if (nearestEnemy != nullptr)
@@ -112,7 +112,7 @@ namespace StateMachine
 			const glm::vec3		&forward = ent->Forward();
 			const glm::vec3		direction = glm::normalize(targetPosition - position);
 
-			const float angleDif = ISteering::Angle(direction, forward);
+			const float			angleDif = ISteering::Angle(direction, forward);
 
 			ent->Rotate(angleDif, dt);
 			ent->MoveForward(dt);

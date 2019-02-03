@@ -161,6 +161,9 @@
     <ClCompile Include="LionSM.cpp">
       <Filter>Source Files\Engine\Game\IA\CustomStateMachine</Filter>
     </ClCompile>
+    <ClCompile Include="QSceneControllerW.cpp">
+      <Filter>Source Files\Editor\Control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="SavannahUI.ui">
@@ -255,6 +258,9 @@
     </ClInclude>
     <ClInclude Include="LionSM.h">
       <Filter>Source Files\Engine\Game\IA\CustomStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="QSceneControllerW.h">
+      <Filter>Source Files\Editor\Control</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

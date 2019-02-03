@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="AntelopeSM.cpp" />
     <ClCompile Include="LionSM.cpp" />
+    <ClCompile Include="QSceneControllerW.cpp" />
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="StateNode.cpp" />
     <ClCompile Include="GridScene.cpp" />
@@ -154,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="AntelopeSM.h" />
     <ClInclude Include="LionSM.h" />
+    <ClInclude Include="QSceneControllerW.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="StateMachineHelper.h" />
     <ClInclude Include="StateNode.h" />

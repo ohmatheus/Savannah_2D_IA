@@ -8,6 +8,8 @@
 
 #include "Game.h"
 
+#include "QSceneControllerW.h"
+
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
@@ -18,6 +20,7 @@
 #include <QDockWidget>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QSlider>
 
 //----------------------------------------------------------
 
@@ -55,10 +58,7 @@ void	QSavannahMainWindow::Setup()
 	m_MenuBar = new QMenuBar(this);
 	m_MenuBar->setObjectName(QString::fromUtf8("menuBar"));
 	setMenuBar(m_MenuBar);
-	m_MainToolBar = new QToolBar(this);
-	m_MainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-	addToolBar(m_MainToolBar);
-
+	
 	//m_CentralWidget = new QWidget(this);
 	//m_CentralWidget->setObjectName(QString::fromUtf8("centralWidget"));
 	//setCentralWidget(m_CentralWidget);
@@ -76,6 +76,20 @@ void	QSavannahMainWindow::Setup()
 
 	m_Game = new Game(m_RenderWindow);
 	m_RenderWindow->SetGame(m_Game);
+
+	// all connections
+	connect(m_Game, &Game::OnGamePlayStop, [this](bool isrunning)
+	{
+		if (isrunning)
+			this->m_PlayStopButton->setText("Stop");
+		else
+			this->m_PlayStopButton->setText("Play");
+	});
+	
+	connect(m_PlayStopButton, &QPushButton::clicked, [this]()
+	{
+		this->m_Game->TooglePlayStop();
+	});
 }
 
 //----------------------------------------------------------
@@ -84,7 +98,10 @@ void	QSavannahMainWindow::StartGameThread()
 {
 	m_GameWorker = new QWorkerObject();
 
-	m_GameWorker->SetFunc(std::bind(&Game::StartAndLoop, m_Game));
+	m_GameWorker->SetFunc([this]()
+	{
+		m_Game->StartAndLoop();
+	});// std::bind(&Game::StartAndLoop, m_Game));
 
 	m_GameWorker->moveToThread(&m_GameThread);
 
@@ -111,6 +128,8 @@ void	QSavannahMainWindow::_CreateViewportPanel()
 	{
 		// m_ViewMenu->addAction(dockw->toggleViewAction());
 		// Here add pause/play button
+	
+
 
 		auto		*dummy = new QWidget(dockw);
 		dockw->setWidget(dummy);
@@ -120,6 +139,21 @@ void	QSavannahMainWindow::_CreateViewportPanel()
 		layout->setContentsMargins(0, 0, 0, 0);
 
 		const std::string	viewportName = "Savannah Game";
+
+		m_MainToolBar = new QToolBar(dockw);
+		m_MainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
+		addToolBar(m_MainToolBar);
+		layout->addWidget(m_MainToolBar);
+
+		m_PlayStopButton = new QPushButton("Play", this);
+		m_MainToolBar->addWidget(m_PlayStopButton);
+
+		QSlider		*slider = new QSlider(Qt::Orientation::Horizontal, this);
+		slider->setMaximum(200);
+		slider->setMinimum(0);
+		slider->setValue(100);
+		slider->setMaximumWidth(200);
+		m_MainToolBar->addWidget(slider);
 
 		_CreateRenderViewport(this);
 
@@ -149,12 +183,12 @@ void	QSavannahMainWindow::_CreateControlPanel()
 
 		auto		*layout = new QVBoxLayout(dummy);
 		layout->setSpacing(0);
-		layout->setContentsMargins(0, 0, 0, 0);
+		//layout->setContentsMargins(0, 0, 0, 0);
 
 		dummy->setMaximumSize(QSize(400, 2000));
 
-		QPushButton *test = new QPushButton(this);
-		layout->addWidget(test);
+		QSceneControllerW *sceneController = new QSceneControllerW(this);
+		layout->addWidget(sceneController);
 	}
 	dockw->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);	// Horizontally greedy: expands if possible
 	dockw->setAllowedAreas(Qt::RightDockWidgetArea);

@@ -5,6 +5,7 @@
 
 //----------------------------------------------------------
 
+class	QPushButton;
 class	QRenderWindow;
 class	QRenderViewport;
 class	QWorkerObject;
@@ -33,6 +34,7 @@ private:
 	QWidget				*m_CentralWidget;
 	QStatusBar			*m_StatusBar;
 	QRenderViewport		*m_RenderViewport;
+	QPushButton			*m_PlayStopButton;
 	QThread				m_GameThread;
 	QRenderWindow		*m_RenderWindow;
 	QWorkerObject		*m_GameWorker;

@@ -87,7 +87,6 @@ void	Game::StartAndLoop()
 			break;
 
 
-
 		dt = timer.Stop();
 		timer.Start();
 		// fix framerate (not very precise tho... but good enough)
@@ -103,6 +102,7 @@ void	Game::StartAndLoop()
 				QThread::msleep(uint(timeToWait));
 		}
 
+		_CheckTogglePlayStop();
 		m_RenderWindow->SwapEvents(m_Events);
 		ProcessEvents(dt);
 		assert(m_Events->empty());
@@ -118,7 +118,6 @@ void	Game::StartAndLoop()
 		if (!m_Paused && m_IsGameRunning)
 		{
 			m_CurrentScene->PreUpdate(dt * m_SimulationSpeed);
-
 			m_CurrentScene->Update(dt * m_SimulationSpeed);
 		}
 
@@ -145,17 +144,26 @@ void	Game::ProcessEvents(float dt)
 
 //----------------------------------------------------------
 
-void	Game::LaunchScene()
+void	Game::TooglePlayStop()
+{
+	SCOPEDLOCK(m_UILock);
+	m_TogglePlayStop = true;
+}
+
+//----------------------------------------------------------
+
+void	Game::_LaunchScene()
 {
 	m_CurrentScene = m_Scenes[0]->Clone();
 	m_CurrentScene->OnSceneStart();
 	m_IsGameRunning = true;
 	m_Paused = false;
+	Q_EMIT(OnGamePlayStop(m_IsGameRunning));
 }
 
 //----------------------------------------------------------
 
-void	Game::StopScene()
+void	Game::_StopScene()
 {
 	if (m_CurrentScene != nullptr)
 	{
@@ -164,6 +172,22 @@ void	Game::StopScene()
 	m_CurrentScene = m_Scenes[0];
 	m_IsGameRunning = false;
 	m_Paused = false;
+	Q_EMIT(OnGamePlayStop(m_IsGameRunning));
+}
+
+//----------------------------------------------------------
+
+void	Game::_CheckTogglePlayStop()
+{
+	SCOPEDLOCK(m_UILock);
+	if (m_TogglePlayStop)
+	{
+		if (!m_IsGameRunning)
+			_LaunchScene();
+		else
+			_StopScene();
+		m_TogglePlayStop = false;
+	}
 }
 
 //----------------------------------------------------------
@@ -265,10 +289,7 @@ void	Game::KeyPressEvent(QKeyEvent *ev, float dt)
 
 	if (ev->key() == Qt::Key_P)
 	{
-		if (!m_IsGameRunning)
-			LaunchScene();
-		else
-			StopScene();
+		TooglePlayStop();
 	}
 }
 

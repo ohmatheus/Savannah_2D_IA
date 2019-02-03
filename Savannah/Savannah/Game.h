@@ -51,8 +51,9 @@ public:
 	glm::mat4				Proj() { return m_ProjMat; }
 	RenderSystem			*GetRenderSystem() { return m_RenderSystem; }
 	void					ProcessEvents(float dt);
-	void					LaunchScene();
-	void					StopScene();
+	void					TooglePlayStop();
+
+	Q_SIGNAL void			OnGamePlayStop(bool isplaying);
 
 protected:
 	void					KeyPressEvent(QKeyEvent *ev, float dt);
@@ -70,6 +71,9 @@ private:
 	void					_InitRenderSystem();
 	void					_ProcessEvent(QEvent *ev, float dt);
 	void					_PostEvent();
+	void					_LaunchScene();
+	void					_StopScene();
+	void					_CheckTogglePlayStop();
 
 	float					m_Fps = 60.f;
 	SRenderWindowData		*m_RenderWindowData;
@@ -81,12 +85,14 @@ private:
 	float					m_SimulationSpeed = 1.f;
 	bool					m_Paused = false;
 	bool					m_IsGameRunning = false;
+	bool					m_TogglePlayStop = false;
 
 	std::vector<IScene*>	m_Scenes;
 	IScene*					m_CurrentScene;
 	RenderSystem			*m_RenderSystem;
 	IGameWindow				*m_RenderWindow;
 	std::vector<QEvent*>	*m_Events;
+	QMutex					m_UILock;
 };
 
 //----------------------------------------------------------
