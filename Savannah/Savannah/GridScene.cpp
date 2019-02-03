@@ -435,7 +435,7 @@ void	GridScene::_GenerateAndAddGrid(int xSubdiv, int ySubdiv)
 	entity->SetPosition(glm::vec3(0.f, 0.f, 0.f));
 	m_Entities.push_back(entity);
 	m_GridEntity = entity;
-	//m_GridEntity->Pitch() = -30;
+	m_GridEntity->Pitch() = -30;
 }
 
 //----------------------------------------------------------

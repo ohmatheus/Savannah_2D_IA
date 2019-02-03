@@ -44,7 +44,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 			m_SpawnCountL = new QLineEdit(this);
 			m_SpawnCountL->setMaximumWidth(50);
 			//QDoubleValidator *dv = new QDoubleValidator(0.0, 5.0, 2); // [0, 5] with 2 decimals of precision
-			QIntValidator		*iv = new QIntValidator(1, 300);
+			QIntValidator		*iv = new QIntValidator();
 			m_SpawnCountL->setValidator(iv);
 			m_SpawnCountL->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_SpawnCountL, row, 1);
@@ -59,7 +59,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_SpawnCountA = new QLineEdit(this);
 			m_SpawnCountA->setMaximumWidth(50);
-			QIntValidator		*iv = new QIntValidator(1, 500);
+			QIntValidator		*iv = new QIntValidator();
 			m_SpawnCountA->setValidator(iv);
 			m_SpawnCountA->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_SpawnCountA, row, 2);
