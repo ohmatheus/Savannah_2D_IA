@@ -57,9 +57,6 @@ GridScene::GridScene(const GridScene &scene)
 	m_Spawners[1] = static_cast<GridSpawner*>(GetEntity("AntelopeSpawner"));
 	assert(m_Spawners[1]);
 
-	m_FlagsInitialPosition[LION] = scene.m_FlagsInitialPosition[LION];
-	m_FlagsInitialPosition[ANTELOPE] = scene.m_FlagsInitialPosition[ANTELOPE];
-
 	m_FlagCollisionRadius = scene.m_FlagCollisionRadius;
 }
 
@@ -349,14 +346,17 @@ void	GridScene::_CreateScene()
 		m_Parameters.m_AntelopeFriendCountToAttack = 4;
 		m_Parameters.m_AntelopeFriendCountRadius = 5.f;
 		m_Parameters.m_AntelopeLonelinessRadius = 1.f;
+
+		m_Parameters.m_LionFlagInitPos = glm::vec3(41.f, 20.f, 0.5f);
+		m_Parameters.m_AntlepoeFlagInitPos = glm::vec3(-41.f, 20.f, 0.5f);
+
+		m_Parameters.m_LionSpawnerInitPos = glm::vec3(-40.f, -20.f, 0.05f);
+		m_Parameters.m_AntlepoeSpawnerInitPos = glm::vec3(40.f, -20.f, 0.05f);
 	}
 
 	m_FlagCollisionRadius = 0.7f;
 
 	_GenerateAndAddGrid(100, 60);
-
-	m_FlagsInitialPosition[LION] = glm::vec3(41.f, 20.f, 0.5f);
-	m_FlagsInitialPosition[ANTELOPE] = glm::vec3(-41.f, 20.f, 0.5f);
 
 	// flags
 	{
@@ -364,10 +364,9 @@ void	GridScene::_CreateScene()
 		entity->SetColor(glm::vec4(1.f, 0.f, 0.f, 1.f));
 		entity->SetMeshName("Diamond");
 		entity->SetShaderName("DefaultShader");
-		entity->SetPosition(m_FlagsInitialPosition[LION]);
+		entity->SetPosition(m_Parameters.m_LionFlagInitPos);
 
 		m_GridEntity->AddChild(entity);
-		//m_Entities.push_back(entity);
 		m_Flags[LION] = entity;
 	}
 	{
@@ -375,10 +374,9 @@ void	GridScene::_CreateScene()
 		entity->SetColor(glm::vec4(0.f, 1.f, 0.7f, 1.f));
 		entity->SetMeshName("Diamond");
 		entity->SetShaderName("DefaultShader");
-		entity->SetPosition(m_FlagsInitialPosition[ANTELOPE]);
+		entity->SetPosition(m_Parameters.m_AntlepoeFlagInitPos);
 
 		m_GridEntity->AddChild(entity);
-		//m_Entities.push_back(entity);
 		m_Flags[ANTELOPE] = entity;
 	}
 
@@ -387,13 +385,12 @@ void	GridScene::_CreateScene()
 		std::string spawnerName = ((ETeam)i == LION ? "Lion" : "Antelope"); // TODO find a way to STRIGIFY an enum
 		spawnerName += "Spawner";
 		m_Spawners[i] = new GridSpawner((ETeam)i, spawnerName, (ETeam)i == LION ? m_Parameters.m_LionSpawnCount : m_Parameters.m_AntelopeSpawnCount);
-		//m_Entities.push_back(m_Spawners[i]);
 		m_GridEntity->AddChild(m_Spawners[i]);
 
 		m_Spawners[i]->SetColor((ETeam)i == LION ? glm::vec4(0.f, 0.7f, 0.1f, 1.f) : glm::vec4(0.5f, 0.f, 0.7f, 1.f));
 		m_Spawners[i]->SetMeshName("Rectangle");
 		m_Spawners[i]->SetShaderName("DefaultShader");
-		m_Spawners[i]->SetPosition((ETeam)i == LION ? glm::vec3(-40.f, -20.f, 0.05f) : glm::vec3(40.f, -20.f, 0.05f));
+		m_Spawners[i]->SetPosition((ETeam)i == LION ? m_Parameters.m_LionSpawnerInitPos : m_Parameters.m_AntlepoeSpawnerInitPos);
 		m_Spawners[i]->SetScale(3.f);
 	}
 }
@@ -416,7 +413,12 @@ void	GridScene::SetParameters(const SGameParameters &params)
 
 	m_Spawners[LION]->SetPoolSize(m_Parameters.m_LionSpawnCount);
 	m_Spawners[ANTELOPE]->SetPoolSize(m_Parameters.m_AntelopeSpawnCount);
-	// update the all scene;
+
+	m_Spawners[LION]->SetPosition(m_Parameters.m_LionSpawnerInitPos);
+	m_Spawners[ANTELOPE]->SetPosition(m_Parameters.m_AntlepoeSpawnerInitPos);
+
+	m_Flags[LION]->SetPosition(m_Parameters.m_LionFlagInitPos);
+	m_Flags[ANTELOPE]->SetPosition(m_Parameters.m_AntlepoeFlagInitPos);
 }
 
 //----------------------------------------------------------
@@ -469,10 +471,7 @@ void	GridScene::_OnFlagLost(ETeam team)
 		m_AntelopePosessFlag = nullptr;
 
 	m_Flags[team]->SetParent(m_GridEntity);
-	m_Flags[team]->SetPosition(m_FlagsInitialPosition[team]);
-
-	// reset parent to grid
-	// reset position
+	m_Flags[team]->SetPosition(team == LION ? m_Parameters.m_LionFlagInitPos : m_Parameters.m_AntlepoeFlagInitPos);
 }
 
 //----------------------------------------------------------

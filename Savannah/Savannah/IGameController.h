@@ -7,34 +7,40 @@
 
 struct		SGameParameters
 {
-	bool	m_IsDirty = false;
-	float	m_SimulationSpeed = 1.f;
+	bool		m_IsDirty = false;
+	float		m_SimulationSpeed = 1.f;
 
-	int		m_LionSpawnCount;
-	int		m_AntelopeSpawnCount;
+	int			m_LionSpawnCount;
+	int			m_AntelopeSpawnCount;
 
-	float	m_LionVelocity;
-	float	m_AntelopeVelocity;
+	float		m_LionVelocity;
+	float		m_AntelopeVelocity;
 
-	float	m_LionRotationSpeed;
-	float	m_AntelopeRotationSpeed;
+	float		m_LionRotationSpeed;
+	float		m_AntelopeRotationSpeed;
 
-	float	m_LionInitialHealth;
-	float	m_AntelopeInitialHealth;
+	float		m_LionInitialHealth;
+	float		m_AntelopeInitialHealth;
 
-	float	m_LionAttackRadius;
-	float	m_AntelopeAttackRadius;
+	float		m_LionAttackRadius;
+	float		m_AntelopeAttackRadius;
 
-	float	m_LionDPS;
-	float	m_AntelopeDPS;
+	float		m_LionDPS;
+	float		m_AntelopeDPS;
 
-	float	m_AntelopeFleeRadius;
+	float		m_AntelopeFleeRadius;
 
-	int		m_AntelopeFriendCountToAttack;
+	int			m_AntelopeFriendCountToAttack;
 
-	float	m_AntelopeFriendCountRadius;
+	float		m_AntelopeFriendCountRadius;
 
-	float	m_AntelopeLonelinessRadius;
+	float		m_AntelopeLonelinessRadius;
+
+	glm::vec3	m_LionFlagInitPos;
+	glm::vec3	m_AntlepoeFlagInitPos;
+
+	glm::vec3	m_LionSpawnerInitPos;
+	glm::vec3	m_AntlepoeSpawnerInitPos;
 };
 
 //----------------------------------------------------------

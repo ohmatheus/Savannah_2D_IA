@@ -7,8 +7,8 @@
 #include <QLineEdit>
 #include <QDoubleValidator>
 #include <QIntValidator>
+#include <QVBoxLayout>
 
-#include <QPushButton>
 //----------------------------------------------------------
 
 QSceneControllerW::QSceneControllerW(QWidget *parent)
@@ -16,14 +16,10 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 {
 	auto		*dummy = new QWidget(this);
 
-	auto		*layout = new QGridLayout(dummy);
+	QVBoxLayout		*rootLayout = new QVBoxLayout(dummy);
+	QGridLayout		*layout = new QGridLayout();
+	rootLayout->addLayout(layout);
 	layout->setSpacing(20);
-	//layout->setContentsMargins(0, 0, 0, 0);
-	//layout->setColumnMinimumWidth(0, 50);
-	//layout->setColumnMinimumWidth(1, 50);
-	//layout->setColumnMinimumWidth(2, 50);
-
-	//setEnabled(false);
 
 	int row = 0;
 	{
@@ -43,7 +39,6 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_SpawnCountL = new QLineEdit(this);
 			m_SpawnCountL->setMaximumWidth(50);
-			//QDoubleValidator *dv = new QDoubleValidator(0.0, 5.0, 2); // [0, 5] with 2 decimals of precision
 			QIntValidator		*iv = new QIntValidator(this);
 			m_SpawnCountL->setValidator(iv);
 			m_SpawnCountL->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
@@ -254,15 +249,6 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		label->setToolTip("Radius to ask self he has to engage or flee.");
 		layout->addWidget(label, ++row, 0);
 
-		/*{
-			QLineEdit			*line = new QLineEdit(this);
-			line->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 5.0, 2);
-			line->setValidator(dv);
-			line->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-			layout->addWidget(line, row, 1);
-		}*/
-
 		{
 			m_FleeRadiusA = new QLineEdit(this);
 			m_FleeRadiusA->setMaximumWidth(50);
@@ -284,15 +270,6 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		label->setToolTip("Number of friends within 'Near Friend Radius To Attack' to know if self can engage enemy.");
 		layout->addWidget(label, ++row, 0);
 
-		/*{
-			QLineEdit			*line = new QLineEdit(this);
-			line->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 5.0, 2);
-			line->setValidator(dv);
-			line->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-			layout->addWidget(line, row, 1);
-		}*/
-
 		{
 			m_NbrFriendToAttack = new QLineEdit(this);
 			m_NbrFriendToAttack->setMaximumWidth(50);
@@ -313,14 +290,6 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		QLabel	*label = new QLabel("Near Friend Radius To Attack", this);
 		label->setToolTip("Radius to consider potential friends to attack.");
 		layout->addWidget(label, ++row, 0);
-		/*{
-			QLineEdit			*line = new QLineEdit(this);
-			line->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 5.0, 2);
-			line->setValidator(dv);
-			line->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-			layout->addWidget(line, row, 1);
-		}*/
 
 		{
 			m_FriendRadius = new QLineEdit(this);
@@ -342,14 +311,6 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		QLabel	*label = new QLabel("Loneliness Radius", this);
 		label->setToolTip("Maximal distance between siblings before they feel alone.");
 		layout->addWidget(label, ++row, 0);
-		/*{
-		QLineEdit			*line = new QLineEdit(this);
-		line->setMaximumWidth(50);
-		QDoubleValidator	*dv = new QDoubleValidator(0.0, 5.0, 2);
-		line->setValidator(dv);
-		line->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-		layout->addWidget(line, row, 1);
-		}*/
 
 		{
 			m_LonelinessRadius = new QLineEdit(this);
@@ -362,6 +323,143 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 			{
 				SCOPEDLOCK(m_GameLock);
 				m_GameParameters.m_AntelopeLonelinessRadius = m_LonelinessRadius->text().toFloat();
+				m_GameParameters.m_IsDirty = true;
+			});
+		}
+	}
+
+	QGridLayout		*secondLayout = new QGridLayout();
+	rootLayout->addLayout(secondLayout);
+	secondLayout->setSpacing(5);
+
+	row = 0;
+	{
+		QLabel	*label = new QLabel("Flag Initial Position", this);
+		label->setToolTip("X Y");
+		secondLayout->addWidget(label, ++row, 0);
+
+		{
+			m_FlagLX = new QLineEdit(this);
+			m_FlagLX->setMaximumWidth(35);
+			QDoubleValidator	*dv = new QDoubleValidator(this);
+			m_FlagLX->setValidator(dv);
+			m_FlagLX->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+			secondLayout->addWidget(m_FlagLX, row, 1);
+			connect(m_FlagLX, &QLineEdit::editingFinished, [this]()
+			{
+				SCOPEDLOCK(m_GameLock);
+				m_GameParameters.m_LionFlagInitPos.x = m_FlagLX->text().toFloat();
+				m_GameParameters.m_IsDirty = true;
+			});
+		}
+
+		{
+			m_FlagLY = new QLineEdit(this);
+			m_FlagLY->setMaximumWidth(35);
+			QDoubleValidator	*dv = new QDoubleValidator(this);
+			m_FlagLY->setValidator(dv);
+			m_FlagLY->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+			secondLayout->addWidget(m_FlagLY, row, 2);
+			connect(m_FlagLY, &QLineEdit::editingFinished, [this]()
+			{
+				SCOPEDLOCK(m_GameLock);
+				m_GameParameters.m_LionFlagInitPos.y = m_FlagLY->text().toFloat();
+				m_GameParameters.m_IsDirty = true;
+			});
+		}
+
+		{
+			m_FlagAX = new QLineEdit(this);
+			m_FlagAX->setMaximumWidth(35);
+			QDoubleValidator	*dv = new QDoubleValidator(this);
+			m_FlagAX->setValidator(dv);
+			m_FlagAX->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+			secondLayout->addWidget(m_FlagAX, row, 3);
+			connect(m_FlagAX, &QLineEdit::editingFinished, [this]()
+			{
+				SCOPEDLOCK(m_GameLock);
+				m_GameParameters.m_AntlepoeFlagInitPos.x = m_FlagAX->text().toFloat();
+				m_GameParameters.m_IsDirty = true;
+			});
+		}
+
+		{
+			m_FlagAY = new QLineEdit(this);
+			m_FlagAY->setMaximumWidth(35);
+			QDoubleValidator	*dv = new QDoubleValidator(this);
+			m_FlagAY->setValidator(dv);
+			m_FlagAY->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+			secondLayout->addWidget(m_FlagAY, row, 4);
+			connect(m_FlagAY, &QLineEdit::editingFinished, [this]()
+			{
+				SCOPEDLOCK(m_GameLock);
+				m_GameParameters.m_AntlepoeFlagInitPos.y = m_FlagAY->text().toFloat();
+				m_GameParameters.m_IsDirty = true;
+			});
+		}
+	}
+
+	{
+		QLabel	*label = new QLabel("Spawner Initial Position", this);
+		label->setToolTip("X Y");
+		secondLayout->addWidget(label, ++row, 0);
+
+		{
+			m_SpawnLX = new QLineEdit(this);
+			m_SpawnLX->setMaximumWidth(35);
+			QDoubleValidator	*dv = new QDoubleValidator(this);
+			m_SpawnLX->setValidator(dv);
+			m_SpawnLX->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+			secondLayout->addWidget(m_SpawnLX, row, 1);
+			connect(m_SpawnLX, &QLineEdit::editingFinished, [this]()
+			{
+				SCOPEDLOCK(m_GameLock);
+				m_GameParameters.m_LionSpawnerInitPos.x = m_SpawnLX->text().toFloat();
+				m_GameParameters.m_IsDirty = true;
+			});
+		}
+
+		{
+			m_SpawnLY = new QLineEdit(this);
+			m_SpawnLY->setMaximumWidth(35);
+			QDoubleValidator	*dv = new QDoubleValidator(this);
+			m_SpawnLY->setValidator(dv);
+			m_SpawnLY->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+			secondLayout->addWidget(m_SpawnLY, row, 2);
+			connect(m_SpawnLY, &QLineEdit::editingFinished, [this]()
+			{
+				SCOPEDLOCK(m_GameLock);
+				m_GameParameters.m_LionSpawnerInitPos.y = m_SpawnLY->text().toFloat();
+				m_GameParameters.m_IsDirty = true;
+			});
+		}
+
+		{
+			m_SpawnAX = new QLineEdit(this);
+			m_SpawnAX->setMaximumWidth(35);
+			QDoubleValidator	*dv = new QDoubleValidator(this);
+			m_SpawnAX->setValidator(dv);
+			m_SpawnAX->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+			secondLayout->addWidget(m_SpawnAX, row, 3);
+			connect(m_SpawnAX, &QLineEdit::editingFinished, [this]()
+			{
+				SCOPEDLOCK(m_GameLock);
+				m_GameParameters.m_AntlepoeSpawnerInitPos.x = m_SpawnAX->text().toFloat();
+				m_GameParameters.m_IsDirty = true;
+			});
+		}
+
+		{
+			m_SpawnAY = new QLineEdit(this);
+			m_SpawnAY->setMaximumWidth(35);
+			QDoubleValidator	*dv = new QDoubleValidator(this);
+			m_SpawnAY->setValidator(dv);
+			m_SpawnAY->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+			secondLayout->addWidget(m_SpawnAY, row, 4);
+			connect(m_SpawnAY, &QLineEdit::editingFinished, [this]()
+			{
+				SCOPEDLOCK(m_GameLock);
+				m_GameParameters.m_AntlepoeSpawnerInitPos.y = m_SpawnAY->text().toFloat();
 				m_GameParameters.m_IsDirty = true;
 			});
 		}
@@ -428,6 +526,18 @@ void	QSceneControllerW::SetGameParameters(const SGameParameters &params)
 	m_NbrFriendToAttack->setText(QString::number(m_GameParameters.m_AntelopeFriendCountToAttack));
 	m_FriendRadius->setText(QString::number(m_GameParameters.m_AntelopeFriendCountRadius));
 	m_LonelinessRadius->setText(QString::number(m_GameParameters.m_AntelopeLonelinessRadius));
+
+	m_FlagLX->setText(QString::number(m_GameParameters.m_LionFlagInitPos.x));
+	m_FlagLY->setText(QString::number(m_GameParameters.m_LionFlagInitPos.y));
+
+	m_FlagAX->setText(QString::number(m_GameParameters.m_AntlepoeFlagInitPos.x));
+	m_FlagAY->setText(QString::number(m_GameParameters.m_AntlepoeFlagInitPos.y));
+
+	m_SpawnLX->setText(QString::number(m_GameParameters.m_LionSpawnerInitPos.x));
+	m_SpawnLY->setText(QString::number(m_GameParameters.m_LionSpawnerInitPos.y));
+
+	m_SpawnAX->setText(QString::number(m_GameParameters.m_AntlepoeSpawnerInitPos.x));
+	m_SpawnAY->setText(QString::number(m_GameParameters.m_AntlepoeSpawnerInitPos.y));
 }
 
 //----------------------------------------------------------

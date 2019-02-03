@@ -48,6 +48,16 @@ protected:
 	QLineEdit			*m_FriendRadius; // to attack
 	QLineEdit			*m_LonelinessRadius;
 
+	// Positions
+	QLineEdit			*m_FlagLX;
+	QLineEdit			*m_FlagLY;
+	QLineEdit			*m_FlagAX;
+	QLineEdit			*m_FlagAY;
+
+	QLineEdit			*m_SpawnLX;
+	QLineEdit			*m_SpawnLY;
+	QLineEdit			*m_SpawnAX;
+	QLineEdit			*m_SpawnAY;
 };
 
 //----------------------------------------------------------
