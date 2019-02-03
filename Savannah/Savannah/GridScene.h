@@ -50,7 +50,7 @@ public:
 	GridEntity							*Flag(ETeam teamFlag) { return m_Flags[teamFlag]; }
 	virtual void						PreUpdate(float dt) override;
 	StateMachine::StateNode				*GetStateMachineRoot(ETeam team);
-	virtual	void						SetParameters(const SGameParameters &params);
+	virtual	void						SetParameters(const SGameParameters &params) override;
 
 protected:
 	void								_CreateScene();
@@ -64,12 +64,6 @@ protected:
 
 	GridSpawner							*m_Spawners[ETeam::_NONE];
 	GridEntity							*m_Flags[ETeam::_NONE];
-	float								m_Dps[ETeam::_NONE];
-
-
-
-	//glm::vec4			m_AntelopeColor;
-	//glm::vec4			m_LionColor;
 };
 
 //----------------------------------------------------------

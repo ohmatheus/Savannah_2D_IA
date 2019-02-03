@@ -3,6 +3,8 @@
 #include "Spawner.h"
 #include "GridEntity.h"
 
+#include "IGameController.h"
+
 #include <math.h>
 
 //----------------------------------------------------------
@@ -49,21 +51,34 @@ void	GridSpawner::OnSceneStart(GridScene *scene)
 
 	m_EntityManager.reserve(m_PoolSize);
 
-	const float xSubdiv = std::ceil(std::sqrtf(m_PoolSize));
-	const float ySubdiv = std::trunc(std::sqrtf(m_PoolSize));
+	const int		xSubdiv = std::ceil(std::sqrtf(m_PoolSize));
+	const int		ySubdiv = std::trunc(std::sqrtf(m_PoolSize));
 
 	const float		cellSize = 1.5f;
 	const glm::vec3 &position = Position();
 	const float		xOffset = cellSize * xSubdiv * 0.5f;
 	const float		yOffset = cellSize * ySubdiv * 0.5f;
 
-	for (int i = 0; i <= xSubdiv; i++)
+	for (int i = 0; i < xSubdiv; i++)
 	{
-		for (int j = 0; j <= ySubdiv; j++)
+		for (int j = 0; j < ySubdiv + 1 && m_EntityManager.size() < m_PoolSize; j++)
 		{
 			GridEntity *entity = m_Scene->AddEntityToGrid(m_Team, glm::vec3(position.x - xOffset + i * cellSize, position.y + yOffset - j * cellSize, 0.f), true);
 			m_EntityManager.push_back(entity);
-			entity->SetDps(m_Dps);
+			if (m_Team == GridScene::LION)
+			{
+				entity->SetMovementSpeed(scene->Parameters().m_LionVelocity);
+				entity->SetRotationSpeed(scene->Parameters().m_LionRotationSpeed);
+				entity->SetDps(scene->Parameters().m_LionDPS);
+				entity->SetHealth(scene->Parameters().m_LionInitialHealth);
+			}
+			else
+			{
+				entity->SetMovementSpeed(scene->Parameters().m_AntelopeVelocity);
+				entity->SetRotationSpeed(scene->Parameters().m_AntelopeRotationSpeed);
+				entity->SetDps(scene->Parameters().m_AntelopeDPS);
+				entity->SetHealth(scene->Parameters().m_AntelopeInitialHealth);
+			}
 		}
 	}
 }
@@ -84,11 +99,26 @@ void	GridSpawner::Update(float dt)
 		{
 			if (!m_EntityManager[i]->IsActive())
 			{
-				m_EntityManager[i]->SetActive(true);
-				m_EntityManager[i]->SetHealth(10.f);
-				m_EntityManager[i]->SetPosition(m_Position);
-				m_EntityManager[i]->Roll() = 0.f;
-				m_EntityManager[i]->ChangeStateNode(m_Scene->GetStateMachineRoot(m_Team));
+				GridEntity	*entity = m_EntityManager[i];
+				assert(entity != nullptr);
+				entity->SetActive(true);
+				entity->SetPosition(m_Position);
+				entity->Roll() = 0.f;
+				entity->ChangeStateNode(m_Scene->GetStateMachineRoot(m_Team));
+				if (m_Team == GridScene::LION)
+				{
+					entity->SetMovementSpeed(m_Scene->Parameters().m_LionVelocity);
+					entity->SetRotationSpeed(m_Scene->Parameters().m_LionRotationSpeed);
+					entity->SetDps(m_Scene->Parameters().m_LionDPS);
+					entity->SetHealth(m_Scene->Parameters().m_LionInitialHealth);
+				}
+				else
+				{
+					entity->SetMovementSpeed(m_Scene->Parameters().m_AntelopeVelocity);
+					entity->SetRotationSpeed(m_Scene->Parameters().m_AntelopeRotationSpeed);
+					entity->SetDps(m_Scene->Parameters().m_AntelopeDPS);
+					entity->SetHealth(m_Scene->Parameters().m_AntelopeInitialHealth);
+				}
 				break;
 			}
 		}

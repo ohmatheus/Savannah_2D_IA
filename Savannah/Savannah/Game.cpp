@@ -66,6 +66,9 @@ void	Game::StartAndLoop()
 
 	m_CurrentScene = scene;
 
+	m_GameParameters = m_CurrentScene->Parameters();
+	Q_EMIT OnSceneParamsChanged(m_GameParameters);
+
 	Timer timer;
 	float		dt = 0.f;
 	const float fixedSimulationFramerate = 60.f; // max dt

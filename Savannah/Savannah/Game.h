@@ -56,6 +56,7 @@ public:
 	void					TooglePlayStop();
 
 	Q_SIGNAL void			OnGamePlayStop(bool isplaying);
+	Q_SIGNAL void			OnSceneParamsChanged(const SGameParameters &gameParams);
 
 protected:
 	void					KeyPressEvent(QKeyEvent *ev, float dt);

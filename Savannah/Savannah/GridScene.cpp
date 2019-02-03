@@ -56,13 +56,6 @@ GridScene::GridScene(const GridScene &scene)
 	assert(m_Spawners[0]);
 	m_Spawners[1] = static_cast<GridSpawner*>(GetEntity("AntelopeSpawner"));
 	assert(m_Spawners[1]);
-
-	for (int i = 0; i < ETeam::_NONE; i++)
-	{
-		//m_Spawners[(ETeam)i] = scene.m_Spawners[(ETeam)i]->Clone();
-		//m_Flags[(ETeam)i] = scene.m_Flags[(ETeam)i]->Clone();
-		m_Dps[(ETeam)i] = scene.m_Dps[(ETeam)i];
-	}
 }
 
 //----------------------------------------------------------
@@ -132,7 +125,7 @@ void		GridScene::PreUpdate(float dt)
 			const glm::vec3		&positionB = antelopeB->Position();
 			float				localDistance = glm::length(positionA - positionB);
 
-			if (localDistance < 5.f) // friends next to me
+			if (localDistance < m_Parameters.m_AntelopeFriendCountRadius) // friends next to me
 			{
 				antelopeA->m_StateMachineAttr.m_FriendsNextToMe++;
 				antelopeB->m_StateMachineAttr.m_FriendsNextToMe++;
@@ -181,12 +174,12 @@ void		GridScene::PreUpdate(float dt)
 			const glm::vec3		&positionB = lionB->Position();
 			float				localDistance = glm::length(positionA - positionB);
 
-			if (localDistance < 2.5f && antelopeA->IsActive()) // attack range
-			{
-				antelopeA->Hit(lionB->Dps() * dt);
+			assert(antelopeA->IsActive());
+			if (localDistance < m_Parameters.m_AntelopeAttackRadius)
 				lionB->Hit(antelopeA->Dps() * dt);
-				// die at next frame
-			}
+			if (localDistance < m_Parameters.m_LionAttackRadius)
+				antelopeA->Hit(lionB->Dps() * dt);
+			// die at next frame
 
 			GridEntity			*lionAC = antelopeA->m_StateMachineAttr.m_NearestEnemy;
 			if (lionAC != nullptr)
@@ -293,8 +286,31 @@ void	GridScene::_CreateScene()
 	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine(this);
 	m_LionStateMachine = new StateMachine::LionStateMachine(this);
 
-	m_Dps[LION] = 10.f;
-	m_Dps[ANTELOPE] = 2.6f;
+	// should be done by reflection + save as file, but well...
+	{
+		m_Parameters.m_AntelopeSpawnCount = 300;
+		m_Parameters.m_LionSpawnCount = 75;
+
+		m_Parameters.m_LionVelocity = 2.5f;
+		m_Parameters.m_AntelopeVelocity = 4.f;
+
+		m_Parameters.m_LionRotationSpeed = 50.f;
+		m_Parameters.m_AntelopeRotationSpeed = 50.f;
+
+		m_Parameters.m_LionInitialHealth = 10.f;
+		m_Parameters.m_AntelopeInitialHealth = 10.f;
+
+		m_Parameters.m_LionAttackRadius = 2.5f;
+		m_Parameters.m_AntelopeAttackRadius = 2.5f;
+
+		m_Parameters.m_LionDPS = 10.f;
+		m_Parameters.m_AntelopeDPS = 2.6f; // i'm such a romantic.
+
+		m_Parameters.m_AntelopeFleeRadius = 5.f;
+		m_Parameters.m_AntelopeFriendCountToAttack = 4;
+		m_Parameters.m_AntelopeFriendCountRadius = 5.f;
+		m_Parameters.m_AntelopeLonelinessRadius = 1.f;
+	}
 
 	_GenerateAndAddGrid(100, 60);
 
@@ -326,7 +342,7 @@ void	GridScene::_CreateScene()
 	{
 		std::string spawnerName = ((ETeam)i == LION ? "Lion" : "Antelope"); // TODO find a way to STRIGIFY an enum
 		spawnerName += "Spawner";
-		m_Spawners[i] = new GridSpawner((ETeam)i, spawnerName, (ETeam)i == LION ? 75 : 300);
+		m_Spawners[i] = new GridSpawner((ETeam)i, spawnerName, (ETeam)i == LION ? m_Parameters.m_LionSpawnCount : m_Parameters.m_AntelopeSpawnCount);
 		//m_Entities.push_back(m_Spawners[i]);
 		m_GridEntity->AddChild(m_Spawners[i]);
 
@@ -335,8 +351,6 @@ void	GridScene::_CreateScene()
 		m_Spawners[i]->SetShaderName("DefaultShader");
 		m_Spawners[i]->SetPosition((ETeam)i == LION ? glm::vec3(-40.f, -20.f, 0.1f) : glm::vec3(40.f, -20.f, 0.1f));
 		m_Spawners[i]->SetScale(3.f);
-
-		m_Spawners[i]->SetDps(m_Dps[(ETeam)i]);
 	}
 }
 
@@ -355,6 +369,9 @@ StateMachine::StateNode		*GridScene::GetStateMachineRoot(ETeam team)
 void	GridScene::SetParameters(const SGameParameters &params)
 {
 	Super::SetParameters(params);
+
+	m_Spawners[LION]->SetPoolSize(m_Parameters.m_LionSpawnCount);
+	m_Spawners[ANTELOPE]->SetPoolSize(m_Parameters.m_AntelopeSpawnCount);
 	// update the all scene;
 }
 

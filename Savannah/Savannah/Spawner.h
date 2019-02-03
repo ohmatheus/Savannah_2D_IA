@@ -19,6 +19,7 @@ public:
 	virtual	void					Update(float dt) override;
 	const std::vector<GridEntity*>	&Entities() { return m_EntityManager; }
 	void							SetDps(float dps) { m_Dps = dps; }
+	void							SetPoolSize(float poolSize) { m_PoolSize = poolSize; }
 
 protected:
 	GridScene						*m_Scene;

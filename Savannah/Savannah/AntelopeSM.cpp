@@ -12,6 +12,8 @@ namespace StateMachine
 	AntelopeStateMachine::AntelopeStateMachine(IScene *scene)
 	:	Super(scene)
 	{
+		GridScene	*gridScene = static_cast<GridScene*>(scene);
+
 		StateNode *idle = NewState();
 		m_Root = idle;
 		idle->SetFunc([](IScene *sce, GridEntity *ent, float dt)
@@ -46,7 +48,6 @@ namespace StateMachine
 			GridScene			*gridScene = static_cast<GridScene*>(sce);
 			assert(gridScene != nullptr);
 			GridScene::ETeam	type = ent->Team();
-			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
 
 			GridEntity			*nearestFriend = ent->m_StateMachineAttr.m_NearestFriend;
 
@@ -72,7 +73,6 @@ namespace StateMachine
 			GridScene			*gridScene = static_cast<GridScene*>(sce);
 			assert(gridScene != nullptr);
 			GridScene::ETeam	type = ent->Team();
-			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
 
 			GridEntity			*nearestEnemy = ent->m_StateMachineAttr.m_NearestEnemy;
 
@@ -98,7 +98,6 @@ namespace StateMachine
 			GridScene			*gridScene = static_cast<GridScene*>(sce);
 			assert(gridScene != nullptr);
 			GridScene::ETeam	type = ent->Team();
-			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
 
 			GridEntity			*nearestEnemy = ent->m_StateMachineAttr.m_NearestEnemy;
 
@@ -118,14 +117,14 @@ namespace StateMachine
 			ent->MoveForward(dt);
 		});
 
-		ICondition	*isAlone = NewCondition(EFriendDistance, Superior, 1.f);
-		ICondition	*isNotAlone = NewCondition(EFriendDistance, Inferior, 1.f);
+		ICondition	*isAlone = NewCondition(EFriendDistance, Superior, gridScene->Parameters().m_AntelopeLonelinessRadius);
+		ICondition	*isNotAlone = NewCondition(EFriendDistance, Inferior, gridScene->Parameters().m_AntelopeLonelinessRadius);
 
-		ICondition	*isNearFromEnemy = NewCondition(EEnnemyDistance, Inferior, 5.f);
-		ICondition	*isNotNearFromEnemy = NewCondition(EEnnemyDistance, Superior, 5.f);
+		ICondition	*isNearFromEnemy = NewCondition(EEnnemyDistance, Inferior, gridScene->Parameters().m_AntelopeFleeRadius);
+		ICondition	*isNotNearFromEnemy = NewCondition(EEnnemyDistance, Superior, gridScene->Parameters().m_AntelopeFleeRadius);
 
-		ICondition	*isSafeToAttack = NewCondition(ENearFriendCount, Superior | Equal, 4);
-		ICondition	*isNotSafeToAttack = NewCondition(ENearFriendCount, Inferior, 4);
+		ICondition	*isSafeToAttack = NewCondition(ENearFriendCount, Superior | Equal, gridScene->Parameters().m_AntelopeFriendCountToAttack);
+		ICondition	*isNotSafeToAttack = NewCondition(ENearFriendCount, Inferior, gridScene->Parameters().m_AntelopeFriendCountToAttack);
 
 		ICondition	*isNearEnemyAndSafeToAttack = NewCondition(isNearFromEnemy, And, isSafeToAttack);
 

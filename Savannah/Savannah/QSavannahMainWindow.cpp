@@ -28,7 +28,6 @@ QSavannahMainWindow::QSavannahMainWindow(QWidget *parent)
 :	QMainWindow(parent)
 ,	m_MenuBar(nullptr)
 ,	m_MainToolBar(nullptr)
-,	m_CentralWidget(nullptr)
 ,	m_StatusBar(nullptr)
 ,	m_RenderViewport(nullptr)
 ,	m_Game(nullptr)
@@ -78,13 +77,21 @@ void	QSavannahMainWindow::Setup()
 	m_Game = new Game(m_SceneController, m_RenderWindow);
 	m_RenderWindow->SetGame(m_Game);
 
+	m_RenderViewport->setFocus();
+
 	// all connections
-	connect(m_Game, &Game::OnGamePlayStop, [this](bool isrunning)
+	connect(this, &QSavannahMainWindow::OnGamePlayStop_UIThread, this, [this](bool isrunning)
+	{
+		this->m_SceneController->setEnabled(!isrunning);
+	});
+
+	connect(m_Game, &Game::OnGamePlayStop, this, [this](bool isrunning)
 	{
 		if (isrunning)
 			this->m_PlayStopButton->setText("Stop");
 		else
 			this->m_PlayStopButton->setText("Play");
+		Q_EMIT this->OnGamePlayStop_UIThread(isrunning);
 	});
 	
 	connect(m_PlayStopButton, &QPushButton::clicked, [this]()
@@ -95,6 +102,11 @@ void	QSavannahMainWindow::Setup()
 	connect(m_SimulationSlider, &QSlider::valueChanged, [this](int value)
 	{
 		this->m_SceneController->SetSimulationSpeed(value * 0.01f);
+	});
+
+	connect(m_Game, &Game::OnSceneParamsChanged, [this](const SGameParameters &params)
+	{
+		this->m_SceneController->SetGameParameters(params);
 	});
 }
 

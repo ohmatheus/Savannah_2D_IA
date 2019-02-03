@@ -8,7 +8,7 @@
 struct		SGameParameters
 {
 	bool	m_IsDirty = false;
-	float	m_SimulationSpeed;
+	float	m_SimulationSpeed = 1.f;
 
 	int		m_LionSpawnCount;
 	int		m_AntelopeSpawnCount;
@@ -33,6 +33,8 @@ struct		SGameParameters
 	int		m_AntelopeFriendCountToAttack;
 
 	float	m_AntelopeFriendCountRadius;
+
+	float	m_AntelopeLonelinessRadius;
 };
 
 //----------------------------------------------------------

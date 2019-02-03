@@ -27,13 +27,12 @@ public:
 	void				Setup();
 	void				StartGameThread();
 
-signals:
-	void				LaunchThreadGame();
+	Q_SIGNAL void				LaunchThreadGame();
+	Q_SIGNAL void				OnGamePlayStop_UIThread(bool);
 
 private:
 	QMenuBar			*m_MenuBar;
 	QToolBar			*m_MainToolBar;
-	QWidget				*m_CentralWidget;
 	QStatusBar			*m_StatusBar;
 	QRenderViewport		*m_RenderViewport;
 	QPushButton			*m_PlayStopButton;

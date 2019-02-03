@@ -44,7 +44,9 @@ public:
 	virtual void			Render(RenderSystem *rs) override;
 	void					ChangeStateNode(StateMachine::StateNode *node) { m_CurrentStateNode = node; }
 	const glm::vec3			Forward(bool worldSpace = false);
+	void					SetMovementSpeed(float mov) { m_MovementSpeed = mov; }
 	float					MovementSpeed() { return m_MovementSpeed; }
+	void					SetRotationSpeed(float rot) { m_RotationSpeed = rot; }
 	float					RotationSpeed() { return m_RotationSpeed; }
 	GridScene::ETeam		Team() { return m_Team; }
 	virtual void			Die() override;
