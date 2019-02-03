@@ -51,6 +51,8 @@ public:
 
 	const std::string		&Name() { return m_Name; }
 	IEntity					*GetChild(const std::string &name);
+	void					SetParent(IEntity *newParent);
+	bool					RemoveChild(IEntity *childToRemove);
 
 protected:
 	bool					m_IsActive;

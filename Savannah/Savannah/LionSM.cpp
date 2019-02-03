@@ -25,7 +25,7 @@ namespace StateMachine
 			GridScene			*gridScene = static_cast<GridScene*>(sce);
 			assert(gridScene != nullptr);
 			GridScene::ETeam	type = ent->Team();
-			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
+			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::LION : GridScene::ANTELOPE;
 
 			glm::vec3			targetPosition;
 			targetPosition = gridScene->GetFlagsEntity(enemyType)->Position();

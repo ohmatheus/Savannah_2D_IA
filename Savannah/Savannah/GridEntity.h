@@ -24,13 +24,11 @@ public:
 		GridEntity	*m_NearestEnemy = nullptr;
 		int			m_FriendsNextToMe = 0;
 
-		//float	m_DistanceFromNearestFriend;
-		//float	m_DistanceFromNearestFriend;
-
 		void Clear()
 		{
 			m_NearestFriend = nullptr;
 			m_NearestEnemy = nullptr;
+			m_FriendsNextToMe = 0;
 		}
 	};
 

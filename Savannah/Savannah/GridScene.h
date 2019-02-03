@@ -47,6 +47,8 @@ public:
 protected:
 	void								_CreateScene();
 	void								_GenerateAndAddGrid(int xSubdiv, int ySubdiv); // call rendersystem to generate mesh
+	void								_OnEntityGetFlag(GridEntity	*ent);
+	void								_OnFlagLost(ETeam team);
 
 	Game								*m_Game;
 	GridEntity							*m_GridEntity;
@@ -56,6 +58,10 @@ protected:
 
 	GridSpawner							*m_Spawners[ETeam::_NONE];
 	GridEntity							*m_Flags[ETeam::_NONE];
+	float								m_FlagCollisionRadius;
+
+	GridEntity							*m_LionPosessFlag = nullptr;
+	GridEntity							*m_AntelopePosessFlag = nullptr;
 };
 
 //----------------------------------------------------------

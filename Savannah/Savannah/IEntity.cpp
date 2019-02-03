@@ -122,3 +122,29 @@ IEntity		*IEntity::GetChild(const std::string &name)
 }
 
 //----------------------------------------------------------
+
+void	IEntity::SetParent(IEntity *newParent)
+{
+	if (m_Parent != nullptr)
+		m_Parent->RemoveChild(this);
+	m_Parent = nullptr;
+	newParent->AddChild(this);
+	assert(m_Parent == newParent);
+}
+
+//----------------------------------------------------------
+
+bool	IEntity::RemoveChild(IEntity *childToRemove)
+{
+	for (int i = 0; i < m_Children.size(); ++i)
+	{
+		if (m_Children[i] == childToRemove)
+		{
+			m_Children.erase(m_Children.begin() + i);
+			return true;
+		}
+	}
+	return false;
+}
+
+//----------------------------------------------------------
