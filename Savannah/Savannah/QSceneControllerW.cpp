@@ -44,7 +44,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 			m_SpawnCountL = new QLineEdit(this);
 			m_SpawnCountL->setMaximumWidth(50);
 			//QDoubleValidator *dv = new QDoubleValidator(0.0, 5.0, 2); // [0, 5] with 2 decimals of precision
-			QIntValidator		*iv = new QIntValidator();
+			QIntValidator		*iv = new QIntValidator(this);
 			m_SpawnCountL->setValidator(iv);
 			m_SpawnCountL->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_SpawnCountL, row, 1);
@@ -59,7 +59,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_SpawnCountA = new QLineEdit(this);
 			m_SpawnCountA->setMaximumWidth(50);
-			QIntValidator		*iv = new QIntValidator();
+			QIntValidator		*iv = new QIntValidator(this);
 			m_SpawnCountA->setValidator(iv);
 			m_SpawnCountA->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_SpawnCountA, row, 2);
@@ -79,7 +79,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_VelocityL = new QLineEdit(this);
 			m_VelocityL->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_VelocityL->setValidator(dv);
 			m_VelocityL->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_VelocityL, row, 1);
@@ -94,7 +94,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_VelocityA = new QLineEdit(this);
 			m_VelocityA->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_VelocityA->setValidator(dv);
 			m_VelocityA->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_VelocityA, row, 2);
@@ -114,7 +114,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_RotationSpeedL = new QLineEdit(this);
 			m_RotationSpeedL->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_RotationSpeedL->setValidator(dv);
 			m_RotationSpeedL->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_RotationSpeedL, row, 1);
@@ -129,7 +129,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_RotationSpeedA = new QLineEdit(this);
 			m_RotationSpeedA->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_RotationSpeedA->setValidator(dv);
 			m_RotationSpeedA->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_RotationSpeedA, row, 2);
@@ -149,7 +149,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_InitialHealthL = new QLineEdit(this);
 			m_InitialHealthL->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_InitialHealthL->setValidator(dv);
 			m_InitialHealthL->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_InitialHealthL, row, 1);
@@ -164,7 +164,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_InitialHealthA = new QLineEdit(this);
 			m_InitialHealthA->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_InitialHealthA->setValidator(dv);
 			m_InitialHealthA->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_InitialHealthA, row, 2);
@@ -185,7 +185,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_DPS_L = new QLineEdit(this);
 			m_DPS_L->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_DPS_L->setValidator(dv);
 			m_DPS_L->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_DPS_L, row, 1);
@@ -200,7 +200,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_DPS_A = new QLineEdit(this);
 			m_DPS_A->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_DPS_A->setValidator(dv);
 			m_DPS_A->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_DPS_A, row, 2);
@@ -221,7 +221,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_AttackRangeL = new QLineEdit(this);
 			m_AttackRangeL->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_AttackRangeL->setValidator(dv);
 			m_AttackRangeL->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_AttackRangeL, row, 1);
@@ -236,7 +236,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_AttackRangeA = new QLineEdit(this);
 			m_AttackRangeA->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_AttackRangeA->setValidator(dv);
 			m_AttackRangeA->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_AttackRangeA, row, 2);
@@ -266,7 +266,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_FleeRadiusA = new QLineEdit(this);
 			m_FleeRadiusA->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_FleeRadiusA->setValidator(dv);
 			m_FleeRadiusA->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_FleeRadiusA, row, 2);
@@ -296,7 +296,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_NbrFriendToAttack = new QLineEdit(this);
 			m_NbrFriendToAttack->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QIntValidator	*dv = new QIntValidator(this);
 			m_NbrFriendToAttack->setValidator(dv);
 			m_NbrFriendToAttack->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_NbrFriendToAttack, row, 2);
@@ -325,7 +325,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_FriendRadius = new QLineEdit(this);
 			m_FriendRadius->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_FriendRadius->setValidator(dv);
 			m_FriendRadius->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_FriendRadius, row, 2);
@@ -354,7 +354,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 		{
 			m_LonelinessRadius = new QLineEdit(this);
 			m_LonelinessRadius->setMaximumWidth(50);
-			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2);
+			QDoubleValidator	*dv = new QDoubleValidator(0.0, 100.0, 2, this);
 			m_LonelinessRadius->setValidator(dv);
 			m_LonelinessRadius->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 			layout->addWidget(m_LonelinessRadius, row, 2);
