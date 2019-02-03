@@ -30,17 +30,10 @@ namespace StateMachine
 			glm::vec3			targetPosition;
 			targetPosition = gridScene->GetFlagsEntity(enemyType)->Position();
 
-			const glm::vec3		&position = ent->Position();
-			const glm::vec3		&forward = ent->Forward();
-			const glm::vec3		direction = glm::normalize(targetPosition - position);
-
-			const float angleDif = ISteering::Angle(direction, forward);
-
-			ent->Rotate(angleDif, dt);
-			ent->MoveForward(dt);
+			ent->Seek(targetPosition, dt);
 		});
 
-		StateNode	*makeFriends = NewState();
+		StateNode	*makeFriends = NewState(); // ???
 		makeFriends->SetFunc([](IScene *sce, GridEntity *ent, float dt)
 		{
 			GridScene			*gridScene = static_cast<GridScene*>(sce);

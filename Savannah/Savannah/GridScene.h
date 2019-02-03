@@ -35,14 +35,6 @@ public:
 		_NONE		= 2
 	};
 
-	enum ESteeringBehaviour
-	{
-		ESeek,
-		EFlee,
-		EAvoid,
-		EArrive
-	};
-
 	virtual IScene						*Clone();
 	virtual void						OnSceneStart() override;
 	IEntity								*GetFlagsEntity(ETeam team);

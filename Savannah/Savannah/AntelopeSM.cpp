@@ -29,17 +29,9 @@ namespace StateMachine
 			GridScene::ETeam	type = ent->Team();
 			GridScene::ETeam	enemyType = type == GridScene::LION ? GridScene::ANTELOPE : GridScene::LION;
 
-			glm::vec3			targetPosition;
-			targetPosition = gridScene->GetFlagsEntity(enemyType)->Position();
+			glm::vec3			targetPosition = gridScene->GetFlagsEntity(enemyType)->Position();
 
-			const glm::vec3		&position = ent->Position();
-			const glm::vec3		&forward = ent->Forward();
-			const glm::vec3		direction = glm::normalize(targetPosition - position);
-
-			const float			angleDif = ISteering::Angle(direction, forward);
-
-			ent->Rotate(angleDif, dt);
-			ent->MoveForward(dt);
+			ent->Seek(targetPosition, dt);
 		});
 
 		StateNode	*makeFriends = NewState();
@@ -57,14 +49,7 @@ namespace StateMachine
 			else
 				return;
 
-			const glm::vec3		&position = ent->Position();
-			const glm::vec3		&forward = ent->Forward();
-			const glm::vec3		direction = glm::normalize(targetPosition - position);
-
-			const float			angleDif = ISteering::Angle(direction, forward);
-
-			ent->Rotate(angleDif, dt);
-			ent->MoveForward(dt);
+			ent->Seek(targetPosition, dt);
 		});
 
 		StateNode	*fleeEnemy = NewState();
@@ -82,14 +67,7 @@ namespace StateMachine
 			else
 				return;
 
-			const glm::vec3		&position = ent->Position();
-			const glm::vec3		&forward = ent->Forward();
-			const glm::vec3		direction = glm::normalize(position - targetPosition);
-
-			const float			angleDif = ISteering::Angle(direction, forward);
-
-			ent->Rotate(angleDif, dt);
-			ent->MoveForward(dt);
+			ent->Flee(targetPosition, dt);
 		});
 
 		StateNode	*attackEnemy = NewState();
@@ -107,14 +85,7 @@ namespace StateMachine
 			else
 				return;
 
-			const glm::vec3		&position = ent->Position();
-			const glm::vec3		&forward = ent->Forward();
-			const glm::vec3		direction = glm::normalize(targetPosition - position);
-
-			const float			angleDif = ISteering::Angle(direction, forward);
-
-			ent->Rotate(angleDif, dt);
-			ent->MoveForward(dt);
+			ent->Seek(targetPosition, dt);
 		});
 
 		ICondition	*isAlone = NewCondition(EFriendDistance, Superior, gridScene->Parameters().m_AntelopeLonelinessRadius);

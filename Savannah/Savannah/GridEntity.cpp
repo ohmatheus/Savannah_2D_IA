@@ -98,3 +98,31 @@ void	GridEntity::Die()
 }
 
 //----------------------------------------------------------
+
+void	GridEntity::Seek(glm::vec3 targetPosition, float dt)
+{
+	const glm::vec3		&position = Position();
+	const glm::vec3		&forward = Forward();
+	const glm::vec3		direction = glm::normalize(targetPosition - position);
+
+	const float			angleDif = ISteering::Angle(direction, forward);
+
+	Rotate(angleDif, dt);
+	MoveForward(dt);
+}
+
+//----------------------------------------------------------
+
+void	GridEntity::Flee(glm::vec3 targetPosition, float dt)
+{
+	const glm::vec3		&position = Position();
+	const glm::vec3		&forward = Forward();
+	const glm::vec3		direction = glm::normalize(position - targetPosition);
+
+	const float			angleDif = ISteering::Angle(direction, forward);
+
+	Rotate(angleDif, dt);
+	MoveForward(dt);
+}
+
+//----------------------------------------------------------

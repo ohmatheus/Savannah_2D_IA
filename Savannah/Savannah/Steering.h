@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 class ISteering
 {
 public:

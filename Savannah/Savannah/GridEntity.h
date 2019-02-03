@@ -38,7 +38,6 @@ public:
 	virtual ~GridEntity();
 	GridEntity(const GridEntity &from);
 
-
 	virtual GridEntity		*Clone() override;
 	virtual void			Update(float dt) override;
 	virtual void			Render(RenderSystem *rs) override;
@@ -55,6 +54,8 @@ public:
 	float					Dps() { return m_Dps; }
 	void					SetDps(float dps) { m_Dps = dps; }
 	void					Hit(float dmg) { m_Health -= dmg; }
+	void					Seek(glm::vec3 position, float dt);
+	void					Flee(glm::vec3 position, float dt);
 
 	void					MoveForward(float dt) // inlined
 	{
