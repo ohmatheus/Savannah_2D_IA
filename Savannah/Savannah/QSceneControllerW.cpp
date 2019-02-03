@@ -332,7 +332,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 			connect(m_FriendRadius, &QLineEdit::editingFinished, [this]()
 			{
 				SCOPEDLOCK(m_GameLock);
-				m_GameParameters.m_AntelopeFriendCountRadius = m_FriendRadius->text().toInt();
+				m_GameParameters.m_AntelopeFriendCountRadius = m_FriendRadius->text().toFloat();
 				m_GameParameters.m_IsDirty = true;
 			});
 		}
@@ -361,7 +361,7 @@ QSceneControllerW::QSceneControllerW(QWidget *parent)
 			connect(m_LonelinessRadius, &QLineEdit::editingFinished, [this]()
 			{
 				SCOPEDLOCK(m_GameLock);
-				m_GameParameters.m_AntelopeLonelinessRadius = m_LonelinessRadius->text().toInt();
+				m_GameParameters.m_AntelopeLonelinessRadius = m_LonelinessRadius->text().toFloat();
 				m_GameParameters.m_IsDirty = true;
 			});
 		}

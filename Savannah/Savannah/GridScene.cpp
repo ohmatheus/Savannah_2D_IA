@@ -313,6 +313,13 @@ GridEntity	*GridScene::AddEntityToGrid(ETeam type, const glm::vec3 &position, bo
 
 //----------------------------------------------------------
 
+GridEntity	*GridScene::EntityThatPosessFlag(ETeam teamFlag)
+{
+	return teamFlag == LION ? m_LionPosessFlag : m_AntelopePosessFlag;
+}
+
+//----------------------------------------------------------
+
 void	GridScene::_CreateScene()
 {
 	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine(this);
@@ -320,11 +327,11 @@ void	GridScene::_CreateScene()
 
 	// should be done by reflection + save as file, but well...
 	{
-		m_Parameters.m_AntelopeSpawnCount = 300;
+		m_Parameters.m_AntelopeSpawnCount = 250;
 		m_Parameters.m_LionSpawnCount = 75;
 
-		m_Parameters.m_LionVelocity = 2.5f;
-		m_Parameters.m_AntelopeVelocity = 4.f;
+		m_Parameters.m_LionVelocity = 3.f;
+		m_Parameters.m_AntelopeVelocity = 6.f;
 
 		m_Parameters.m_LionRotationSpeed = 50.f;
 		m_Parameters.m_AntelopeRotationSpeed = 50.f;
@@ -348,8 +355,8 @@ void	GridScene::_CreateScene()
 
 	_GenerateAndAddGrid(100, 60);
 
-	m_FlagsInitialPosition[LION] = glm::vec3(40.f, 20.f, 0.5f);
-	m_FlagsInitialPosition[ANTELOPE] = glm::vec3(-40.f, 20.f, 0.5f);
+	m_FlagsInitialPosition[LION] = glm::vec3(41.f, 20.f, 0.5f);
+	m_FlagsInitialPosition[ANTELOPE] = glm::vec3(-41.f, 20.f, 0.5f);
 
 	// flags
 	{
@@ -428,7 +435,7 @@ void	GridScene::_GenerateAndAddGrid(int xSubdiv, int ySubdiv)
 	entity->SetPosition(glm::vec3(0.f, 0.f, 0.f));
 	m_Entities.push_back(entity);
 	m_GridEntity = entity;
-	m_GridEntity->Pitch() = -50;
+	//m_GridEntity->Pitch() = -30;
 }
 
 //----------------------------------------------------------

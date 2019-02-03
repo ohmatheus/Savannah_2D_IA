@@ -12,9 +12,13 @@ namespace StateMachine
 		EHasFriendAlive,
 		EEnnemyDistance,
 		EFriendDistance,
-		EMyFlagDistance,
-		EEnemyFlagDistance,
-		ENearFriendCount
+		EDistanceFromMyFlag,
+		EDistanceFromEnemyFlag,
+		ENearFriendCount,
+
+		EHasFlag,
+		ETeamHasFlag,
+		EEnemyTeamHasFlag
 	};
 
 	enum EConditionOperation

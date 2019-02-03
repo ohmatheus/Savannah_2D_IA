@@ -40,6 +40,8 @@ public:
 	IEntity								*GetFlagsEntity(ETeam team);
 	GridEntity							*AddEntityToGrid(ETeam type, const glm::vec3 &position, bool isActive = true);
 	GridEntity							*Flag(ETeam teamFlag) { return m_Flags[teamFlag]; }
+	GridEntity							*EntityThatPosessFlag(ETeam teamFlag);
+	GridSpawner							*Spawner(ETeam teamFlag) { return m_Spawners[teamFlag]; }
 	virtual void						PreUpdate(float dt) override;
 	StateMachine::StateNode				*GetStateMachineRoot(ETeam team);
 	virtual	void						SetParameters(const SGameParameters &params) override;

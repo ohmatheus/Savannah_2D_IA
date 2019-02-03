@@ -71,9 +71,16 @@ void	Game::StartAndLoop()
 
 	Timer timer;
 	float		dt = 0.f;
+
 	const float fixedSimulationFramerate = 60.f; // max dt
 	float		limitedDt = 0;
 	timer.Start();
+
+	float waitALittleBit = -0.5f;
+	while (waitALittleBit < 0)
+	{
+		waitALittleBit += timer.ElapsedSeconds();
+	}
 
 	while (true)
 	{
