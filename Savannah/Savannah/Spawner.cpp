@@ -102,7 +102,7 @@ void	GridSpawner::Update(float dt)
 				GridEntity	*entity = m_EntityManager[i];
 				assert(entity != nullptr);
 				entity->SetActive(true);
-				entity->SetPosition(m_Position);
+				entity->SetPosition(m_Position + glm::vec3(0.f, 0.f, 0.1f));
 				entity->Roll() = 0.f;
 				entity->ChangeStateNode(m_Scene->GetStateMachineRoot(m_Team));
 				if (m_Team == GridScene::LION)

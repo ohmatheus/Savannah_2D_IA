@@ -139,6 +139,7 @@ void	QRenderWindow::SetViewportSize(float x, float y)
 
 void	QRenderWindow::SwapBuffers()
 {
+	m_Context->makeCurrent(this);
 	m_Context->swapBuffers(this);
 }
 

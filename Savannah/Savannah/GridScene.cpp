@@ -57,6 +57,9 @@ GridScene::GridScene(const GridScene &scene)
 	m_Spawners[1] = static_cast<GridSpawner*>(GetEntity("AntelopeSpawner"));
 	assert(m_Spawners[1]);
 
+	m_FlagsInitialPosition[LION] = scene.m_FlagsInitialPosition[LION];
+	m_FlagsInitialPosition[ANTELOPE] = scene.m_FlagsInitialPosition[ANTELOPE];
+
 	m_FlagCollisionRadius = scene.m_FlagCollisionRadius;
 }
 
@@ -345,13 +348,16 @@ void	GridScene::_CreateScene()
 
 	_GenerateAndAddGrid(100, 60);
 
+	m_FlagsInitialPosition[LION] = glm::vec3(40.f, 20.f, 0.5f);
+	m_FlagsInitialPosition[ANTELOPE] = glm::vec3(-40.f, 20.f, 0.5f);
+
 	// flags
 	{
 		GridEntity	*entity = new GridEntity("Lion Flag", LION);
 		entity->SetColor(glm::vec4(1.f, 0.f, 0.f, 1.f));
 		entity->SetMeshName("Diamond");
 		entity->SetShaderName("DefaultShader");
-		entity->SetPosition(glm::vec3(40.f, 20.f, 0.1f));
+		entity->SetPosition(m_FlagsInitialPosition[LION]);
 
 		m_GridEntity->AddChild(entity);
 		//m_Entities.push_back(entity);
@@ -362,7 +368,7 @@ void	GridScene::_CreateScene()
 		entity->SetColor(glm::vec4(0.f, 1.f, 0.7f, 1.f));
 		entity->SetMeshName("Diamond");
 		entity->SetShaderName("DefaultShader");
-		entity->SetPosition(glm::vec3(-40.f, 20.f, 0.1f));
+		entity->SetPosition(m_FlagsInitialPosition[ANTELOPE]);
 
 		m_GridEntity->AddChild(entity);
 		//m_Entities.push_back(entity);
@@ -380,7 +386,7 @@ void	GridScene::_CreateScene()
 		m_Spawners[i]->SetColor((ETeam)i == LION ? glm::vec4(0.f, 0.7f, 0.1f, 1.f) : glm::vec4(0.5f, 0.f, 0.7f, 1.f));
 		m_Spawners[i]->SetMeshName("Rectangle");
 		m_Spawners[i]->SetShaderName("DefaultShader");
-		m_Spawners[i]->SetPosition((ETeam)i == LION ? glm::vec3(-40.f, -20.f, 0.1f) : glm::vec3(40.f, -20.f, 0.1f));
+		m_Spawners[i]->SetPosition((ETeam)i == LION ? glm::vec3(-40.f, -20.f, 0.05f) : glm::vec3(40.f, -20.f, 0.05f));
 		m_Spawners[i]->SetScale(3.f);
 	}
 }
@@ -429,19 +435,20 @@ void	GridScene::_GenerateAndAddGrid(int xSubdiv, int ySubdiv)
 
 void	GridScene::_OnEntityGetFlag(GridEntity	*ent)
 {
+	glm::vec3	zero = glm::vec3(0.f, 0.f, 0.5f);
 	ETeam	team = ent->Team();
 	if (team == LION)
 	{
 		m_LionPosessFlag = ent;
 		m_Flags[team]->SetParent(ent);
-		m_Flags[team]->SetPosition(glm::vec3(0));
+		m_Flags[team]->SetPosition(zero);
 	}
 	else
 	{
 		assert(team == ANTELOPE);
 		m_AntelopePosessFlag = ent;
 		m_Flags[team]->SetParent(ent);
-		m_Flags[team]->SetPosition(glm::vec3(0));
+		m_Flags[team]->SetPosition(zero);
 	}
 }
 
@@ -455,7 +462,7 @@ void	GridScene::_OnFlagLost(ETeam team)
 		m_AntelopePosessFlag = nullptr;
 
 	m_Flags[team]->SetParent(m_GridEntity);
-	m_Flags[team]->SetPosition(glm::vec3(-20, 40, 0.0));
+	m_Flags[team]->SetPosition(m_FlagsInitialPosition[team]);
 
 	// reset parent to grid
 	// reset position

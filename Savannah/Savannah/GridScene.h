@@ -58,6 +58,7 @@ protected:
 
 	GridSpawner							*m_Spawners[ETeam::_NONE];
 	GridEntity							*m_Flags[ETeam::_NONE];
+	glm::vec3							m_FlagsInitialPosition[ETeam::_NONE];
 	float								m_FlagCollisionRadius;
 
 	GridEntity							*m_LionPosessFlag = nullptr;
