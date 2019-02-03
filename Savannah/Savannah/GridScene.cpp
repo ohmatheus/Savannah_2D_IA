@@ -352,6 +352,14 @@ StateMachine::StateNode		*GridScene::GetStateMachineRoot(ETeam team)
 
 //----------------------------------------------------------
 
+void	GridScene::SetParameters(const SGameParameters &params)
+{
+	Super::SetParameters(params);
+	// update the all scene;
+}
+
+//----------------------------------------------------------
+
 void	GridScene::_GenerateAndAddGrid(int xSubdiv, int ySubdiv)
 {
 	RenderSystem	*renderSystem = m_Game->GetRenderSystem();

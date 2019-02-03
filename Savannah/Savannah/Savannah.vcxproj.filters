@@ -262,6 +262,9 @@
     <ClInclude Include="QSceneControllerW.h">
       <Filter>Source Files\Editor\Control</Filter>
     </ClInclude>
+    <ClInclude Include="IGameController.h">
+      <Filter>Source Files\Engine\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Conditions.inl">

@@ -253,3 +253,27 @@ QSceneControllerW::~QSceneControllerW()
 {}
 
 //----------------------------------------------------------
+
+bool	QSceneControllerW::RequestGameParameters(SGameParameters &to)
+{
+	if (m_GameParameters.m_IsDirty) // ReadOnly
+	{
+		SCOPEDLOCK(m_GameLock);
+		to.m_IsDirty = m_GameParameters.m_IsDirty;
+		to.m_SimulationSpeed = m_GameParameters.m_SimulationSpeed;
+
+		return true;
+	}
+	return false;
+}
+
+//----------------------------------------------------------
+
+void	QSceneControllerW::SetSimulationSpeed(float simuSpeed)
+{
+	SCOPEDLOCK(m_GameLock);
+	m_GameParameters.m_SimulationSpeed = simuSpeed;
+	m_GameParameters.m_IsDirty = true;
+}
+
+//----------------------------------------------------------

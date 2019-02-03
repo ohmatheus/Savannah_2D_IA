@@ -10,6 +10,8 @@ class	QRenderWindow;
 class	QRenderViewport;
 class	QWorkerObject;
 class	Game;
+class	QSceneControllerW;
+class	QSlider;
 
 //----------------------------------------------------------
 
@@ -39,6 +41,8 @@ private:
 	QRenderWindow		*m_RenderWindow;
 	QWorkerObject		*m_GameWorker;
 	Game				*m_Game;
+	QSceneControllerW	*m_SceneController;
+	QSlider				*m_SimulationSlider;
 
 	void				_CreateViewportPanel();
 	void				_CreateControlPanel();

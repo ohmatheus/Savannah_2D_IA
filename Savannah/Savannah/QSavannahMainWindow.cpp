@@ -74,7 +74,8 @@ void	QSavannahMainWindow::Setup()
 	_CreateControlPanel();
 	_CreateViewportPanel();
 
-	m_Game = new Game(m_RenderWindow);
+	assert(m_SceneController != nullptr);
+	m_Game = new Game(m_SceneController, m_RenderWindow);
 	m_RenderWindow->SetGame(m_Game);
 
 	// all connections
@@ -89,6 +90,11 @@ void	QSavannahMainWindow::Setup()
 	connect(m_PlayStopButton, &QPushButton::clicked, [this]()
 	{
 		this->m_Game->TooglePlayStop();
+	});
+
+	connect(m_SimulationSlider, &QSlider::valueChanged, [this](int value)
+	{
+		this->m_SceneController->SetSimulationSpeed(value * 0.01f);
 	});
 }
 
@@ -128,8 +134,6 @@ void	QSavannahMainWindow::_CreateViewportPanel()
 	{
 		// m_ViewMenu->addAction(dockw->toggleViewAction());
 		// Here add pause/play button
-	
-
 
 		auto		*dummy = new QWidget(dockw);
 		dockw->setWidget(dummy);
@@ -148,12 +152,12 @@ void	QSavannahMainWindow::_CreateViewportPanel()
 		m_PlayStopButton = new QPushButton("Play", this);
 		m_MainToolBar->addWidget(m_PlayStopButton);
 
-		QSlider		*slider = new QSlider(Qt::Orientation::Horizontal, this);
-		slider->setMaximum(200);
-		slider->setMinimum(0);
-		slider->setValue(100);
-		slider->setMaximumWidth(200);
-		m_MainToolBar->addWidget(slider);
+		m_SimulationSlider = new QSlider(Qt::Orientation::Horizontal, this);
+		m_SimulationSlider->setMaximum(200);
+		m_SimulationSlider->setMinimum(0);
+		m_SimulationSlider->setValue(100);
+		m_SimulationSlider->setMaximumWidth(200);
+		m_MainToolBar->addWidget(m_SimulationSlider);
 
 		_CreateRenderViewport(this);
 
@@ -187,8 +191,8 @@ void	QSavannahMainWindow::_CreateControlPanel()
 
 		dummy->setMaximumSize(QSize(400, 2000));
 
-		QSceneControllerW *sceneController = new QSceneControllerW(this);
-		layout->addWidget(sceneController);
+		m_SceneController = new QSceneControllerW(this);
+		layout->addWidget(m_SceneController);
 	}
 	dockw->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);	// Horizontally greedy: expands if possible
 	dockw->setAllowedAreas(Qt::RightDockWidgetArea);

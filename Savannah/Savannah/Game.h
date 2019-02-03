@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include "IGameController.h"
 
 //	Inherits here from qobejct just because of events, no time to implement my own event system and translate it from Qt
 //	So this little hack of copying the window events and passing to the game thread is the best i found regarding time/efficiency.
@@ -15,6 +16,7 @@ class	QEvent;
 class	QMouseEvent;
 class	QKeyEvent;
 class	QWheelEvent;
+class	QSavannahMainWindow;
 
 //----------------------------------------------------------
 
@@ -42,7 +44,7 @@ class Game final : public QObject
 {
 	Q_OBJECT
 public:
-	Game(IGameWindow *renderWindow);
+	Game(IGameController *controller, IGameWindow *renderWindow);
 	~Game();
 
 	void					StartAndLoop();
@@ -74,6 +76,7 @@ private:
 	void					_LaunchScene();
 	void					_StopScene();
 	void					_CheckTogglePlayStop();
+	void					_GetParametersFromController();
 
 	float					m_Fps = 60.f;
 	SRenderWindowData		*m_RenderWindowData;
@@ -92,6 +95,8 @@ private:
 	RenderSystem			*m_RenderSystem;
 	IGameWindow				*m_RenderWindow;
 	std::vector<QEvent*>	*m_Events;
+	IGameController			*m_GameController;
+	SGameParameters			m_GameParameters;
 	QMutex					m_UILock;
 };
 

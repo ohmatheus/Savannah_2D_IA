@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IGameController.h"
+
 #include <vector>
 
 //----------------------------------------------------------
@@ -21,13 +23,13 @@ public:
 	virtual void		PreUpdate(float dt);
 	virtual void		Update(float dt);
 	virtual void		Render(RenderSystem *renderSystem);
-
 	IEntity				*GetEntity(const std::string &name);
-
 	const std::vector<IEntity*>	&Entities() { return m_Entities; }
+	virtual void		SetParameters(const SGameParameters &params) { m_Parameters = params; }
 
 protected:
 	std::vector<IEntity*>	m_Entities;
+	SGameParameters			m_Parameters;
 };
 
 //----------------------------------------------------------

@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AntelopeSM.h" />
+    <ClInclude Include="IGameController.h" />
     <ClInclude Include="LionSM.h" />
     <ClInclude Include="QSceneControllerW.h" />
     <ClInclude Include="Spawner.h" />

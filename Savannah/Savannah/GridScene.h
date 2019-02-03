@@ -45,15 +45,12 @@ public:
 
 	virtual IScene						*Clone();
 	virtual void						OnSceneStart() override;
-
 	IEntity								*GetFlagsEntity(ETeam team);
 	GridEntity							*AddEntityToGrid(ETeam type, const glm::vec3 &position, bool isActive = true);
-
 	GridEntity							*Flag(ETeam teamFlag) { return m_Flags[teamFlag]; }
-
 	virtual void						PreUpdate(float dt) override;
-
 	StateMachine::StateNode				*GetStateMachineRoot(ETeam team);
+	virtual	void						SetParameters(const SGameParameters &params);
 
 protected:
 	void								_CreateScene();

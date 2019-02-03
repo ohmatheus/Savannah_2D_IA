@@ -22,8 +22,9 @@
 
 //----------------------------------------------------------
 
-Game::Game(IGameWindow *renderWindow)
+Game::Game(IGameController *controller, IGameWindow *renderWindow)
 :	m_RenderWindow(renderWindow)
+,	m_GameController(controller)
 {
 	assert(m_RenderWindow != nullptr);
 
@@ -102,6 +103,7 @@ void	Game::StartAndLoop()
 				QThread::msleep(uint(timeToWait));
 		}
 
+		_GetParametersFromController();
 		_CheckTogglePlayStop();
 		m_RenderWindow->SwapEvents(m_Events);
 		ProcessEvents(dt);
@@ -187,6 +189,17 @@ void	Game::_CheckTogglePlayStop()
 		else
 			_StopScene();
 		m_TogglePlayStop = false;
+	}
+}
+
+//----------------------------------------------------------
+
+void	Game::_GetParametersFromController()
+{
+	if (m_GameController->RequestGameParameters(m_GameParameters))
+	{
+		m_CurrentScene->SetParameters(m_GameParameters);
+		m_SimulationSpeed = m_GameParameters.m_SimulationSpeed;
 	}
 }
 
