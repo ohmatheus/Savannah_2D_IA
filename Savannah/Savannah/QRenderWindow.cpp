@@ -68,6 +68,12 @@ void	QRenderWindow::Initialize()
 	m_SurfaceFormat->setDepthBufferSize(16);
 	m_SurfaceFormat->setVersion(4, 1);
 	m_SurfaceFormat->setProfile(QSurfaceFormat::CoreProfile);
+	m_SurfaceFormat->setSwapBehavior(QSurfaceFormat::DoubleBuffer);
+
+	setFormat(*m_SurfaceFormat);
+
+	//QOpenGLContext *context = QOpenGLContext::currentContext();
+	//assert(context != nullptr);
 
 	m_Context = new QOpenGLContext(this);
 
@@ -141,6 +147,7 @@ void	QRenderWindow::SwapBuffers()
 {
 	m_Context->makeCurrent(this);
 	m_Context->swapBuffers(this);
+	m_Context->makeCurrent(this);
 }
 
 //----------------------------------------------------------

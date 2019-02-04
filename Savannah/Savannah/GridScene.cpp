@@ -38,10 +38,7 @@ GridScene::GridScene(const GridScene &scene)
 {
 	m_Game = scene.m_Game;
 
-	//m_AntelopeStateMachine = scene.m_AntelopeStateMachine; // should clone ?
-	//m_LionStateMachine = scene.m_LionStateMachine;
-
-	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine(this);
+	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine(this); // should clone ?
 	m_LionStateMachine = new StateMachine::LionStateMachine(this);
 
 	m_Flags[0] = static_cast<GridEntity*>(GetEntity("Lion Flag")); // ouch + error prone
@@ -100,7 +97,7 @@ void		GridScene::PreUpdate(float dt)
 	// pre-pre-update to know if one needs to die
 	for (int i = 0; i < antelopes.size(); i++)
 	{
-		antelopes[i]->m_StateMachineAttr.m_FriendsNextToMe = 0;
+		antelopes[i]->StateMachineAttr().m_FriendsNextToMe = 0;
 		if (antelopes[i]->Health() <= 0.f)
 		{
 			antelopes[i]->Die();
@@ -119,7 +116,7 @@ void		GridScene::PreUpdate(float dt)
 
 	for (int i = 0; i < lions.size(); i++)
 	{
-		lions[i]->m_StateMachineAttr.m_FriendsNextToMe = 0;
+		lions[i]->StateMachineAttr().m_FriendsNextToMe = 0;
 		if (lions[i]->Health() <= 0.f)
 		{
 			lions[i]->Die();
@@ -156,8 +153,8 @@ void		GridScene::PreUpdate(float dt)
 
 			if (localDistance < m_Parameters.m_AntelopeFriendCountRadius) // friends next to me
 			{
-				antelopeA->m_StateMachineAttr.m_FriendsNextToMe++;
-				antelopeB->m_StateMachineAttr.m_FriendsNextToMe++;
+				antelopeA->StateMachineAttr().m_FriendsNextToMe++;
+				antelopeB->StateMachineAttr().m_FriendsNextToMe++;
 			}
 
 			if (localDistance < 0.2f) // special event to avoid entities overlap
@@ -167,29 +164,29 @@ void		GridScene::PreUpdate(float dt)
 				antelopeA->SetPosition(positionA - arbitraryAntiOverlapVector * dt);
 			}
 
-			GridEntity			*antelopeAC = antelopeA->m_StateMachineAttr.m_NearestFriend;
+			GridEntity			*antelopeAC = antelopeA->StateMachineAttr().m_NearestFriend;
 			if (antelopeAC != nullptr)
 			{
 				const float		distanceOldNearest = glm::length(positionA - antelopeAC->Position());
 				if (localDistance < distanceOldNearest || !antelopeAC->IsActive())
-					antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeB;
+					antelopeA->StateMachineAttr().m_NearestFriend = antelopeB;
 				else
-					antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeAC;
+					antelopeA->StateMachineAttr().m_NearestFriend = antelopeAC;
 			}
 			else
-				antelopeA->m_StateMachineAttr.m_NearestFriend = antelopeB;
+				antelopeA->StateMachineAttr().m_NearestFriend = antelopeB;
 
-			GridEntity			*antelopeBD = antelopeB->m_StateMachineAttr.m_NearestFriend;
+			GridEntity			*antelopeBD = antelopeB->StateMachineAttr().m_NearestFriend;
 			if (antelopeBD != nullptr)
 			{
 				const float		distanceOldNearest = glm::length(positionB - antelopeBD->Position());
 				if (localDistance < distanceOldNearest || !antelopeBD->IsActive())
-					antelopeB->m_StateMachineAttr.m_NearestFriend = antelopeA;
+					antelopeB->StateMachineAttr().m_NearestFriend = antelopeA;
 				else 
-					antelopeB->m_StateMachineAttr.m_NearestFriend = antelopeBD;
+					antelopeB->StateMachineAttr().m_NearestFriend = antelopeBD;
 			}
 			else
-				antelopeB->m_StateMachineAttr.m_NearestFriend = antelopeA;
+				antelopeB->StateMachineAttr().m_NearestFriend = antelopeA;
 		}
 
 		for (int j = 0; j < lions.size(); j++)
@@ -210,29 +207,29 @@ void		GridScene::PreUpdate(float dt)
 				antelopeA->Hit(lionB->Dps() * dt);
 			// die at next frame
 
-			GridEntity			*lionAC = antelopeA->m_StateMachineAttr.m_NearestEnemy;
+			GridEntity			*lionAC = antelopeA->StateMachineAttr().m_NearestEnemy;
 			if (lionAC != nullptr)
 			{
 				const float distanceOldNearest = glm::length(positionA - lionAC->Position());
 				if (localDistance < distanceOldNearest || !lionAC->IsActive())
-					antelopeA->m_StateMachineAttr.m_NearestEnemy = lionB;
+					antelopeA->StateMachineAttr().m_NearestEnemy = lionB;
 				else
-					antelopeA->m_StateMachineAttr.m_NearestEnemy = lionAC;
+					antelopeA->StateMachineAttr().m_NearestEnemy = lionAC;
 			}
 			else
-				antelopeA->m_StateMachineAttr.m_NearestEnemy = lionB;
+				antelopeA->StateMachineAttr().m_NearestEnemy = lionB;
 
-			GridEntity			*antelopeBD = lionB->m_StateMachineAttr.m_NearestEnemy;
+			GridEntity			*antelopeBD = lionB->StateMachineAttr().m_NearestEnemy;
 			if (antelopeBD != nullptr)
 			{
 				const float		distanceOldNearest = glm::length(positionB - antelopeBD->Position());
 				if (localDistance < distanceOldNearest || !antelopeBD->IsActive())
-					lionB->m_StateMachineAttr.m_NearestEnemy = antelopeA;
+					lionB->StateMachineAttr().m_NearestEnemy = antelopeA;
 				else
-					lionB->m_StateMachineAttr.m_NearestEnemy = antelopeBD;
+					lionB->StateMachineAttr().m_NearestEnemy = antelopeBD;
 			}
 			else
-				lionB->m_StateMachineAttr.m_NearestEnemy = antelopeA;
+				lionB->StateMachineAttr().m_NearestEnemy = antelopeA;
 		}
 	}
 
@@ -256,33 +253,33 @@ void		GridScene::PreUpdate(float dt)
 
 			if (localDistance < 5.f) // friends next to me
 			{
-				lionA->m_StateMachineAttr.m_FriendsNextToMe++;
-				lionB->m_StateMachineAttr.m_FriendsNextToMe++;
+				lionA->StateMachineAttr().m_FriendsNextToMe++;
+				lionB->StateMachineAttr().m_FriendsNextToMe++;
 			}
 
-			GridEntity	*lionAC = lionA->m_StateMachineAttr.m_NearestFriend;
+			GridEntity	*lionAC = lionA->StateMachineAttr().m_NearestFriend;
 			if (lionAC != nullptr)
 			{
 				const float distanceOldNearest = glm::length(positionA - lionAC->Position());
 				if (localDistance < distanceOldNearest || !lionAC->IsActive())
-					lionA->m_StateMachineAttr.m_NearestFriend = lionB;
+					lionA->StateMachineAttr().m_NearestFriend = lionB;
 				else
-					lionA->m_StateMachineAttr.m_NearestFriend = lionAC;
+					lionA->StateMachineAttr().m_NearestFriend = lionAC;
 			}
 			else
-				lionA->m_StateMachineAttr.m_NearestFriend = lionB;
+				lionA->StateMachineAttr().m_NearestFriend = lionB;
 
-			GridEntity			*lionBD = lionB->m_StateMachineAttr.m_NearestFriend;
+			GridEntity			*lionBD = lionB->StateMachineAttr().m_NearestFriend;
 			if (lionBD != nullptr)
 			{
 				const float		distanceOldNearest = glm::length(positionB - lionBD->Position());
 				if (localDistance < distanceOldNearest || !lionBD->IsActive())
-					lionB->m_StateMachineAttr.m_NearestFriend = lionA;
+					lionB->StateMachineAttr().m_NearestFriend = lionA;
 				else
-					lionB->m_StateMachineAttr.m_NearestFriend = lionBD;
+					lionB->StateMachineAttr().m_NearestFriend = lionBD;
 			}
 			else
-				lionB->m_StateMachineAttr.m_NearestFriend = lionA;
+				lionB->StateMachineAttr().m_NearestFriend = lionA;
 		}
 	}
 }
@@ -302,8 +299,6 @@ GridEntity	*GridScene::AddEntityToGrid(ETeam type, const glm::vec3 &position, bo
 
 	entity->ChangeStateNode(type == LION ? m_LionStateMachine->Root() : m_AntelopeStateMachine->Root());
 	m_GridEntity->AddChild(entity);
-
-	//m_Entities.push_back(entity);
 
 	return entity;
 }

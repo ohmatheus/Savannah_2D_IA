@@ -151,7 +151,7 @@ void	RenderSystem::_InitMeshDatas()
 
 std::string	RenderSystem::GenrateGridMesh(float cellSize, int xSubdiv, int ySubdiv)
 {
-	MeshData *mesh = new MeshData;
+	MeshData			*mesh = new MeshData();
 
 	const std::string	halfSizeStr = std::to_string(cellSize);
 	const std::string	xSubdivStr = std::to_string(xSubdiv);
@@ -164,7 +164,7 @@ std::string	RenderSystem::GenrateGridMesh(float cellSize, int xSubdiv, int ySubd
 	if (m_MeshBank[meshName] != nullptr)
 		return meshName;
 
-	const int			verticeNbr = (xSubdiv + 1) * 2 * 2 + (ySubdiv + 1) * 2 * 2; // 2 * 2 vertex per subdiv
+	const int			verticeNbr = (xSubdiv + 1) * 2 + (ySubdiv + 1) * 2; // 2 * 2 vertex per subdiv
 
 	const float			left = cellSize * xSubdiv * 0.5f;
 	const float			top = -cellSize * ySubdiv * 0.5f;
@@ -172,6 +172,7 @@ std::string	RenderSystem::GenrateGridMesh(float cellSize, int xSubdiv, int ySubd
 	const uint			offsetForSubdiv = 3 * 2;
 	float				*components = (float*)malloc(verticeNbr * sizeof(float) * 3);
 
+	int verticeCount = 0;
 	for (int i = 0; i <= xSubdiv; i++)
 	{
 		double	hRatio = lerp(left, -left, double(i) / double(xSubdiv));
@@ -183,6 +184,7 @@ std::string	RenderSystem::GenrateGridMesh(float cellSize, int xSubdiv, int ySubd
 		components[offsetForSubdiv * i + 3] = hRatio;	// X2
 		components[offsetForSubdiv * i + 4] = -top;		// Y2
 		components[offsetForSubdiv * i + 5] = 0.f;		// Z2
+		verticeCount += 2;
 	}
 
 	for (int i = 0; i <= ySubdiv; i++)
@@ -196,6 +198,7 @@ std::string	RenderSystem::GenrateGridMesh(float cellSize, int xSubdiv, int ySubd
 		components[offsetForSubdiv * (i + xSubdiv + 1) + 3] = -left;	// X2
 		components[offsetForSubdiv * (i + xSubdiv + 1) + 4] = vRatio;	// Y2
 		components[offsetForSubdiv * (i + xSubdiv + 1) + 5] = 0.f;		// Z2
+		verticeCount += 2;
 	}
 
 	mesh->SetVertices(components, verticeNbr * 3, 3, 3 * sizeof(float), GL_LINES);

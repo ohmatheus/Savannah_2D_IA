@@ -64,8 +64,9 @@ IEntity::IEntity(const IEntity &from)
 
 	for (int i = 0; i < from.m_Children.size(); i++)
 	{
-		m_Children.push_back(from.m_Children[i]->Clone());
-		m_Children[i]->m_Parent = this;
+		IEntity *newChild = from.m_Children[i]->Clone();
+		m_Children.push_back(newChild);
+		newChild->m_Parent = this;
 	}
 }
 

@@ -97,7 +97,6 @@ void	Game::StartAndLoop()
 		if (!continueRunning)
 			break;
 
-
 		dt = timer.Stop();
 		timer.Start();
 		// fix framerate (not very precise tho... but good enough)
@@ -124,8 +123,6 @@ void	Game::StartAndLoop()
 		m_RenderWindow->MakeCurrent();
 
 		_ProcessRenderData();
-		//if (!m_RenderWindowData->m_ContinueRunning); 
-		//	break;
 
 		if (!m_Paused && m_IsGameRunning)
 		{
@@ -133,6 +130,7 @@ void	Game::StartAndLoop()
 			m_CurrentScene->Update(dt * m_SimulationSpeed);
 		}
 
+		m_RenderWindow->MakeCurrent();
 		m_RenderSystem->PreRender();
 		m_CurrentScene->Render(m_RenderSystem);
 
@@ -257,8 +255,8 @@ void	Game::_InitRenderSystem()
 	glClearDepth(1.f);
 	glEnable(GL_DEPTH_TEST);
 	glViewport(0, 0, 800, 600); // resize
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	m_RenderWindow->SwapBuffers();
+	glClear(GL_COLOR_BUFFER_BIT /*| GL_DEPTH_BUFFER_BIT*/);
+	//m_RenderWindow->SwapBuffers();
 
 	{
 		m_OrthoMat = glm::ortho(-400.f, 400.0f, -300.f, 300.0f, 0.1f, 200.0f);

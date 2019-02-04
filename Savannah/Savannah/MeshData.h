@@ -11,6 +11,7 @@ public:
 	~MeshData();
 
 	uint	VAO() { return m_VAO; }
+	uint	VBO() { return m_VBO; }
 	uint	Mode();
 
 	void	SetVertices(float *vertices, uint componentNbr, uint size, uint stride, uint mode);

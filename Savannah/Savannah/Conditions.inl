@@ -52,31 +52,31 @@ namespace StateMachine
 		}
 		case EConditionParameter::EHasFriendAlive:
 		{
-			outValue = ent->m_StateMachineAttr.m_NearestEnemy != nullptr;
+			outValue = ent->StateMachineAttr().m_NearestEnemy != nullptr;
 			return true;
 		}
 		case EConditionParameter::EEnnemyDistance:
 		{
-			if (ent->m_StateMachineAttr.m_NearestEnemy == nullptr)
+			if (ent->StateMachineAttr().m_NearestEnemy == nullptr)
 			{
 				outValue = 0x7F800000; // inf
 				return false;
 			}
-//			assert(ent->m_StateMachineAttr.m_NearestEnemy->IsActive()); // otherwise means that PreUpdate went wrong
-			const glm::vec3		&enemyPosition = ent->m_StateMachineAttr.m_NearestEnemy->Position();
+			assert(ent->StateMachineAttr().m_NearestEnemy->IsActive()); // otherwise means that PreUpdate went wrong
+			const glm::vec3		&enemyPosition = ent->StateMachineAttr().m_NearestEnemy->Position();
 			const glm::vec3		&myPosition = ent->Position();
 			outValue = glm::length(enemyPosition - myPosition);
 			return true;
 		}
 		case EConditionParameter::EFriendDistance:
 		{
-			if (ent->m_StateMachineAttr.m_NearestFriend == nullptr)
+			if (ent->StateMachineAttr().m_NearestFriend == nullptr)
 			{
 				outValue = 0x7F800000; // inf
 				return false;
 			}
-//			assert(ent->m_StateMachineAttr.m_NearestFriend->IsActive()); // otherwise means that PreUpdate went wrong
-			const glm::vec3		&friendPosition = ent->m_StateMachineAttr.m_NearestFriend->Position();
+			assert(ent->StateMachineAttr().m_NearestFriend->IsActive()); // otherwise means that PreUpdate went wrong
+			const glm::vec3		&friendPosition = ent->StateMachineAttr().m_NearestFriend->Position();
 			const glm::vec3		&myPosition = ent->Position();
 			outValue = glm::length(friendPosition - myPosition);
 			return true;
@@ -107,7 +107,7 @@ namespace StateMachine
 		}
 		case EConditionParameter::ENearFriendCount:
 		{
-			outValue = ent->m_StateMachineAttr.m_FriendsNextToMe;
+			outValue = ent->StateMachineAttr().m_FriendsNextToMe;
 			return true;
 		}
 		case EConditionParameter::EHasFlag:

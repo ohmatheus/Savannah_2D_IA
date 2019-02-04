@@ -14,6 +14,7 @@ GridSpawner::GridSpawner(GridScene::ETeam team, const std::string &name, int poo
 ,	m_PoolSize(poolSize)
 {
 	m_SpawnTimer = 0.f;
+	m_Scene = nullptr;
 }
 
 //----------------------------------------------------------
@@ -27,8 +28,6 @@ GridSpawner::~GridSpawner()
 GridSpawner::GridSpawner(const GridSpawner &spawner)
 :	Super(spawner)
 {
-	//m_Scene = ???;
-
 	m_PoolSize = spawner.m_PoolSize;
 	//m_EntityManager; // created at OnSceneStart
 	m_SpawnTimer = spawner.m_SpawnTimer;

@@ -77,7 +77,7 @@ namespace StateMachine
 			assert(gridScene != nullptr);
 			GridScene::ETeam	type = ent->Team();
 
-			GridEntity			*nearestFriend = ent->m_StateMachineAttr.m_NearestFriend;
+			GridEntity			*nearestFriend = ent->StateMachineAttr().m_NearestFriend;
 
 			glm::vec3			targetPosition;
 			if (nearestFriend != nullptr)
@@ -95,7 +95,7 @@ namespace StateMachine
 			assert(gridScene != nullptr);
 			GridScene::ETeam	type = ent->Team();
 
-			GridEntity			*nearestEnemy = ent->m_StateMachineAttr.m_NearestEnemy;
+			GridEntity			*nearestEnemy = ent->StateMachineAttr().m_NearestEnemy;
 
 			glm::vec3			targetPosition;
 			if (nearestEnemy != nullptr)
@@ -113,7 +113,7 @@ namespace StateMachine
 			assert(gridScene != nullptr);
 			GridScene::ETeam	type = ent->Team();
 
-			GridEntity			*nearestEnemy = ent->m_StateMachineAttr.m_NearestEnemy;
+			GridEntity			*nearestEnemy = ent->StateMachineAttr().m_NearestEnemy;
 
 			glm::vec3			targetPosition;
 			if (nearestEnemy != nullptr)

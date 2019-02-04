@@ -58,10 +58,6 @@ void	QSavannahMainWindow::Setup()
 	m_MenuBar->setObjectName(QString::fromUtf8("menuBar"));
 	setMenuBar(m_MenuBar);
 	
-	//m_CentralWidget = new QWidget(this);
-	//m_CentralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-	//setCentralWidget(m_CentralWidget);
-
 	m_StatusBar = new QStatusBar(this);
 	m_StatusBar->setObjectName(QString::fromUtf8("statusBar"));
 	setStatusBar(m_StatusBar);
@@ -144,9 +140,6 @@ void	QSavannahMainWindow::_CreateViewportPanel()
 	dockw->setObjectName("Viewport");
 
 	{
-		// m_ViewMenu->addAction(dockw->toggleViewAction());
-		// Here add pause/play button
-
 		auto		*dummy = new QWidget(dockw);
 		dockw->setWidget(dummy);
 
@@ -191,15 +184,11 @@ void	QSavannahMainWindow::_CreateControlPanel()
 	dockw->setObjectName("Control");
 
 	{
-		// m_ViewMenu->addAction(dockw->toggleViewAction());
-		// Here add pause/play button
-
 		auto		*dummy = new QWidget(dockw);
 		dockw->setWidget(dummy);
 
 		auto		*layout = new QVBoxLayout(dummy);
 		layout->setSpacing(0);
-		//layout->setContentsMargins(0, 0, 0, 0);
 
 		dummy->setMaximumSize(QSize(400, 2000));
 
