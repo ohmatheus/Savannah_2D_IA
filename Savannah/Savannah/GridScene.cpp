@@ -38,6 +38,8 @@ GridScene::GridScene(const GridScene &scene)
 {
 	m_Game = scene.m_Game;
 
+	m_FlagCollisionRadius = scene.m_FlagCollisionRadius;
+
 	m_AntelopeStateMachine = new StateMachine::AntelopeStateMachine(this); // should clone ?
 	m_LionStateMachine = new StateMachine::LionStateMachine(this);
 
@@ -53,8 +55,6 @@ GridScene::GridScene(const GridScene &scene)
 	assert(m_Spawners[0]);
 	m_Spawners[1] = static_cast<GridSpawner*>(GetEntity("AntelopeSpawner"));
 	assert(m_Spawners[1]);
-
-	m_FlagCollisionRadius = scene.m_FlagCollisionRadius;
 }
 
 //----------------------------------------------------------

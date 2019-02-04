@@ -24,7 +24,9 @@ IScene::~IScene()
 IScene::IScene(const IScene &from)
 {
 	for (int i = 0; i < from.m_Entities.size(); i++)
+	{
 		m_Entities.push_back(from.m_Entities[i]->Clone());
+	}
 	m_Parameters = from.m_Parameters;
 }
 

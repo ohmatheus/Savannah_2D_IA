@@ -88,6 +88,7 @@ void	GridSpawner::Update(float dt)
 {
 	const float ratio = m_SpawnPerSecond / 1.f;
 	m_SpawnTimer += dt;
+	Super::Update(dt);
 
 	if (m_SpawnTimer >= ratio)
 	{
@@ -122,7 +123,6 @@ void	GridSpawner::Update(float dt)
 			}
 		}
 	}
-	Super::Update(dt);
 }
 
 //----------------------------------------------------------
