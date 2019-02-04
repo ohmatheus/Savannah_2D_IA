@@ -62,6 +62,8 @@ IEntity::IEntity(const IEntity &from)
 	m_Yaw = from.m_Yaw;
 	m_Roll = from.m_Roll;
 
+	m_IsActive = from.m_IsActive;
+
 	for (int i = 0; i < from.m_Children.size(); i++)
 	{
 		IEntity *newChild = from.m_Children[i]->Clone();
